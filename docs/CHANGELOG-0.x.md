@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.3.1
+- feat: 调整 `UploadView` 新增 `preserveResponse` 参数，支持在文件对象中保留服务端返回的完整 `response` 数据
+- fix: 调整 `UploadView` 上传失败时增加 `console.error` 错误日志输出，便于排查问题
+
 ## 0.3.0
 - feat: 新增 `RestList` 组件，基于 Ant Design List 封装，支持远程数据加载
     - 支持 loadMore（加载更多）和 pagination（分页器）两种模式，pagination 优先级高于 loadMore

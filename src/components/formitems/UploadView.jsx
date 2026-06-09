@@ -41,6 +41,7 @@ const UploadView = ({
   antdUploadProps,
   antdSpaceProps,
   antdReadonlyItemProps,
+  preserveResponse = false,
 }) => {
   const [makeRequest] = useSafeRequest();
   const reqConfigRef = useRef(reqConfig);
@@ -65,16 +66,21 @@ const UploadView = ({
         // 没有状态字段，或者状态为成功时才是表单需要的值
         // succList = succList.filter((item) => !item.status || item.status === UploadStatus.DONE);
       }
-      // 只保留必要的字段
-      succList = succList.map((item) => ({
-        uid: item.uid,
-        status: item.status,
-        type: item.type,
-        size: item.size,
-        name: item.name,
-        url: item.url || item.response?.url,
-        thumbUrl: item.thumbUrl || item.response?.thumbUrl,
-      }));
+      succList = succList.map((item) => {
+        const result = {
+          uid: item.uid,
+          status: item.status,
+          type: item.type,
+          size: item.size,
+          name: item.name,
+          url: item.url || item.response?.url,
+          thumbUrl: item.thumbUrl || item.response?.thumbUrl,
+        };
+        if (preserveResponse && item.response) {
+          result.response = item.response;
+        }
+        return result;
+      });
 
       if (isArr) {
         return succList;
@@ -85,7 +91,7 @@ const UploadView = ({
         return succList.length > 0 ? succList[0] : null;
       }
     },
-    [isMultiple]
+    [isMultiple, preserveResponse]
   );
 
   const onValueChange = useCallback(
@@ -168,7 +174,7 @@ const UploadView = ({
         .then((resp) => {
           // {"thumbUrl": "", "url": ""}
           onSuccess(resp.data);
-          updateFileInfo(fileUid, { ...resp.data, status: UploadStatus.DONE });
+          updateFileInfo(fileUid, { ...resp.data, response: resp.data, status: UploadStatus.DONE });
           message.success(`文件 ${file.name} 上传成功`);
         })
         .catch((err) => {
@@ -176,6 +182,8 @@ const UploadView = ({
           if (tmpInfo && tmpInfo.controller) {
             tmpInfo.controller.abort();
           }
+          // eslint-disable-next-line no-console
+          console.error(`[UploadView] 文件 ${file.name} 上传失败:`, err);
           onError(err);
           updateFileInfo(fileUid, { status: UploadStatus.ERROR });
           message.error(`文件 ${file.name} 上传失败`);
@@ -333,6 +341,7 @@ UploadView.propTypes = {
   antdButtonConfig: PropTypes.object,
   antdSpaceProps: PropTypes.object,
   antdReadonlyItemProps: PropTypes.object,
+  preserveResponse: PropTypes.bool,
 };
 
 export default UploadView;
