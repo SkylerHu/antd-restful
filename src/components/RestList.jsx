@@ -106,13 +106,16 @@ const RestList = forwardRef(
     }, [innerFilters, fieldPageSize, defaultPageSize]);
 
     useEffect(() => {
+      if (!innerFilters[fieldPageSize]) {
+        return;
+      }
       const column = grid?.column;
       if (column && column > 0 && pageSize % column !== 0) {
         console.error( // eslint-disable-line no-console
           `[RestList] restful="${restful}" page_size=${pageSize} 必须是 grid.column=${column} 的倍数，当前不满足，会导致列表布局不对齐。`
         );
       }
-    }, [grid?.column, pageSize, restful]);
+    }, [grid?.column, pageSize, restful, innerFilters, fieldPageSize]);
 
     useEffect(() => {
       const oldV = formFiltersRef.current;
