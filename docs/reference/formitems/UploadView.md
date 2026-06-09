@@ -27,6 +27,7 @@
 | baseParams | 上传请求的额外参数 | `object` | - | - | - |
 | enableDragger | 是否支持拖拽文件 | `boolean` | `false` | - | - |
 | maxSize | 限制文件大小（字节） | `number` | `104857600` | - | - |
+| preserveResponse | 是否在文件对象中保留服务端返回的完整 `response` 数据 | `boolean` | `false` | - | - |
 | **原生组件支持** | | | | | |
 | listType | 文件列表类型 | `string` | `'picture'` | 透传 Upload `listType` | - |
 | maxCount | 限制文件个数；0 表示不限制 | `number` | `1` | 透传 Upload `maxCount` | - |
@@ -50,6 +51,7 @@
 | size | 文件大小（字节） | `number` | ❌ |
 | type | 文件MIME类型，如 `image/png` | `string` | ❌ |
 | status | 上传状态 | `string` | ❌ |
+| response | 服务端返回的完整响应数据（仅 `preserveResponse=true` 时存在） | `object` | ❌ |
 
 ### 文件值格式示例
 组件支持两种文件值格式：
@@ -64,6 +66,25 @@
   name: "example.png",
   url: "http://example.com/uploaded.png",
   thumbUrl: "http://example.com/thumb.png"
+}
+```
+
+#### 单文件格式（preserveResponse=true）
+```javascript
+{
+  uid: "rc-upload-1748693175705-3",
+  status: "done",
+  type: "image/png",
+  size: 227310,
+  name: "example.png",
+  url: "http://example.com/uploaded.png",
+  thumbUrl: "http://example.com/thumb.png",
+  response: {
+    url: "http://example.com/uploaded.png",
+    thumbUrl: "http://example.com/thumb.png",
+    id: 123,
+    path: "/uploads/example.png"
+  }
 }
 ```
 
@@ -138,6 +159,22 @@ const ImageUploadView = () => {
       listType="picture-card"
       maxCount={6}
       baseParams={{ type: 'image' }}
+    />
+  );
+};
+
+// 保留服务端响应数据示例
+const KeepResponseUploadView = () => {
+  const [fileList, setFileList] = useState([]);
+
+  // 启用 preserveResponse 后，onChange 回调中的文件对象会包含 response 字段
+  // response 为服务端接口返回的完整数据，例如 { url: "...", thumbUrl: "...", id: 123, path: "/uploads/..." }
+  return (
+    <UploadView
+      uploadUrl="/api/upload"
+      value={fileList}
+      onChange={setFileList}
+      preserveResponse
     />
   );
 };
