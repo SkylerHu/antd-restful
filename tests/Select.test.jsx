@@ -34,7 +34,7 @@ describe("RestSelect", () => {
     const { container, getByTestId } = render(<RestSelect restful={restful} value={1} />);
     await waitFor(() => {
       // eslint-disable-next-line camelcase
-      expect(fetch).toHaveBeenCalledWith(restful, expect.objectContaining({ params: { value__in: "1" } }));
+      expect(fetch).toHaveBeenCalledWith(restful, expect.objectContaining({ params: { page_size: 1, value__in: "1" } }));
       expect(fetch).toHaveBeenCalled();
     });
     toggleOpen(container);
