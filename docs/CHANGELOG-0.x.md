@@ -1,5 +1,10 @@
 # Release Notes
 
+## 0.3.2
+- feat: `RestSelect` 新增 `fieldPageSize` 参数，初始化详情请求时自动将 `page_size` 设为待查询值的数量，确保一次请求获取所有对应 options
+- refactor: `RouteTable` demo 组件重构，使用 `forwardRef` 支持 ref 转发，新增 `viewType` 参数支持视图切换
+- docs: 更新 `RouteBaseTable` 使用文档，示例与 demo 代码保持一致
+
 ## 0.3.1
 - feat: 调整 `UploadView` 新增 `preserveResponse` 参数，支持在文件对象中保留服务端返回的完整 `response` 数据
 - fix: 调整 `UploadView` 上传失败时增加 `console.error` 错误日志输出，便于排查问题

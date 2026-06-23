@@ -21,6 +21,7 @@ const RestSelect = ({
   urlDetailTemplate = null,
   baseParams = null,
   searchKey = "search",
+  fieldPageSize = "page_size",
   searchMinEnter = 0,
   parseRowsPath = DEFAULT_ROWS_PATH,
   enableCopy = false,
@@ -212,6 +213,7 @@ const RestSelect = ({
     // 根据restful接口获取详情数据初始化options
     let url = restful;
     let params = { ...memBaseParams };
+    params[fieldPageSize] = fetchValues.length;
     const _vs = fetchValues.join(",");
     if (urlDetailTemplate) {
       url = commonFormat(urlDetailTemplate, _vs);
@@ -237,6 +239,7 @@ const RestSelect = ({
     updateOptions,
     memBaseParams,
     parseRowsPath,
+    fieldPageSize,
   ]);
 
   useEffect(() => {
@@ -357,6 +360,8 @@ RestSelect.propTypes = {
   baseParams: PropTypes.object,
   // 模糊搜索使用的key
   searchKey: PropTypes.string,
+  // 每页条数
+  fieldPageSize: PropTypes.string,
   // 最少输入字符数，为0时允许为空时获取远程options
   searchMinEnter: PropTypes.number,
   // 从接口返回值解析出列表数据，函数输入参数是 response.body 的具体内容

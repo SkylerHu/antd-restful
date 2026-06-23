@@ -24,6 +24,7 @@
 | urlDetailTemplate | 根据 value 初始化能够 get 到对应 options 的接口地址；函数输入参数即初始化的 value，多选时是数组 | `string` | - | - | - |
 | baseParams | 接口筛选条件 | `object` | - | - | - |
 | searchKey | 模糊搜索使用的参数名 | `string` | `'search'` | - | - |
+| fieldPageSize | 每页条数的参数名，用于初始化详情请求时动态设置 page_size | `string` | `'page_size'` | - | - |
 | searchMinEnter | 最少输入字符数，为 0 时允许为空时获取远程 options | `number` | `0` | - | - |
 | parseRowsPath | 从接口返回值解析出列表数据的路径 | `string` | `'data.results'` | - | - |
 | **显示和交互** | | | | | |
