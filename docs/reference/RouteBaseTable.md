@@ -44,15 +44,19 @@
 import React, { forwardRef } from 'react';
 import PropTypes from "prop-types";
 import { useLocation, useNavigate } from 'react-router';
-import { RouteBaseTable } from 'antd-restful';
+import { RouteBaseTable, constants } from 'antd-restful';
 
-// 封装一个通用的路由表格组件
-const RouteTable = (restProps) => {
+const { ViewType } = constants;
+
+// 封装一个通用的路由表格组件，支持 ref 转发和视图切换
+const RouteTable = forwardRef(({ viewType = ViewType.TABLE, ...restProps }, ref) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   return (
     <RouteBaseTable
+      ref={ref}
+      viewType={viewType}
       restProps={restProps}
       location={location}
       onSearchChange={(search) => {
@@ -60,8 +64,11 @@ const RouteTable = (restProps) => {
       }}
     />
   );
-};
+});
 RouteTable.displayName = 'RouteTable';
+RouteTable.propTypes = {
+  viewType: PropTypes.oneOf(ViewType.map((o) => o.value)),
+};
 
 // 使用封装的组件
 const UserList = () => {
