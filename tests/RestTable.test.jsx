@@ -314,7 +314,9 @@ describe("RestTable", () => {
         ],
       };
 
-      const { container } = render(<RestTable restful="/api/users" columns={columns} filterFormProps={filterFormProps} />);
+      const { container } = render(
+        <RestTable restful="/api/users" columns={columns} filterFormProps={filterFormProps} />
+      );
 
       expect(container.querySelector(".ant-form")).toBeInTheDocument();
     });
@@ -327,8 +329,9 @@ describe("RestTable", () => {
         },
       };
 
+      const mockGet = jest.fn().mockResolvedValue(mockResponse);
       mockMakeRequest.mockReturnValue({
-        get: jest.fn().mockResolvedValue(mockResponse),
+        get: mockGet,
       });
 
       const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
@@ -339,13 +342,19 @@ describe("RestTable", () => {
       const { container } = render(
         <RestTable restful="/api/users" columns={columns} filterFormProps={filterFormProps} />
       );
+
+      // 等待 loading 消失
+      await waitFor(() => {
+        const spinners = document.querySelectorAll(".ant-spin-spinning");
+        expect(spinners.length).toBe(0);
+      });
+
       const submitButton = container.querySelector('button[type="submit"]');
       await act(async () => {
         await user.click(submitButton);
       });
 
       await waitFor(() => {
-        const mockGet = mockMakeRequest().get;
         expect(mockGet).toHaveBeenCalledWith("/api/users", {
           params: expect.objectContaining({
             page: 1,
@@ -354,7 +363,6 @@ describe("RestTable", () => {
         });
       });
     });
-
   });
 
   describe("列配置测试", () => {
@@ -493,7 +501,12 @@ describe("RestTable", () => {
       };
 
       const { container } = render(
-        <RestTable restful="/api/users" columns={columns} filterFormProps={filterFormProps} tools={{ advancedSearch: true }} />
+        <RestTable
+          restful="/api/users"
+          columns={columns}
+          filterFormProps={filterFormProps}
+          tools={{ advancedSearch: true }}
+        />
       );
 
       expect(container.querySelector('[aria-label="reload"]')).toBeInTheDocument();
@@ -502,9 +515,7 @@ describe("RestTable", () => {
     it("should render refresh button", () => {
       const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
 
-      const { container } = render(
-        <RestTable restful="/api/users" columns={columns} tools={{ refreshInterval: 0 }} />
-      );
+      const { container } = render(<RestTable restful="/api/users" columns={columns} tools={{ refreshInterval: 0 }} />);
 
       expect(container.querySelector('[aria-label="reload"]')).toBeInTheDocument();
     });
@@ -512,9 +523,7 @@ describe("RestTable", () => {
     it("should render download dropdown", () => {
       const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
 
-      const { container } = render(
-        <RestTable restful="/api/users" columns={columns} tools={{ downloadKey: true }} />
-      );
+      const { container } = render(<RestTable restful="/api/users" columns={columns} tools={{ downloadKey: true }} />);
 
       expect(container.querySelector('[aria-label="download"]')).toBeInTheDocument();
     });
@@ -525,9 +534,7 @@ describe("RestTable", () => {
         { title: "年龄", dataIndex: "age", key: "age" },
       ];
 
-      const { container } = render(
-        <RestTable restful="/api/users" columns={columns} tools={{ settings: true }} />
-      );
+      const { container } = render(<RestTable restful="/api/users" columns={columns} tools={{ settings: true }} />);
 
       expect(container.querySelector('[aria-label="setting"]')).toBeInTheDocument();
     });
@@ -585,12 +592,7 @@ describe("RestTable", () => {
       const tableRef = React.createRef();
 
       render(
-        <RestTable
-          ref={tableRef}
-          restful="/api/users"
-          columns={columns}
-          urlDetailTemplate="/api/users/{id}/detail/"
-        />
+        <RestTable ref={tableRef} restful="/api/users" columns={columns} urlDetailTemplate="/api/users/{id}/detail/" />
       );
 
       const row = { id: 1, name: "张三" };
@@ -767,12 +769,7 @@ describe("RestTable", () => {
       const onFiltersChange = jest.fn();
 
       render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          baseParams={baseParams}
-          onFiltersChange={onFiltersChange}
-        />
+        <RestTable restful="/api/users" columns={columns} baseParams={baseParams} onFiltersChange={onFiltersChange} />
       );
 
       await waitFor(() => {
@@ -800,8 +797,8 @@ describe("RestTable", () => {
           key: "name",
           filterDropdownConfig: {
             type: "INPUT",
-            dropdownProps: { placeholder: "输入姓名" }
-          }
+            dropdownProps: { placeholder: "输入姓名" },
+          },
         },
         {
           title: "状态",
@@ -813,23 +810,18 @@ describe("RestTable", () => {
               placeholder: "选择状态",
               options: [
                 { label: "活跃", value: "active" },
-                { label: "非活跃", value: "inactive" }
-              ]
-            }
-          }
-        }
+                { label: "非活跃", value: "inactive" },
+              ],
+            },
+          },
+        },
       ];
 
       const baseParams = { status: "active", type: "user", category: "premium" };
       const onFiltersChange = jest.fn();
 
       const { rerender } = render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          baseParams={baseParams}
-          onFiltersChange={onFiltersChange}
-        />
+        <RestTable restful="/api/users" columns={columns} baseParams={baseParams} onFiltersChange={onFiltersChange} />
       );
 
       await waitFor(() => {
@@ -844,7 +836,7 @@ describe("RestTable", () => {
         type: "user", // 与 baseParams 相同，应该被过滤掉
         category: "premium", // 与 baseParams 相同，应该被过滤掉
         age: 25, // 与 baseParams 不同，应该保留
-        department: "IT" // 与 baseParams 不同，应该保留
+        department: "IT", // 与 baseParams 不同，应该保留
       };
 
       // 模拟内部筛选器变化
@@ -867,7 +859,7 @@ describe("RestTable", () => {
       expect(onFiltersChange).toHaveBeenCalledWith({
         name: "张三",
         age: 25,
-        department: "IT"
+        department: "IT",
       });
 
       // 验证原始参数包含重复值
@@ -877,7 +869,7 @@ describe("RestTable", () => {
         type: "user",
         category: "premium",
         age: 25,
-        department: "IT"
+        department: "IT",
       });
 
       // 测试 baseParams 变化的情况
@@ -915,7 +907,7 @@ describe("RestTable", () => {
         type: "user", // 现在与新的 baseParams 不同，所以保留
         category: "premium",
         age: 25,
-        department: "IT"
+        department: "IT",
       });
     });
 
@@ -938,8 +930,8 @@ describe("RestTable", () => {
           key: "name",
           filterDropdownConfig: {
             type: "INPUT",
-            dropdownProps: { placeholder: "输入姓名" }
-          }
+            dropdownProps: { placeholder: "输入姓名" },
+          },
         },
         {
           title: "状态",
@@ -951,23 +943,18 @@ describe("RestTable", () => {
               placeholder: "选择状态",
               options: [
                 { label: "活跃", value: "active" },
-                { label: "非活跃", value: "inactive" }
-              ]
-            }
-          }
-        }
+                { label: "非活跃", value: "inactive" },
+              ],
+            },
+          },
+        },
       ];
 
       const forceParams = { status: "active", type: "user", category: "premium" };
       const onFiltersChange = jest.fn();
 
       const { rerender } = render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          forceParams={forceParams}
-          onFiltersChange={onFiltersChange}
-        />
+        <RestTable restful="/api/users" columns={columns} forceParams={forceParams} onFiltersChange={onFiltersChange} />
       );
 
       await waitFor(() => {
@@ -982,7 +969,7 @@ describe("RestTable", () => {
         type: "admin", // 与 forceParams 相同 key，应该被删除
         category: "basic", // 与 forceParams 相同 key，应该被删除
         age: 25, // 与 forceParams 不同 key，应该保留
-        department: "IT" // 与 forceParams 不同 key，应该保留
+        department: "IT", // 与 forceParams 不同 key，应该保留
       };
 
       // 模拟内部筛选器变化
@@ -1004,7 +991,7 @@ describe("RestTable", () => {
       expect(onFiltersChange).toHaveBeenCalledWith({
         name: "张三",
         age: 25,
-        department: "IT"
+        department: "IT",
       });
 
       // 验证原始参数包含与 forceParams 相同 key 的值
@@ -1014,7 +1001,7 @@ describe("RestTable", () => {
         type: "admin",
         category: "basic",
         age: 25,
-        department: "IT"
+        department: "IT",
       });
 
       // 测试 forceParams 变化的情况
@@ -1049,7 +1036,7 @@ describe("RestTable", () => {
         name: "张三",
         type: "admin", // 现在与新的 forceParams 不同 key，所以保留
         category: "basic", // 现在与新的 forceParams 不同 key，所以保留
-        age: 25
+        age: 25,
         // status 和 department 被新的 forceParams 删除了
       });
     });
@@ -1092,7 +1079,7 @@ describe("RestTable", () => {
         type: "user", // 与 baseParams 相同值
         category: "basic", // 与 forceParams 相同 key
         age: 25,
-        department: "IT"
+        department: "IT",
       };
 
       // 模拟内部筛选器变化
@@ -1118,7 +1105,7 @@ describe("RestTable", () => {
       expect(onFiltersChange).toHaveBeenCalledWith({
         name: "张三",
         age: 25,
-        department: "IT"
+        department: "IT",
       });
     });
   });
@@ -1176,17 +1163,9 @@ describe("RestTable", () => {
         { title: "年龄", dataIndex: "age", key: "age" },
         { title: "邮箱", dataIndex: "email", key: "email" },
       ];
-      const dataSource = [
-        { id: 1, name: "张三", age: 25, email: "zhang@example.com" },
-      ];
+      const dataSource = [{ id: 1, name: "张三", age: 25, email: "zhang@example.com" }];
 
-      render(
-        <RestTable
-          columns={columns}
-          dataSource={dataSource}
-          tools={{ settings: true }}
-        />
-      );
+      render(<RestTable columns={columns} dataSource={dataSource} tools={{ settings: true }} />);
 
       expect(screen.getByText("张三")).toBeInTheDocument();
       expect(screen.getByText("25")).toBeInTheDocument();
@@ -1197,13 +1176,7 @@ describe("RestTable", () => {
       const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
       const dataSource = [{ id: 1, name: "张三" }];
 
-      render(
-        <RestTable
-          columns={columns}
-          dataSource={dataSource}
-          tools={{ settings: "custom-table-settings" }}
-        />
-      );
+      render(<RestTable columns={columns} dataSource={dataSource} tools={{ settings: "custom-table-settings" }} />);
 
       expect(screen.getByText("张三")).toBeInTheDocument();
     });
@@ -1214,11 +1187,7 @@ describe("RestTable", () => {
       const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
 
       const { container } = render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          tools={{ refreshInterval: 5000 }}
-        />
+        <RestTable restful="/api/users" columns={columns} tools={{ refreshInterval: 5000 }} />
       );
 
       expect(container.querySelector('[aria-label="reload"]')).toBeInTheDocument();
@@ -1228,11 +1197,7 @@ describe("RestTable", () => {
       const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
 
       const { container } = render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          tools={{ refreshInterval: -1 }}
-        />
+        <RestTable restful="/api/users" columns={columns} tools={{ refreshInterval: -1 }} />
       );
 
       expect(container.querySelector('[aria-label="reload"]')).not.toBeInTheDocument();
@@ -1317,7 +1282,9 @@ describe("RestTable", () => {
         fields: [{ key: "name", label: "姓名", type: "input" }],
       };
 
-      const { container } = render(<RestTable restful="/api/users" columns={columns} filterFormProps={filterFormProps} />);
+      const { container } = render(
+        <RestTable restful="/api/users" columns={columns} filterFormProps={filterFormProps} />
+      );
       expect(container.firstChild).toMatchSnapshot();
     });
 
@@ -1330,7 +1297,9 @@ describe("RestTable", () => {
         },
       };
 
-      const { container } = render(<RestTable restful="/api/users" columns={columns} antdTableProps={antdTableProps} />);
+      const { container } = render(
+        <RestTable restful="/api/users" columns={columns} antdTableProps={antdTableProps} />
+      );
       expect(container.firstChild).toMatchSnapshot();
     });
 
@@ -1398,10 +1367,11 @@ describe("RestTable", () => {
         { id: 2, name: "李四", category: "管理", price: 200 },
       ];
 
-      const { container } = render(<RestTable columns={columns} dataSource={dataSource} showHeaderTags={true} baseParams={{ name: "u" }} />);
+      const { container } = render(
+        <RestTable columns={columns} dataSource={dataSource} showHeaderTags={true} baseParams={{ name: "u" }} />
+      );
       expect(container.firstChild).toMatchSnapshot();
     });
-
   });
 
   describe("getColumnSearchProps 测试", () => {
@@ -1587,13 +1557,7 @@ describe("RestTable", () => {
       const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
       const routeParams = { page: 2, page_size: 2 }; // eslint-disable-line camelcase
 
-      render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          routeParams={routeParams}
-        />
-      );
+      render(<RestTable restful="/api/users" columns={columns} routeParams={routeParams} />);
 
       // 验证初始请求包含正确的路由参数
       await waitFor(() => {
@@ -1623,14 +1587,7 @@ describe("RestTable", () => {
       const routeParams = { page: 2, page_size: 2 }; // eslint-disable-line camelcase
       const tableRef = React.createRef();
 
-      render(
-        <RestTable
-          ref={tableRef}
-          restful="/api/users"
-          columns={columns}
-          routeParams={routeParams}
-        />
-      );
+      render(<RestTable ref={tableRef} restful="/api/users" columns={columns} routeParams={routeParams} />);
 
       // 等待初始请求完成
       await waitFor(() => {
@@ -1681,12 +1638,7 @@ describe("RestTable", () => {
       };
 
       const { container } = render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          routeParams={routeParams}
-          filterFormProps={filterFormProps}
-        />
+        <RestTable restful="/api/users" columns={columns} routeParams={routeParams} filterFormProps={filterFormProps} />
       );
 
       // 等待初始请求完成
@@ -1733,18 +1685,13 @@ describe("RestTable", () => {
       const filterFormProps = {
         fields: [
           { key: "name", label: "姓名", type: "input" },
-          { key: "age", label: "年龄", type: "number" }
+          { key: "age", label: "年龄", type: "number" },
         ],
-        advancedSearch: true
+        advancedSearch: true,
       };
 
       const { container } = render(
-        <RestTable
-          restful="/api/users"
-          columns={columns}
-          routeParams={routeParams}
-          filterFormProps={filterFormProps}
-        />
+        <RestTable restful="/api/users" columns={columns} routeParams={routeParams} filterFormProps={filterFormProps} />
       );
 
       // 等待初始请求完成
@@ -1786,7 +1733,7 @@ describe("RestTable", () => {
       const record = { id: 1, user: { name: "张三", age: 25 } };
       const column = {
         dataIndex: "user",
-        labelTemplate: "用户：{name}，年龄：{age}"
+        labelTemplate: "用户：{name}，年龄：{age}",
       };
       const result = renderRowLabel(record, column);
       expect(result).toBe("用户：张三，年龄：25");
@@ -1797,7 +1744,7 @@ describe("RestTable", () => {
       const column = {
         dataIndex: "name",
         fieldName: "user",
-        labelTemplate: "用户：{name}"
+        labelTemplate: "用户：{name}",
       };
       const result = renderRowLabel(record, column);
       expect(result).toBe("用户：张三");
@@ -1821,7 +1768,7 @@ describe("RestTable", () => {
       const record = { id: 1, users: [{ name: "张三" }, { name: "李四" }] };
       const column = {
         dataIndex: "users",
-        labelTemplate: "用户：{name}"
+        labelTemplate: "用户：{name}",
       };
       const result = renderRowLabel(record, column);
       expect(result).toBe("用户：张三,用户：李四");
@@ -1841,7 +1788,7 @@ describe("RestTable", () => {
       const record = { id: 1, email: "test@example.com" };
       const column = {
         dataIndex: "email",
-        copyProps: { showIcon: true }
+        copyProps: { showIcon: true },
       };
       const result = renderRowLabel(record, column);
 
@@ -1855,7 +1802,7 @@ describe("RestTable", () => {
       const column = {
         dataIndex: "user",
         copyField: "id",
-        copyProps: { showIcon: true }
+        copyProps: { showIcon: true },
       };
       const result = renderRowLabel(record, column);
 
@@ -1870,14 +1817,14 @@ describe("RestTable", () => {
         profile: {
           personal: {
             name: "张三",
-            contact: { email: "zhang@example.com" }
-          }
-        }
+            contact: { email: "zhang@example.com" },
+          },
+        },
       };
       const column = {
         dataIndex: "profile",
         fieldName: "profile.personal",
-        labelTemplate: "姓名：{name}，邮箱：{contact.email}"
+        labelTemplate: "姓名：{name}，邮箱：{contact.email}",
       };
       const result = renderRowLabel(record, column);
       expect(result).toBe("姓名：张三，邮箱：zhang@example.com");
@@ -1888,12 +1835,12 @@ describe("RestTable", () => {
         id: 1,
         items: [
           { name: "项目1", status: "active" },
-          { name: "项目2", status: "inactive" }
-        ]
+          { name: "项目2", status: "inactive" },
+        ],
       };
       const column = {
         dataIndex: "items",
-        labelTemplate: "{name}({status})"
+        labelTemplate: "{name}({status})",
       };
       const result = renderRowLabel(record, column);
       expect(result).toBe("项目1(active),项目2(inactive)");

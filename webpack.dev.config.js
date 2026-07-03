@@ -64,6 +64,10 @@ const devConfig = {
         },
         include: [PATHS.demo, PATHS.src],
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
   plugins: [],

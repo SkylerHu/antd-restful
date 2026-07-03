@@ -364,11 +364,7 @@ describe("RestList", () => {
       await waitFor(() => {
         expect(screen.getByText("自定义加载")).toBeInTheDocument();
       });
-      expect(customRender).toHaveBeenCalledWith(
-        expect.any(Function),
-        expect.any(Boolean),
-        expect.any(Boolean)
-      );
+      expect(customRender).toHaveBeenCalledWith(expect.any(Function), expect.any(Boolean), expect.any(Boolean));
     });
   });
 
@@ -579,6 +575,12 @@ describe("RestList", () => {
           renderItem={(item) => <RestList.Item key={item.id}>{item.name}</RestList.Item>}
         />
       );
+
+      // 等待 loading 消失
+      await waitFor(() => {
+        const spinners = document.querySelectorAll(".ant-spin-spinning");
+        expect(spinners.length).toBe(0);
+      });
 
       const submitButton = container.querySelector('button[type="submit"]');
       await act(async () => {

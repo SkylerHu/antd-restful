@@ -51,7 +51,7 @@ const RestList = forwardRef(
 
     const usePagination = !!pagination;
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(!!(isActive && restful));
     const [loadingMore, setLoadingMore] = useState(false);
 
     const [innerData, setInnerData] = useState({
@@ -105,8 +105,15 @@ const RestList = forwardRef(
       return parseInt(innerFilters[fieldPageSize] || defaultPageSize);
     }, [innerFilters, fieldPageSize, defaultPageSize]);
 
+    const pageNumber = useMemo(() => {
+      return parseInt(innerFilters[fieldPage] || DEFAULT_PAGE);
+    }, [innerFilters, fieldPage]);
+
+    // 判断过滤条件是否初始化
+    const filtersInited = useMemo(() => innerFilters[fieldPage] && innerFilters[fieldPageSize], [innerFilters, fieldPage, fieldPageSize]);
+
     useEffect(() => {
-      if (!innerFilters[fieldPageSize]) {
+      if (!pageSize) {
         return;
       }
       const column = grid?.column;
@@ -115,7 +122,7 @@ const RestList = forwardRef(
           `[RestList] restful="${restful}" page_size=${pageSize} 必须是 grid.column=${column} 的倍数，当前不满足，会导致列表布局不对齐。`
         );
       }
-    }, [grid?.column, pageSize, restful, innerFilters, fieldPageSize]);
+    }, [grid?.column, pageSize, restful]);
 
     useEffect(() => {
       const oldV = formFiltersRef.current;
@@ -165,7 +172,7 @@ const RestList = forwardRef(
     }, [fieldPage, fieldPageSize, defaultPageSize, memBaseParams, memRouteParams, memForceParams, filterState]);
 
     useEffect(() => {
-      if (!innerFilters[fieldPage] || !innerFilters[fieldPageSize]) {
+      if (!filtersInited) {
         return;
       }
       if (isFunction(onFiltersChange)) {
@@ -197,7 +204,7 @@ const RestList = forwardRef(
         }
         onFiltersChange(filters);
       }
-    }, [fieldPage, fieldPageSize, defaultPageSize, memBaseParams, memForceParams, innerFilters, onFiltersChange]);
+    }, [fieldPage, fieldPageSize, defaultPageSize, memBaseParams, memForceParams, innerFilters, onFiltersChange, filtersInited]);
 
     const currentPageRef = useRef(DEFAULT_PAGE);
 
@@ -247,20 +254,20 @@ const RestList = forwardRef(
     );
 
     const fetchData = useCallback(() => {
+      if (!filtersInited) {
+        return;
+      }
       if (usePagination) {
-        doFetch(innerFilters[fieldPage] || DEFAULT_PAGE);
+        doFetch(pageNumber);
       } else {
         currentPageRef.current = DEFAULT_PAGE;
         doFetch(DEFAULT_PAGE);
       }
-    }, [usePagination, doFetch, innerFilters, fieldPage]);
+    }, [usePagination, doFetch, pageNumber, filtersInited]);
 
     useEffect(() => {
-      if (!innerFilters[fieldPage]) {
-        return;
-      }
       fetchData();
-    }, [innerFilters, fetchData, fieldPage]);
+    }, [fetchData]);
 
     const fetchMore = useCallback(() => {
       doFetch(currentPageRef.current + 1, true);
@@ -302,14 +309,14 @@ const RestList = forwardRef(
         return false;
       }
       const paginationProps = pagination === true ? {} : pagination;
-      return {
+      const _config = {
         size: "small",
         showSizeChanger: true,
         showQuickJumper: true,
         showTotal: (total) => <span>总计：{total} 条</span>,
         ...paginationProps,
-        current: innerFilters[fieldPage],
-        pageSize: innerFilters[fieldPageSize],
+        current: pageNumber,
+        pageSize,
         total: restful ? innerData.total : undefined,
         onChange: (page, newPageSize) => {
           setFilterState({
@@ -324,10 +331,12 @@ const RestList = forwardRef(
           }
         },
       };
+      return _config;
     }, [
       usePagination,
       pagination,
-      innerFilters,
+      pageSize,
+      pageNumber,
       innerData.total,
       restful,
       fieldPage,

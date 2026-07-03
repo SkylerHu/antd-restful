@@ -283,7 +283,7 @@ const RestTable = forwardRef(
     const reqConfigRef = useRef(reqConfig);
     const memParseOptions = useDeepCompareMemoize(parseOptions);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(!!(isActive && restful));
     // table数据源
     const [innerData, setInnerData] = useState({
       total: 0,
@@ -353,6 +353,13 @@ const RestTable = forwardRef(
     const pageSize = useMemo(() => {
       return parseInt(innerFilters[fieldPageSize] || defaultPageSize);
     }, [innerFilters, fieldPageSize, defaultPageSize]);
+
+    const pageNumber = useMemo(() => {
+      return parseInt(innerFilters[fieldPage] || DEFAULT_PAGE);
+    }, [innerFilters, fieldPage]);
+
+    // 判断过滤条件是否初始化
+    const filtersInited = useMemo(() => innerFilters[fieldPage] && innerFilters[fieldPageSize], [innerFilters, fieldPage, fieldPageSize]);
 
     const pageSizeOptions = useMemo(() => {
       let opts = antdTableProps?.pagination?.pageSizeOptions || [10, 20, 50, 100];
@@ -455,7 +462,7 @@ const RestTable = forwardRef(
 
     // 处理筛选条件变化 onFiltersChange
     useEffect(() => {
-      if (!innerFilters[fieldPage] || !innerFilters[fieldPageSize]) {
+      if (!filtersInited) {
         // 因为page_size一定会赋予默认值，避免首次会多次触发回调
         return;
       }
@@ -494,7 +501,7 @@ const RestTable = forwardRef(
         }
         onFiltersChange(filters);
       }
-    }, [fieldPage, fieldPageSize, defaultPageSize, memBaseParams, memForceParams, innerFilters, onFiltersChange]);
+    }, [fieldPage, fieldPageSize, defaultPageSize, memBaseParams, memForceParams, innerFilters, onFiltersChange, filtersInited]);
 
     // 请求远端数据
     const fetchData = useCallback(() => {
@@ -524,12 +531,12 @@ const RestTable = forwardRef(
     }, [isActive, makeRequest, restful, parseRowsPath, parseTotalPath, innerFilters, memParseOptions]);
 
     useEffect(() => {
-      if (!innerFilters[fieldPage]) {
+      if (!filtersInited) {
         // 因为page_size一定会赋予默认值，避免首次会多请求一次
         return;
       }
       fetchData();
-    }, [innerFilters, fetchData, fieldPage]);
+    }, [innerFilters, fetchData, filtersInited]);
 
     const [runInterval] = useInterval(() => fetchData(), innerTools.refreshInterval, innerTools.refreshInterval > 0);
     // 删除行
@@ -977,7 +984,6 @@ const RestTable = forwardRef(
           style={style}
           className={className}
           {...antdTableProps}
-          loading={loading}
           rowKey={rowKey}
           columns={memColumns}
           dataSource={innerData.dataSource}
@@ -990,8 +996,8 @@ const RestTable = forwardRef(
             },
             pageSizeOptions,
             ...antdTableProps?.pagination,
-            current: innerFilters[fieldPage],
-            pageSize: innerFilters[fieldPageSize],
+            current: pageNumber,
+            pageSize,
             // 若未开启restful，则不设置总计，否则开启了本地筛选无法正确展示showTotal
             total: restful ? innerData.total : undefined,
           }}

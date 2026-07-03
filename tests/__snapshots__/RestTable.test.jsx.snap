@@ -767,8 +767,36 @@ exports[`RestTable 快照测试 should match snapshot with filter form 1`] = `
       <div
         class="ant-spin-nested-loading css-dev-only-do-not-override-1kf000u"
       >
+        <div>
+          <div
+            aria-busy="true"
+            aria-live="polite"
+            class="ant-spin ant-spin-spinning css-dev-only-do-not-override-1kf000u"
+          >
+            <span
+              class="ant-spin-dot-holder"
+            >
+              <span
+                class="ant-spin-dot ant-spin-dot-spin"
+              >
+                <i
+                  class="ant-spin-dot-item"
+                />
+                <i
+                  class="ant-spin-dot-item"
+                />
+                <i
+                  class="ant-spin-dot-item"
+                />
+                <i
+                  class="ant-spin-dot-item"
+                />
+              </span>
+            </span>
+          </div>
+        </div>
         <div
-          class="ant-spin-container"
+          class="ant-spin-container ant-spin-blur"
         >
           <form
             class="ant-form ant-form-horizontal css-dev-only-do-not-override-1kf000u"
