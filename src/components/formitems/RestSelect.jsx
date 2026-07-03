@@ -23,10 +23,10 @@ const RestSelect = ({
   baseParams = null,
   searchKey = restOptions.searchKey,
   fieldPageSize = restOptions.fieldPageSize,
-  searchMinEnter = 0,
   parseRowsPath = restOptions.parseRowsPath,
-  enableCopy = false,
   separator = restOptions.separator,
+  searchMinEnter = 0,
+  enableCopy = false,
 
   options,
   fieldNames,

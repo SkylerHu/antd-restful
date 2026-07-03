@@ -21,10 +21,10 @@ const RestTreeSelect = ({
   reqConfig,
   baseParams,
   fieldParent = restOptions.fieldParent,
-  labelTemplate,
   parseRowsPath = restOptions.parseRowsPath,
-  enableCopy,
   separator = restOptions.separator,
+  labelTemplate,
+  enableCopy,
 
   treeData,
   fieldNames,

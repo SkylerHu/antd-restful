@@ -19,8 +19,8 @@ const MentionView = ({
   reqConfig,
   baseParams = null,
   searchKey = restOptions.searchKey,
-  searchMinEnter = 0,
   parseRowsPath = restOptions.parseRowsPath,
+  searchMinEnter = 0,
 
   fieldNames,
   labelTemplate,

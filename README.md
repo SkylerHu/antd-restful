@@ -110,6 +110,7 @@ setRestOptions({
 
 | 模块 | 说明 |
 |------|------|
+| [config](./docs/reference/config.md) | 全局参数与接口配置模块，提供 `setRestOptions` 与 `setGlobalConfig` 覆盖默认配置 |
 | [apiTools](./docs/reference/requests.md) | HTTP 请求模块，提供 axios 实例、拦截器、useSafeRequest 等 |
 | [hooks](./docs/reference/hooks.md) | React Hooks 集合：localStorage/sessionStorage、定时器、防抖等 |
 | [typeTools](./docs/reference/typeTools.md) | 类型判断工具函数：isNull、isBlank 等 |
