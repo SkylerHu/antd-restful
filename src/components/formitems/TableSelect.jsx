@@ -6,6 +6,7 @@ import { dequal as deepEqual } from "dequal";
 import { getShowTitle } from "src/common/parser";
 import { isArray, isDict, isFunction } from "src/common/typeTools";
 import RestTable from "src/components/RestTable";
+import { restOptions } from "src/config";
 
 const TableSelect = ({
   value,
@@ -13,7 +14,7 @@ const TableSelect = ({
   disabled = false,
   readOnly = false,
   expandSelected = true,
-  rowKey = "id",
+  rowKey = restOptions.rowKey,
   columns = [],
   antdTableReadProps,
   antdTableProps,

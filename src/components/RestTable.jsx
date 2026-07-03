@@ -267,7 +267,7 @@ const RestTable = forwardRef(
       onDataSourceChange,
       onFiltersChange,
 
-      rowKey = "id",
+      rowKey = restOptions.rowKey,
       columns = [],
       expandFieldPath,
       expandAntdProps,

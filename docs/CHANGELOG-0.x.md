@@ -4,7 +4,7 @@
 
 ### Features
 - 将零散的常量默认值重构为统一的全局配置，支持调用入口处动态更新修改。
-  - 在 `src/config.js` 中新增并独立导出 `restOptions` 对象（包含 `fieldPage`、`parseRowsPath`、`fieldParent` 等对照 DRF 习惯的默认配置），并提供配套的 `setRestOptions` 方法。
+  - 在 `src/config.js` 中新增并独立导出 `restOptions` 对象（包含 `fieldPage`、`parseRowsPath`、`fieldParent`、`rowKey` 等对照 DRF 习惯的默认配置），并提供配套的 `setRestOptions` 方法。
   - 移除了原 `constants.js` 中的默认值（如 `DEFAULT_PAGE_SIZE` 等），`RestList`、`RestTable` 等列表与表单组件将直接从 `restOptions` 中动态获取默认配置。
   - 在包入口 `src/entry.js` 统一暴露了 `globalConfig`、`setGlobalConfig`、`restOptions` 及 `setRestOptions`。
 

@@ -18,6 +18,8 @@ export const restOptions = {
   separator: ",",
   // 默认的分页大小
   defaultPageSize: 20,
+  // 列表/表格的默认主键字段
+  rowKey: "id",
   // 树形或级联结构默认的父节点字段
   fieldParent: "parent",
 };

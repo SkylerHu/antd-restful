@@ -33,7 +33,7 @@ const RestList = forwardRef(
       onDataSourceChange,
       onFiltersChange,
 
-      rowKey = "id",
+      rowKey = restOptions.rowKey,
       dataSource,
       renderItem,
       grid,
