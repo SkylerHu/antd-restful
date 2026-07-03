@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, message } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 import copy from "copy-to-clipboard";
-import { DEFAULT_SEPARATOR } from "src/common/constants";
+import { restOptions } from "src/config";
 import { toBeString } from "src/common/parser";
 import { isEmpty, isString } from "src/common/typeTools";
 
@@ -16,7 +16,7 @@ function CopyView({
   hiddenValue = false,
   disabled = false,
   children,
-  separator = DEFAULT_SEPARATOR,
+  separator = restOptions.separator,
 }) {
   // 用于展示的字段
   const show = useMemo(() => {

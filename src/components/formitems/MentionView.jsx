@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PropTypes from "prop-types";
 import { Mentions, Spin } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_ROWS_PATH, READ_ONLY_CLASS } from "src/common/constants";
+import { READ_ONLY_CLASS } from "src/common/constants";
 import { commonFormat, findDataByPath } from "src/common/parser";
 import { isBlank, isDict, isFunction } from "src/common/typeTools";
+import { restOptions } from "src/config";
 import { useDeepCompareMemoize } from "src/hooks";
 import { useSafeRequest } from "src/requests";
 
@@ -17,9 +18,9 @@ const MentionView = ({
   restful,
   reqConfig,
   baseParams = null,
-  searchKey = "search",
+  searchKey = restOptions.searchKey,
   searchMinEnter = 0,
-  parseRowsPath = DEFAULT_ROWS_PATH,
+  parseRowsPath = restOptions.parseRowsPath,
 
   fieldNames,
   labelTemplate,

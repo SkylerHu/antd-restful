@@ -11,7 +11,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_ROWS_PATH, FieldType, FilterType } from "src/common/constants";
+import { DEFAULT_PAGE, FieldType, FilterType } from "src/common/constants";
 import {
   apiSorterToTableSorterDict,
   clearEmptyValue,
@@ -31,7 +31,7 @@ import NumberRange from "src/components/formitems/NumberRange";
 import RangeStrPicker from "src/components/formitems/RangeStrPicker";
 import RestSelect from "src/components/formitems/RestSelect";
 import GridForm from "src/components/GridForm";
-import globalConfig from "src/config";
+import globalConfig, { restOptions } from "src/config";
 import { useDeepCompareMemoize, useDictState, useInterval } from "src/hooks/index";
 import { useSafeRequest } from "src/requests";
 
@@ -254,12 +254,12 @@ const RestTable = forwardRef(
       baseParams,
       routeParams,
       forceParams,
-      fieldPage = "page",
-      fieldPageSize = "page_size",
-      defaultPageSize = DEFAULT_PAGE_SIZE,
-      fieldOrdering = "ordering",
-      parseRowsPath = DEFAULT_ROWS_PATH,
-      parseTotalPath = "count",
+      fieldPage = restOptions.fieldPage,
+      fieldPageSize = restOptions.fieldPageSize,
+      defaultPageSize = restOptions.defaultPageSize,
+      fieldOrdering = restOptions.fieldOrdering,
+      parseRowsPath = restOptions.parseRowsPath,
+      parseTotalPath = restOptions.parseTotalPath,
       isActive = true,
       tools = true,
       extraTools,

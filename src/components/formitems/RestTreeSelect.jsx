@@ -2,11 +2,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PropTypes from "prop-types";
 import { Space, Spin, Tag, TreeSelect, Tooltip } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_ROWS_PATH, DEFAULT_SEPARATOR, READ_ONLY_CLASS } from "src/common/constants";
+import { READ_ONLY_CLASS } from "src/common/constants";
 import { findDataByPath, findLabelFromTreeData } from "src/common/parser";
 import { insertChildrenToTreeNode, patchTreeNodeInfo, refreshTreeKeyMap } from "src/common/treeUtils";
 import { isArray, isEmpty, isFunction } from "src/common/typeTools";
 import CopyView from "src/components/CopyView";
+import { restOptions } from "src/config";
 import { useDeepCompareMemoize } from "src/hooks";
 import { useSafeRequest } from "src/requests";
 
@@ -19,11 +20,11 @@ const RestTreeSelect = ({
   restful,
   reqConfig,
   baseParams,
-  fieldParent = "parent",
+  fieldParent = restOptions.fieldParent,
   labelTemplate,
-  parseRowsPath = DEFAULT_ROWS_PATH,
+  parseRowsPath = restOptions.parseRowsPath,
   enableCopy,
-  separator = DEFAULT_SEPARATOR,
+  separator = restOptions.separator,
 
   treeData,
   fieldNames,

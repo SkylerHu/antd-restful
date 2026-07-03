@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PropTypes from "prop-types";
 import { Select, Space, Spin, Tag, Tooltip } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_ROWS_PATH, DEFAULT_SEPARATOR, READ_ONLY_CLASS } from "src/common/constants";
+import { READ_ONLY_CLASS } from "src/common/constants";
 import { commonFormat, findDataByPath } from "src/common/parser";
 import { isArray, isBlank, isDict, isEmpty, isFunction } from "src/common/typeTools";
 import CopyView from "src/components/CopyView";
+import { restOptions } from "src/config";
 import { useDeepCompareMemoize } from "src/hooks";
 import { useSafeRequest } from "src/requests";
 
@@ -20,12 +21,12 @@ const RestSelect = ({
   reqConfig,
   urlDetailTemplate = null,
   baseParams = null,
-  searchKey = "search",
-  fieldPageSize = "page_size",
+  searchKey = restOptions.searchKey,
+  fieldPageSize = restOptions.fieldPageSize,
   searchMinEnter = 0,
-  parseRowsPath = DEFAULT_ROWS_PATH,
+  parseRowsPath = restOptions.parseRowsPath,
   enableCopy = false,
-  separator = DEFAULT_SEPARATOR,
+  separator = restOptions.separator,
 
   options,
   fieldNames,

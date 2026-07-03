@@ -1,12 +1,21 @@
 # Release Notes
 
-## 0.3.3
-- fix: `RestList` / `RestTable` 首次加载时可能多次触发 onChange 请求的问题。
-- fix: `RestList` / `RestTable` 开启 `restful` 选项后，组件初始化渲染时 loading 初始化异常的问题，现已正确初始化。
-- fix: `RestList` / `RestTable` 分页组件的 `pageSize` 和 `current` 修复因为闭包引用导致的可能未及时更新显示的问题。
-- fix: `RestTable` 删除内部的 `<Table loading={loading} />` 传参，避免和上层注入冲突或无法覆盖的问题。
-- fix: 修复 `RestList` `pageSize` 参数依赖问题导致偶发抛出布局不对齐警告。
-- fix: `demo` 工程以兼容 antd v5 和 v4 不同版本依赖的时间库差异（dayjs vs moment），并在 v4 环境下补充加载样式文件。
+## 0.4.0
+
+### Features
+- 将零散的常量默认值重构为统一的全局配置，支持调用入口处动态更新修改。
+  - 在 `src/config.js` 中新增并独立导出 `restOptions` 对象（包含 `fieldPage`、`parseRowsPath`、`fieldParent` 等对照 DRF 习惯的默认配置），并提供配套的 `setRestOptions` 方法。
+  - 移除了原 `constants.js` 中的默认值（如 `DEFAULT_PAGE_SIZE` 等），`RestList`、`RestTable` 等列表与表单组件将直接从 `restOptions` 中动态获取默认配置。
+  - 在包入口 `src/entry.js` 统一暴露了 `globalConfig`、`setGlobalConfig`、`restOptions` 及 `setRestOptions`。
+
+### Bug Fixes
+- 修复包入口 `src/entry.js` 漏导出 `setGlobalConfig` 导致外部无法进行全局配置（如设置 `queryStringify`）的致命问题。
+- `RestList` / `RestTable` 首次加载时可能多次触发 onChange 请求的问题。
+- `RestList` / `RestTable` 开启 `restful` 选项后，组件初始化渲染时 loading 初始化异常的问题，现已正确初始化。
+- `RestList` / `RestTable` 分页组件的 `pageSize` 和 `current` 修复因为闭包引用导致的可能未及时更新显示的问题。
+- `RestTable` 删除内部的 `<Table loading={loading} />` 传参，避免和上层注入冲突或无法覆盖的问题。
+- 修复 `RestList` `pageSize` 参数依赖问题导致偶发抛出布局不对齐警告。
+- `demo` 工程兼容 antd v5 和 v4 不同版本依赖的时间库差异（dayjs vs moment），并在 v4 环境下补充加载 antd 样式文件。
 
 ## 0.3.2
 - feat: `RestSelect` 新增 `fieldPageSize` 参数，初始化详情请求时自动将 `page_size` 设为待查询值的数量，确保一次请求获取所有对应 options
