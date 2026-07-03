@@ -2,7 +2,8 @@ import React from "react";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_PAGE_SIZE, FieldType } from "src/common/constants";
+import { FieldType } from "src/common/constants";
+import { restOptions } from "src/config";
 import RestTable, { getColumnSearchProps, renderRowLabel } from "src/components/RestTable";
 
 // Mock useSafeRequest hook
@@ -124,7 +125,7 @@ describe("RestTable", () => {
       expect(mockGet).toHaveBeenCalledWith("/api/users", {
         params: {
           page: 1,
-          page_size: DEFAULT_PAGE_SIZE, // eslint-disable-line camelcase
+          page_size: restOptions.defaultPageSize, // eslint-disable-line camelcase
         },
       });
     });
@@ -270,7 +271,7 @@ describe("RestTable", () => {
         expect(mockGet).toHaveBeenCalledWith("/api/users", {
           params: {
             current: 1,
-            size: DEFAULT_PAGE_SIZE,
+            size: restOptions.defaultPageSize,
           },
         });
       });
@@ -358,7 +359,7 @@ describe("RestTable", () => {
         expect(mockGet).toHaveBeenCalledWith("/api/users", {
           params: expect.objectContaining({
             page: 1,
-            page_size: DEFAULT_PAGE_SIZE, // eslint-disable-line camelcase
+            page_size: restOptions.defaultPageSize, // eslint-disable-line camelcase
           }),
         });
       });

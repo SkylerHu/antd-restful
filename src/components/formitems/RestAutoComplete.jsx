@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PropTypes from "prop-types";
 import { AutoComplete, Spin } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_ROWS_PATH, READ_ONLY_CLASS } from "src/common/constants";
+import { READ_ONLY_CLASS } from "src/common/constants";
 import { commonFormat, findDataByPath } from "src/common/parser";
 import { isArray, isBlank, isFunction } from "src/common/typeTools";
+import { restOptions } from "src/config";
 import { useDeepCompareMemoize } from "src/hooks";
 import { useSafeRequest } from "src/requests";
 
@@ -16,10 +17,10 @@ const RestAutoComplete = ({
   restful,
   reqConfig,
   baseParams = null,
-  searchKey = "search",
+  searchKey = restOptions.searchKey,
+  parseRowsPath = restOptions.parseRowsPath,
   searchMinEnter = 1,
   options,
-  parseRowsPath = DEFAULT_ROWS_PATH,
   labelTemplate,
   fieldNames,
   disabled = false,

@@ -57,16 +57,25 @@ function UserList() {
 
 需要注意的是： 组件中远程请求，内部关于 `query` 序列化的处理，使用的是 `query-string` 库，设置了 `{ arrayFormat: "comma", skipNull: true, skipEmptyString: true }` 等参数。
 
-若是需要调整，可以在入口中修改：
+若是需要调整请求参数的序列化，或者 DRF 相关的默认配置字段，可以在入口中修改：
 ```jsx
 import antdRestful from "antd-restful";
 
-const { setGlobalConfig } = antdRestful;
-// 修改成自己需要的处理方式
+const { setGlobalConfig, setRestOptions } = antdRestful;
+
+// 修改 query-string 的序列化/反序列化处理方式
 setGlobalConfig({
     queryStringify: (params) => Qs.stringify(params, {arrayFormat: 'brackets'}),
     queryParse: (string) => Qs.parse(string, {arrayFormat: 'brackets'}),
-})
+});
+
+// 修改组件相关的默认请求参数（如分页参数等），主要对照后端接口（如 Django REST framework 等）
+setRestOptions({
+    fieldPage: "current",          // 默认是 "page"
+    fieldPageSize: "pageSize",     // 默认是 "page_size"
+    parseRowsPath: "data.list",    // 默认是 "results"
+    parseTotalPath: "data.total",  // 默认是 "count"
+});
 ```
 
 ### 2.1 通用组件
@@ -101,6 +110,7 @@ setGlobalConfig({
 
 | 模块 | 说明 |
 |------|------|
+| [config](./docs/reference/config.md) | 全局参数与接口配置模块，提供 `setRestOptions` 与 `setGlobalConfig` 覆盖默认配置 |
 | [apiTools](./docs/reference/requests.md) | HTTP 请求模块，提供 axios 实例、拦截器、useSafeRequest 等 |
 | [hooks](./docs/reference/hooks.md) | React Hooks 集合：localStorage/sessionStorage、定时器、防抖等 |
 | [typeTools](./docs/reference/typeTools.md) | 类型判断工具函数：isNull、isBlank 等 |
@@ -109,4 +119,5 @@ setGlobalConfig({
 ## 三、应用场景
 - [依赖restful接口的表格数据展示](./demo/views/TableDemo.jsx)
 - [依赖restful接口的列表数据展示](./demo/views/ListDemo.jsx)
-- [动态表单中的应用](./demo/views/JSONForm.jsx)，特别是其中关于[RouteTable](./demo/views/RouteTable.jsx)的使用
+- [动态表单中的应用](./demo/views/JSONForm.jsx)
+- [支持路由参数同步的 RouteTable 表格应用](./demo/views/RouteTable.jsx)

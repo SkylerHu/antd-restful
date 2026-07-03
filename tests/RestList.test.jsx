@@ -1,7 +1,7 @@
 import React from "react";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { DEFAULT_PAGE_SIZE } from "src/common/constants";
+import { restOptions } from "src/config";
 import RestList from "src/components/RestList";
 
 const mockMakeRequest = jest.fn();
@@ -101,7 +101,7 @@ describe("RestList", () => {
       expect(mockGet).toHaveBeenCalledWith("/api/users", {
         params: {
           page: 1,
-          page_size: DEFAULT_PAGE_SIZE, // eslint-disable-line camelcase
+          page_size: restOptions.defaultPageSize, // eslint-disable-line camelcase
         },
       });
     });
@@ -197,7 +197,7 @@ describe("RestList", () => {
         expect(mockGet).toHaveBeenCalledWith("/api/users", {
           params: {
             current: 1,
-            size: DEFAULT_PAGE_SIZE,
+            size: restOptions.defaultPageSize,
           },
         });
       });

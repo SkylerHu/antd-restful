@@ -2,11 +2,11 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import PropTypes from "prop-types";
 import { Button, List, Space, Spin } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_ROWS_PATH, FieldType } from "src/common/constants";
+import { DEFAULT_PAGE, FieldType } from "src/common/constants";
 import { clearEmptyValue, findDataByPath, genColumnKey, genFields, handleFormValues } from "src/common/parser";
 import { isArray, isEmpty, isFunction } from "src/common/typeTools";
 import GridForm from "src/components/GridForm";
-import globalConfig from "src/config";
+import globalConfig, { restOptions } from "src/config";
 import { useDeepCompareMemoize, useDictState } from "src/hooks/index";
 import { useSafeRequest } from "src/requests";
 
@@ -24,16 +24,16 @@ const RestList = forwardRef(
       baseParams,
       routeParams,
       forceParams,
-      fieldPage = "page",
-      fieldPageSize = "page_size",
-      defaultPageSize = DEFAULT_PAGE_SIZE,
-      parseRowsPath = DEFAULT_ROWS_PATH,
-      parseTotalPath = "count",
+      fieldPage = restOptions.fieldPage,
+      fieldPageSize = restOptions.fieldPageSize,
+      defaultPageSize = restOptions.defaultPageSize,
+      parseRowsPath = restOptions.parseRowsPath,
+      parseTotalPath = restOptions.parseTotalPath,
       isActive = true,
       onDataSourceChange,
       onFiltersChange,
 
-      rowKey = "id",
+      rowKey = restOptions.rowKey,
       dataSource,
       renderItem,
       grid,

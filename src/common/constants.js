@@ -1,13 +1,6 @@
 import Enum from "js-enumerate";
 
-// 默认的数组元素之间的连接符
-export const DEFAULT_SEPARATOR = ",";
-
-// 默认的接口返回数据路径
-export const DEFAULT_ROWS_PATH = "results";
-
 export const DEFAULT_PAGE = 1;
-export const DEFAULT_PAGE_SIZE = 20;
 
 export const SorterEnum = new Enum([
   { key: "ASCEND", value: "ascend", label: "升序" },
