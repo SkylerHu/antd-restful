@@ -23,7 +23,7 @@
     "upload-cov": "coveralls < .coverage/lcov.info",
     "start:dev": "webpack-dev-server --config webpack.dev.config.js",
     "mock": "npx mock-restful-api --path demo/fixtures",
-    "start": "PORT=3002 concurrently \"npm run mock\" \"npm run start:dev\"",
+    "start": "concurrently \"npm run mock\" \"npm run start:dev\"",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
