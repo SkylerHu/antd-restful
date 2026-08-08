@@ -4,12 +4,18 @@
 [![GitHub Actions Workflow Status](https://github.com/skylerhu/antd-restful/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/skylerhu/antd-restful)
 [![Coveralls](https://img.shields.io/coverallsCoverage/github/skylerhu/antd-restful?branch=master)](https://github.com/skylerhu/antd-restful)
 [![GitHub License](https://img.shields.io/github/license/skylerhu/antd-restful)](https://github.com/skylerhu/antd-restful)
+[![CodeSandbox](https://img.shields.io/badge/CodeSandbox-Open%20in%20Sandbox-blue?style=flat&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/skylerhu/antd-restful)
 
 
 基于 `React` + `Antd Design` 组件，扩展组件支持配置即可支持远程获取restful接口的数据。对接远程接口根据restful标准化、降低使用成本，也可以用于动态表单中的JSON配置。
 
 可查看版本变更记录[ChangeLog](./docs/CHANGELOG-0.x.md)
 
+#### demo演示
+
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/d22d1a71-271b-4ad7-bfe3-83ab48b83b27" autoplay loop muted playsinline width="100%"></video>
+</p>
 
 ## 一. 安装
 
