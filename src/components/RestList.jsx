@@ -2,19 +2,20 @@ import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo
 import PropTypes from "prop-types";
 import { Button, List, Space, Spin } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_PAGE, FieldType } from "src/common/constants";
-import { clearEmptyValue, findDataByPath, genColumnKey, genFields, handleFormValues } from "src/common/parser";
-import { isArray, isEmpty, isFunction } from "src/common/typeTools";
-import GridForm from "src/components/GridForm";
-import globalConfig, { restOptions } from "src/config";
-import { useDeepCompareMemoize, useDictState } from "src/hooks/index";
-import { useSafeRequest } from "src/requests";
+import { DEFAULT_PAGE, FieldType } from "../common/constants";
+import { clearEmptyValue, findDataByPath, genColumnKey, genFields, handleFormValues } from "../common/parser";
+import { isArray, isEmpty, isFunction } from "../common/typeTools";
+import GridForm from "./GridForm";
+import globalConfig, { restOptions } from "../config";
+import { useDeepCompareMemoize, useDictState } from "../hooks/index";
+import { useSafeRequest } from "../requests";
 
 const REFRESH_COUNTER_KEY = "____list_refresh";
 
 const RestList = forwardRef(
-  (
-    {
+  (props, ref) => {
+    const {
+      ref: refProp,
       style,
       className,
 
@@ -42,9 +43,8 @@ const RestList = forwardRef(
       antdSpaceProps,
       filterFormProps,
       loadMoreProps,
-    },
-    ref
-  ) => {
+    } = props;
+    const resolvedRef = refProp || ref;
     const [makeRequest] = useSafeRequest();
     const reqConfigRef = useRef(reqConfig);
     const memParseOptions = useDeepCompareMemoize(parseOptions);
@@ -278,7 +278,7 @@ const RestList = forwardRef(
     }, [innerData.dataSource.length, innerData.total]);
 
     useImperativeHandle(
-      ref,
+      resolvedRef,
       () => ({
         refreshList: fetchData,
         fetchMore,
@@ -426,6 +426,7 @@ const RestList = forwardRef(
 );
 
 RestList.propTypes = {
+  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
   style: PropTypes.object,
   className: PropTypes.string,
 

@@ -11,7 +11,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
-import { DEFAULT_PAGE, FieldType, FilterType } from "src/common/constants";
+import { DEFAULT_PAGE, FieldType, FilterType } from "../common/constants";
 import {
   apiSorterToTableSorterDict,
   clearEmptyValue,
@@ -22,18 +22,18 @@ import {
   handleFormValues,
   tableSorterToApiSorter,
   toBeString,
-} from "src/common/parser";
-import { commonFilter, commonSorter } from "src/common/sorter";
-import { isArray, isBlank, isDict, isEmpty, isFunction, isString } from "src/common/typeTools";
-import CopyView from "src/components/CopyView";
-import FieldsSetting from "src/components/FieldsSetting";
-import NumberRange from "src/components/formitems/NumberRange";
-import RangeStrPicker from "src/components/formitems/RangeStrPicker";
-import RestSelect from "src/components/formitems/RestSelect";
-import GridForm from "src/components/GridForm";
-import globalConfig, { restOptions } from "src/config";
-import { useDeepCompareMemoize, useDictState, useInterval } from "src/hooks/index";
-import { useSafeRequest } from "src/requests";
+} from "../common/parser";
+import { commonFilter, commonSorter } from "../common/sorter";
+import { isArray, isBlank, isDict, isEmpty, isFunction, isString } from "../common/typeTools";
+import CopyView from "./CopyView";
+import FieldsSetting from "./FieldsSetting";
+import NumberRange from "./formitems/NumberRange";
+import RangeStrPicker from "./formitems/RangeStrPicker";
+import RestSelect from "./formitems/RestSelect";
+import GridForm from "./GridForm";
+import globalConfig, { restOptions } from "../config";
+import { useDeepCompareMemoize, useDictState, useInterval } from "../hooks/index";
+import { useSafeRequest } from "../requests";
 
 // 处理table表头中列的筛选
 export const getColumnSearchProps = (dataIndex, column, inputRef) => {
@@ -242,8 +242,9 @@ export const renderRowLabel = (record, column) => {
 const REFRESH_COUNTER_KEY = "____refresh";
 
 const RestTable = forwardRef(
-  (
-    {
+  (props, ref) => {
+    const {
+      ref: refProp,
       style,
       className,
 
@@ -276,9 +277,8 @@ const RestTable = forwardRef(
       antdTableProps,
       filterFormProps,
       antdSpaceProps,
-    },
-    ref
-  ) => {
+    } = props;
+    const resolvedRef = refProp || ref;
     const [makeRequest] = useSafeRequest();
     const reqConfigRef = useRef(reqConfig);
     const memParseOptions = useDeepCompareMemoize(parseOptions);
@@ -571,7 +571,7 @@ const RestTable = forwardRef(
 
     // 暴露给ref调用的方法
     useImperativeHandle(
-      ref,
+      resolvedRef,
       () => ({
         refreshList: fetchData,
         deleteRow,
@@ -1015,6 +1015,7 @@ const RestTable = forwardRef(
 );
 
 RestTable.propTypes = {
+  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
   style: PropTypes.object,
   className: PropTypes.string,
 

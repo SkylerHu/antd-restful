@@ -4,11 +4,11 @@ import { Button, Image, message, Space, Tooltip, Upload } from "antd";
 import { InboxOutlined, PaperClipOutlined, UploadOutlined } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
 import Enum from "js-enumerate";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { formatByte } from "src/common/formatter";
-import { isArray, isDict, isEmpty, isFunction } from "src/common/typeTools";
-import { useDeepCompareMemoize } from "src/hooks";
-import { useSafeRequest } from "src/requests";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { formatByte } from "../../common/formatter";
+import { isArray, isDict, isEmpty, isFunction } from "../../common/typeTools";
+import { useDeepCompareMemoize } from "../../hooks";
+import { useSafeRequest } from "../../requests";
 
 export const UploadStatus = new Enum([
   { key: "UPLOADING", label: "上传中", value: "uploading" },

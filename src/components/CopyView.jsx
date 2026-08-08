@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { Button, message } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 import copy from "copy-to-clipboard";
-import { restOptions } from "src/config";
-import { toBeString } from "src/common/parser";
-import { isEmpty, isString } from "src/common/typeTools";
+import { restOptions } from "../config";
+import { toBeString } from "../common/parser";
+import { isEmpty, isString } from "../common/typeTools";
 
 function CopyView({
   style,

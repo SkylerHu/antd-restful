@@ -1,15 +1,16 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Checkbox, Form, Input, InputNumber, List, message, Radio, Select, Space } from "antd";
-import { FieldType } from "src/common/constants";
-import { handleFormValues } from "src/common/parser";
-import { isEmpty, isFunction } from "src/common/typeTools";
-import FormItems from "src/components/formitems";
-import { useDeepCompareMemoize } from "src/hooks";
+import { FieldType } from "../common/constants";
+import { handleFormValues } from "../common/parser";
+import { isEmpty, isFunction } from "../common/typeTools";
+import FormItems from "./formitems";
+import { useDeepCompareMemoize } from "../hooks";
 
 const GridForm = forwardRef(
-  (
-    {
+  (props, ref) => {
+    const {
+      ref: refProp,
       style,
       className,
       advancedSearch = true,
@@ -23,9 +24,8 @@ const GridForm = forwardRef(
       initialValues,
       antdFormProps,
       antdListProps,
-    },
-    ref
-  ) => {
+    } = props;
+    const resolvedRef = refProp || ref;
     const [form] = Form.useForm();
     const initValuesRef = useRef(initialValues);
 
@@ -83,7 +83,7 @@ const GridForm = forwardRef(
 
     // 暴露给ref调用的方法
     useImperativeHandle(
-      ref,
+      resolvedRef,
       () => ({
         getFormInstance: () => ({ ...form, setFieldsValueAndActiveKey }),
       }),
@@ -291,6 +291,7 @@ const GridForm = forwardRef(
   }
 );
 GridForm.propTypes = {
+  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
   style: PropTypes.object,
   className: PropTypes.string,
 

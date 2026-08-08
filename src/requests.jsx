@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { notification } from "antd";
 import axios from "axios";
-import { isNumber } from "src/common/typeTools";
-import globalConfig from "src/config";
+import { isNumber } from "./common/typeTools";
+import globalConfig from "./config";
 
 /**
  * 格式化请求错误信息

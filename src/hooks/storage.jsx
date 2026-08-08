@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { dequal as deepEqual } from "dequal";
-import { isString } from "src/common/typeTools";
+import { isString } from "../common/typeTools";
 import { useDeepCompareMemoize } from "./base";
 
 const _getStorageValue = (storage, key, defaultValue) => {

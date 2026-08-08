@@ -1,9 +1,9 @@
 import format from "string-format";
 import objectPath from "object-path";
 import libQuery from "query-string";
-import { SorterEnum, FieldType } from "src/common/constants";
-import { isArray, isBlank, isBoolean, isDict, isEmpty, isNumber, isString } from "src/common/typeTools";
-import { restOptions } from "src/config";
+import { SorterEnum, FieldType } from "./constants";
+import { isArray, isBlank, isBoolean, isDict, isEmpty, isNumber, isString } from "./typeTools";
+import { restOptions } from "../config";
 
 export const commonFormat = (template, ...values) => {
   if (isBlank(template)) {

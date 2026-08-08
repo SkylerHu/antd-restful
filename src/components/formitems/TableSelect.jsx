@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { version as antdVersion, Button, Collapse, Space } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
-import { getShowTitle } from "src/common/parser";
-import { isArray, isDict, isFunction } from "src/common/typeTools";
-import RestTable from "src/components/RestTable";
-import { restOptions } from "src/config";
+import { getShowTitle } from "../../common/parser";
+import { isArray, isDict, isFunction } from "../../common/typeTools";
+import RestTable from "../RestTable";
+import { restOptions } from "../../config";
 
 const TableSelect = ({
   value,

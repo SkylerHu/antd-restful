@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PropTypes from "prop-types";
 import { Space, Spin, Tag, TreeSelect, Tooltip } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { findDataByPath, findLabelFromTreeData } from "src/common/parser";
-import { insertChildrenToTreeNode, patchTreeNodeInfo, refreshTreeKeyMap } from "src/common/treeUtils";
-import { isArray, isEmpty, isFunction } from "src/common/typeTools";
-import CopyView from "src/components/CopyView";
-import { restOptions } from "src/config";
-import { useDeepCompareMemoize } from "src/hooks";
-import { useSafeRequest } from "src/requests";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { findDataByPath, findLabelFromTreeData } from "../../common/parser";
+import { insertChildrenToTreeNode, patchTreeNodeInfo, refreshTreeKeyMap } from "../../common/treeUtils";
+import { isArray, isEmpty, isFunction } from "../../common/typeTools";
+import CopyView from "../CopyView";
+import { restOptions } from "../../config";
+import { useDeepCompareMemoize } from "../../hooks";
+import { useSafeRequest } from "../../requests";
 
 const RestTreeSelect = ({
   style,

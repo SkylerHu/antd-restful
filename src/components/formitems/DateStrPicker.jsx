@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { DatePicker, TimePicker } from "antd";
-import { createDate } from "src/common/dateUtils";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { isFunction } from "src/common/typeTools";
+import { createDate } from "../../common/dateUtils";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { isFunction } from "../../common/typeTools";
 
 const DateStrPicker = ({
   style,
