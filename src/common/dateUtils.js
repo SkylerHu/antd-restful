@@ -8,20 +8,6 @@ import { isString } from "./typeTools";
 let moment = null;
 let dayjs = null;
 
-// 运行时动态加载模块，避免打包阶段静态解析可选依赖
-function loadOptionalModule(moduleName) {
-  try {
-    // 使用 Function 间接获取 require，避免被 webpack/vite 静态分析
-    const dynamicRequire = Function("return typeof require === 'function' ? require : null;")();
-    if (typeof dynamicRequire !== "function") {
-      return null;
-    }
-    return dynamicRequire(moduleName);
-  } catch (e) {
-    return null;
-  }
-}
-
 // 检测antd版本
 export function detectAntdVersion() {
   const majorVersion = parseInt(antdVersion.split(".")[0]);
@@ -31,8 +17,10 @@ export function detectAntdVersion() {
 // 懒加载moment
 function getMoment() {
   if (moment === null) {
-    moment = loadOptionalModule("moment");
-    if (!moment) {
+    try {
+      // eslint-disable-next-line global-require
+      moment = require("moment");
+    } catch (e) {
       // moment is not installed, please install it for antd4 compatibility
       return null;
     }
@@ -43,8 +31,10 @@ function getMoment() {
 // 懒加载dayjs
 function getDayjs() {
   if (dayjs === null) {
-    dayjs = loadOptionalModule("dayjs");
-    if (!dayjs) {
+    try {
+      // eslint-disable-next-line global-require
+      dayjs = require("dayjs");
+    } catch (e) {
       // dayjs is not installed, please install it for antd5 compatibility
       return null;
     }
