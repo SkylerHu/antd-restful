@@ -7,7 +7,10 @@
 [![CodeSandbox](https://img.shields.io/badge/CodeSandbox-Open%20in%20Sandbox-blue?style=flat&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/skylerhu/antd-restful)
 
 
-基于 `React` + `Antd Design` 组件，扩展组件支持配置即可支持远程获取restful接口的数据。对接远程接口根据restful标准化、降低使用成本，也可以用于动态表单中的JSON配置。
+#### 面向 Ant Design 的配置化 RESTful 数据组件库
+
+该库基于 React + Ant Design，围绕 RESTful 接口封装了开箱即用的数据驱动组件体系，覆盖表格与列表展示、筛选表单联动、分页排序、路由参数双向同步、请求取消与错误提示等高频能力。通过声明式配置即可完成接口对接与交互编排，并提供字段解析、格式化、校验及多种表单子组件，兼顾 antd4/5 时间库差异，适合后台管理、运营系统与动态 JSON 配置场景。
+
 
 可查看版本变更记录[ChangeLog](./docs/CHANGELOG-1.x.md)
 
