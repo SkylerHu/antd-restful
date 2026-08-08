@@ -13,7 +13,7 @@
   },
   "sideEffects": false,
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "scripts": {
     "prepare": "husky install",
@@ -21,8 +21,9 @@
     "lint:fix": "eslint . --fix",
     "test": "jest --coverage",
     "upload-cov": "coveralls < .coverage/lcov.info",
-    "start": "webpack-dev-server --config webpack.dev.config.js",
+    "start:dev": "webpack-dev-server --config webpack.dev.config.js",
     "mock": "npx mock-restful-api --path demo/fixtures",
+    "start": "concurrently \"npm run mock\" \"npm run start:dev\"",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
@@ -77,6 +78,7 @@
     "axios": "^1.7.9",
     "babel-eslint": "~10.1.0",
     "babel-loader": "^10.0.0",
+    "concurrently": "^9.2.4",
     "copy-webpack-plugin": "^13.0.0",
     "coveralls-next": "~4.2.1",
     "css-loader": "^7.1.4",

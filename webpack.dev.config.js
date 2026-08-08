@@ -17,7 +17,8 @@ const devConfig = {
     static: {
       directory: path.join(PATHS.demo, "public"),
     },
-    host: "127.0.0.1",
+    allowedHosts: "all",
+    host: "0.0.0.0",
     port: 3002,
     proxy: [
       {
