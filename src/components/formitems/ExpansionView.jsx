@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { Alert, Input, Space, Spin } from "antd";
 import braceExpansion from "brace-expansion";
 import { dequal as deepEqual } from "dequal";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { commonFormat } from "src/common/parser";
-import { isArray, isBlank, isFunction } from "src/common/typeTools";
-import LongText from "src/components/LongText";
-import { useDeepCompareMemoize } from "src/hooks";
-import { formatRequestError, useSafeRequest } from "src/requests";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { commonFormat } from "../../common/parser";
+import { isArray, isBlank, isFunction } from "../../common/typeTools";
+import LongText from "../LongText";
+import { useDeepCompareMemoize } from "../../hooks";
+import { formatRequestError, useSafeRequest } from "../../requests";
 
 /**
  * 在表单中需要配合特定的 validator: 需要校验 !isBlank(input) && !loading && !error 才算是预期的结果

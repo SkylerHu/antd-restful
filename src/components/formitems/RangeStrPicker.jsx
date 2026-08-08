@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { DatePicker, TimePicker } from "antd";
-import { createDate } from "src/common/dateUtils";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { initRangeValues } from "src/common/parser";
-import { isArray, isEmpty, isFunction } from "src/common/typeTools";
+import { createDate } from "../../common/dateUtils";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { initRangeValues } from "../../common/parser";
+import { isArray, isEmpty, isFunction } from "../../common/typeTools";
 
 const RangeStrPicker = ({
   style,

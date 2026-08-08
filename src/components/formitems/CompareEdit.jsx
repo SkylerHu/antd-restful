@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Space, Tag } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { transformValue } from "src/common/parser";
-import { isArray, isBasicType, isBlank, isDict, isEmpty, isFunction } from "src/common/typeTools";
-import { useDeepCompareMemoize } from "src/hooks";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { transformValue } from "../../common/parser";
+import { isArray, isBasicType, isBlank, isDict, isEmpty, isFunction } from "../../common/typeTools";
+import { useDeepCompareMemoize } from "../../hooks";
 import CopyView from "../CopyView";
 
 const oldTagProps = { color: "error", style: { textDecoration: "line-through" } };

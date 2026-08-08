@@ -1,5 +1,5 @@
-import { isDict, isEmpty, isNumber } from "src/common/typeTools";
-import { formatRequestError, makeSafeRequest } from "src/requests";
+import { isDict, isEmpty, isNumber } from "./typeTools";
+import { formatRequestError, makeSafeRequest } from "../requests";
 
 /**
  * 扩展 ExpansionView 组件的校验

@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import PropTypes from "prop-types";
 import { Cascader, Space, Spin, Tooltip, Tag } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { findDataByPath, findTreeOptionsByValues, treeValuesToLabels } from "src/common/parser";
-import { isArray, isEmpty, isFunction } from "src/common/typeTools";
-import CopyView from "src/components/CopyView";
-import { restOptions } from "src/config";
-import { useDeepCompareMemoize } from "src/hooks";
-import { useSafeRequest } from "src/requests";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { findDataByPath, findTreeOptionsByValues, treeValuesToLabels } from "../../common/parser";
+import { isArray, isEmpty, isFunction } from "../../common/typeTools";
+import CopyView from "../CopyView";
+import { restOptions } from "../../config";
+import { useDeepCompareMemoize } from "../../hooks";
+import { useSafeRequest } from "../../requests";
 
 const RestCascader = ({
   style,

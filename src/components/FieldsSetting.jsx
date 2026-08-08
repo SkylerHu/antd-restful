@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { Button, Checkbox, Space, Tooltip } from "antd";
 import { QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
-import { genColumnKey } from "src/common/parser";
-import { isFunction } from "src/common/typeTools";
-import { useSettingsStorage } from "src/hooks/index";
+import { genColumnKey } from "../common/parser";
+import { isFunction } from "../common/typeTools";
+import { useSettingsStorage } from "../hooks/index";
 
 
 export const initFileds = (fields) => {

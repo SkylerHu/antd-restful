@@ -1,6 +1,6 @@
 import libs from "../src/index.js";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-// const libs = require("../dist/index.js");
+// import libs from "../dist/esm/index.js";
+// const libs = require("../dist/cjs/index.js").default;
 
 window.antdRestful = libs;
 

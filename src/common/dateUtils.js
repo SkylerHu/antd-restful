@@ -3,7 +3,7 @@
  * antd4使用moment，antd5+使用dayjs
  */
 import { version as antdVersion } from "antd";
-import { isString } from "src/common/typeTools";
+import { isString } from "./typeTools";
 
 let moment = null;
 let dayjs = null;
@@ -18,6 +18,7 @@ export function detectAntdVersion() {
 function getMoment() {
   if (moment === null) {
     try {
+      // eslint-disable-next-line global-require
       moment = require("moment");
     } catch (e) {
       // moment is not installed, please install it for antd4 compatibility
@@ -31,6 +32,7 @@ function getMoment() {
 function getDayjs() {
   if (dayjs === null) {
     try {
+      // eslint-disable-next-line global-require
       dayjs = require("dayjs");
     } catch (e) {
       // dayjs is not installed, please install it for antd5 compatibility

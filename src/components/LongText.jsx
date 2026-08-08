@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal } from "antd";
 import { EllipsisOutlined, EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import { commonFormat, getShowTitle, toBeString } from "src/common/parser";
-import { isArray, isBlank, isDict, isString } from "src/common/typeTools";
+import { commonFormat, getShowTitle, toBeString } from "../common/parser";
+import { isArray, isBlank, isDict, isString } from "../common/typeTools";
 
 const tipColor = "rgba(0, 0, 0, 0.45)";
 

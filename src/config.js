@@ -1,4 +1,4 @@
-import { queryString } from "src/common/parser";
+import { queryString } from "./common/parser";
 
 export const restOptions = {
   // 默认对照后端 Django REST framework (DRF) 框架设置

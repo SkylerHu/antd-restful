@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es6", // 使用 ECMAScript 6 版本
-    "module": "commonjs",
+    "target": "es2020",
+    "module": "es2020",
     "noImplicitAny": true,
     "baseUrl": "./", // 基础路径设置为项目根目录
+    "paths": {
+      "@/*": ["src/*"],
+      "src/*": ["src/*"],
+      "demo/*": ["demo/*"]
+    }
   },
   "exclude": ["node_modules"], // 排除 node_modules 目录
   "include": ["src/**/*", "demo/**/*", "tests/**/*"]

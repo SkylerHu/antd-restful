@@ -3,9 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { InputNumber, Space } from "antd";
 import { dequal as deepEqual } from "dequal";
-import { READ_ONLY_CLASS } from "src/common/constants";
-import { commonFormat, initRangeValues } from "src/common/parser";
-import { isBlank, isFunction } from "src/common/typeTools";
+import { READ_ONLY_CLASS } from "../../common/constants";
+import { commonFormat, initRangeValues } from "../../common/parser";
+import { isBlank, isFunction } from "../../common/typeTools";
 
 const NumberRange = ({
   style,

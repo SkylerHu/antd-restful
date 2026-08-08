@@ -9,7 +9,7 @@
 
 基于 `React` + `Antd Design` 组件，扩展组件支持配置即可支持远程获取restful接口的数据。对接远程接口根据restful标准化、降低使用成本，也可以用于动态表单中的JSON配置。
 
-可查看版本变更记录[ChangeLog](./docs/CHANGELOG-0.x.md)
+可查看版本变更记录[ChangeLog](./docs/CHANGELOG-1.x.md)
 
 #### demo演示
 
@@ -25,12 +25,18 @@
 
     npm install react react-dom antd @ant-design/icons axios
 
+可选依赖（按 `antd` 版本选择安装，建议安装其一）：
+
+    # antd v5+ 推荐
+    npm install dayjs
+
+    # antd v4 推荐
+    npm install moment
+
 使用示例：
 ```jsx
-// 默认导入（CommonJS 兼容场景）
+// 推荐：ESM 默认导入
 import antdRestful from "antd-restful";
-// 某些构建环境下需要使用 namespace import
-// import * as antdRestful from "antd-restful";
 
 const {
   GridForm, RestTable,
@@ -40,6 +46,11 @@ const {
   constants: { FieldType },
   typeTools: { isEmpty },
 } = antdRestful;
+```
+
+若在 CommonJS 环境（`require`）下使用：
+```js
+const antdRestful = require("antd-restful").default;
 ```
 
 最常见的用法——在组件中发起安全的 HTTP 请求：
@@ -61,7 +72,7 @@ function UserList() {
 
 ## 二. 使用(Usage)
 
-需要注意的是： 组件中远程请求，内部关于 `query` 序列化的处理，使用的是 `query-string` 库，设置了 `{ arrayFormat: "comma", skipNull: true, skipEmptyString: true }` 等参数。
+需要注意的是：组件中远程请求，内部关于 `query` 序列化的处理，使用的是 `query-string` 库，设置了 `{ arrayFormat: "comma", skipNull: true, skipEmptyString: true }` 等参数。
 
 若是需要调整请求参数的序列化，或者 DRF 相关的默认配置字段，可以在入口中修改：
 ```jsx
@@ -127,3 +138,6 @@ setRestOptions({
 - [依赖restful接口的列表数据展示](./demo/views/ListDemo.jsx)
 - [动态表单中的应用](./demo/views/JSONForm.jsx)
 - [支持路由参数同步的 RouteTable 表格应用](./demo/views/RouteTable.jsx)
+
+## 四、常见问题 (FAQ)
+- [查看常见问题说明](./docs/FAQ.md)
