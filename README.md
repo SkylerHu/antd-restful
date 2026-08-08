@@ -140,4 +140,4 @@ setRestOptions({
 - [支持路由参数同步的 RouteTable 表格应用](./demo/views/RouteTable.jsx)
 
 ## 四、常见问题 (FAQ)
-- [查看常见问题说明](./docs/常见问题.md)
+- [查看常见问题说明](./docs/FAQ.md)
