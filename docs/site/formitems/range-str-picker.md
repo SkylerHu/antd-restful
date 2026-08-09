@@ -1,6 +1,6 @@
 ---
 title: RangeStrPicker
-order: 6
+order: 8
 ---
 
 ## RangeStrPicker

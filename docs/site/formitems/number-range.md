@@ -1,6 +1,6 @@
 ---
 title: NumberRange
-order: 5
+order: 10
 ---
 
 ## NumberRange

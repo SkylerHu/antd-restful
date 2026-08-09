@@ -1,6 +1,6 @@
 ---
 title: RestTreeSelect
-order: 10
+order: 5
 ---
 
 ## RestTreeSelect

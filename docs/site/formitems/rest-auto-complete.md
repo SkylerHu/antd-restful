@@ -1,6 +1,6 @@
 ---
 title: RestAutoComplete
-order: 7
+order: 3
 ---
 
 ## RestAutoComplete

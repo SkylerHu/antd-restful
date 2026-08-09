@@ -4,12 +4,13 @@ const ghBase = '/antd-restful/';
 const assetBase = isGithubPages ? ghBase : '/';
 const siteIcon = `${assetBase}icon.svg`;
 const faviconIcon = `${assetBase}favicon.svg`;
+const faviconIco = `${assetBase}favicon.ico`;
 
 export default defineConfig({
   title: 'antd-restful',
   base: isGithubPages ? ghBase : '/',
   publicPath: isGithubPages ? ghBase : '/',
-  favicons: [faviconIcon],
+  favicons: [faviconIco, faviconIcon],
   outputPath: 'docs-dist',
   resolve: {
     docDirs: ['docs/site'],

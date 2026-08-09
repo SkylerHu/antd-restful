@@ -1,6 +1,6 @@
 ---
 title: ExpansionView
-order: 3
+order: 9
 ---
 
 ## ExpansionView

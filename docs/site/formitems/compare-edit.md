@@ -1,6 +1,6 @@
 ---
 title: CompareEdit
-order: 1
+order: 11
 ---
 
 ## CompareEdit
