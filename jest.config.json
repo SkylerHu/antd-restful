@@ -9,7 +9,7 @@
     ]
   },
   "transformIgnorePatterns": [
-    "node_modules/(?!(query-string|decode-uri-component|filter-obj|split-on-first|string-format|object-path|js-enumerate|dequal|copy-to-clipboard|brace-expansion)/)"
+    "node_modules/(?!(query-string|decode-uri-component|filter-obj|split-on-first|string-format|object-path|js-enumerate|dequal|copy-to-clipboard|brace-expansion|@ant-design/colors|@ant-design/fast-color)/)"
   ],
   "setupFilesAfterEnv": [
     "<rootDir>/setupTests.js"
