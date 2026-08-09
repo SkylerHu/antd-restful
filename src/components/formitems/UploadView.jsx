@@ -5,6 +5,7 @@ import { InboxOutlined, PaperClipOutlined, UploadOutlined } from "@ant-design/ic
 import { dequal as deepEqual } from "dequal";
 import Enum from "js-enumerate";
 import { READ_ONLY_CLASS } from "../../common/constants";
+import { isAntd6Plus } from "../../common/versionUtil";
 import { formatByte } from "../../common/formatter";
 import { isArray, isDict, isEmpty, isFunction } from "../../common/typeTools";
 import { useDeepCompareMemoize } from "../../hooks";
@@ -43,6 +44,9 @@ const UploadView = ({
   antdReadonlyItemProps,
   preserveResponse = false,
 }) => {
+  const spaceOrientation = isAntd6Plus
+    ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "horizontal"
+    : antdSpaceProps?.direction || antdSpaceProps?.orientation || "horizontal";
   const [makeRequest] = useSafeRequest();
   const reqConfigRef = useRef(reqConfig);
 
@@ -200,9 +204,9 @@ const UploadView = ({
       <Space
         style={style}
         className={className ? `${className} ${READ_ONLY_CLASS}` : READ_ONLY_CLASS}
-        direction="horizontal"
         wrap={true}
         {...antdSpaceProps}
+        {...(isAntd6Plus ? { orientation: spaceOrientation } : { direction: spaceOrientation })}
       >
         {fileList.map((item) => {
           let v =

@@ -5,15 +5,13 @@ import ReadView from "./views/ReadView";
 import DynamicForm from "./views/StaticForm";
 import TableDemo from "./views/TableDemo";
 import ListDemo from "./views/ListDemo";
-import { detectAntdVersion } from "../src/common/dateUtils";
+import { isAntd5Plus } from "../src/common/versionUtil";
 
 const JSONForm = React.lazy(() => import("./views/JSONForm"));
 
 export default function Main() {
   const navigate = useNavigate();
   const { tab } = useParams();
-  const antdVersion = detectAntdVersion();
-
   const items = [
     {
       key: "form",
@@ -27,7 +25,7 @@ export default function Main() {
     },
   ];
 
-  if (antdVersion >= 5) {
+  if (isAntd5Plus) {
     items.push({
       key: "jsonform",
       label: "JSONForm",
@@ -55,7 +53,7 @@ export default function Main() {
   return (
     <Tabs
       activeKey={tab || "form"}
-      destroyInactiveTabPane
+      {...(isAntd5Plus ? { destroyOnHidden: true } : { destroyInactiveTabPane: true })}
       items={items}
       onChange={(key) => {
         navigate(`/${key}`);

@@ -17,8 +17,8 @@ const VIEW_TYPE_MAP = {
 };
 
 const RouteBaseTable = forwardRef((props, ref) => {
-  const { ref: refProp, location, onSearchChange, viewType = ViewType.TABLE, restProps } = props;
-  const resolvedRef = refProp || ref;
+  const { location, onSearchChange, viewType = ViewType.TABLE, restProps } = props;
+  const resolvedRef = ref;
   const {
     parseOptions,
     parseTypes,
@@ -106,7 +106,6 @@ const RouteBaseTable = forwardRef((props, ref) => {
 });
 
 RouteBaseTable.propTypes = {
-  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
   location: PropTypes.object,
   onSearchChange: PropTypes.func,
   viewType: PropTypes.oneOf(ViewType.map((o) => o.value)),

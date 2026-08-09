@@ -29,20 +29,24 @@ function mockRestSelect() {
   return null;
 }
 
-jest.mock("antd", () => ({
-  Button: mockButton,
-  Col: mockCol,
-  Descriptions: () => null,
-  Dropdown: () => null,
-  Input: mockInput,
-  InputNumber: mockInputNumber,
-  Row: mockRow,
-  Space: mockSpace,
-  Spin: () => null,
-  Table: () => null,
-  Tag: () => null,
-  Tooltip: () => null,
-}));
+jest.mock("antd", () => {
+  const { mockAntdVersion } = jest.requireActual("../test-utils/testVersion");
+  return {
+    version: mockAntdVersion,
+    Button: mockButton,
+    Col: mockCol,
+    Descriptions: () => null,
+    Dropdown: () => null,
+    Input: mockInput,
+    InputNumber: mockInputNumber,
+    Row: mockRow,
+    Space: mockSpace,
+    Spin: () => null,
+    Table: () => null,
+    Tag: () => null,
+    Tooltip: () => null,
+  };
+});
 
 jest.mock("@ant-design/icons", () => ({
   CloseOutlined: () => null,

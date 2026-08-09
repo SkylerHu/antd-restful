@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Button, List, Space, Spin } from "antd";
 import { dequal as deepEqual } from "dequal";
 import { DEFAULT_PAGE, FieldType } from "../common/constants";
+import { isAntd6Plus } from "../common/versionUtil";
 import { clearEmptyValue, findDataByPath, genColumnKey, genFields, handleFormValues } from "../common/parser";
 import { isArray, isEmpty, isFunction } from "../common/typeTools";
 import GridForm from "./GridForm";
@@ -15,7 +16,6 @@ const REFRESH_COUNTER_KEY = "____list_refresh";
 const RestList = forwardRef(
   (props, ref) => {
     const {
-      ref: refProp,
       style,
       className,
 
@@ -44,7 +44,10 @@ const RestList = forwardRef(
       filterFormProps,
       loadMoreProps,
     } = props;
-    const resolvedRef = refProp || ref;
+    const spaceOrientation = isAntd6Plus
+      ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "vertical"
+      : antdSpaceProps?.direction || antdSpaceProps?.orientation || "vertical";
+    const resolvedRef = ref;
     const [makeRequest] = useSafeRequest();
     const reqConfigRef = useRef(reqConfig);
     const memParseOptions = useDeepCompareMemoize(parseOptions);
@@ -406,7 +409,11 @@ const RestList = forwardRef(
 
     return (
       <Spin spinning={loading && !loadingMore}>
-        <Space direction="vertical" {...antdSpaceProps} style={{ width: "100%", ...antdSpaceProps?.style }}>
+        <Space
+          {...antdSpaceProps}
+          {...(isAntd6Plus ? { orientation: spaceOrientation } : { direction: spaceOrientation })}
+          style={{ width: "100%", ...antdSpaceProps?.style }}
+        >
           {headerView}
           <List
             style={style}
@@ -426,7 +433,6 @@ const RestList = forwardRef(
 );
 
 RestList.propTypes = {
-  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
   style: PropTypes.object,
   className: PropTypes.string,
 

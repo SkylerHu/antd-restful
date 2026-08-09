@@ -15,14 +15,18 @@ const mockDateRangePicker = jest.fn((props) => {
 const mockTimeRangePicker = jest.fn(() => <div data-testid="time-range-picker" />);
 const mockCreateDate = jest.fn((value, format) => `parsed:${value}:${format || ""}`);
 
-jest.mock("antd", () => ({
-  DatePicker: {
-    RangePicker: (props) => mockDateRangePicker(props),
-  },
-  TimePicker: {
-    RangePicker: (props) => mockTimeRangePicker(props),
-  },
-}));
+jest.mock("antd", () => {
+  const { mockAntdVersion } = jest.requireActual("../test-utils/testVersion");
+  return {
+    version: mockAntdVersion,
+    DatePicker: {
+      RangePicker: (props) => mockDateRangePicker(props),
+    },
+    TimePicker: {
+      RangePicker: (props) => mockTimeRangePicker(props),
+    },
+  };
+});
 
 jest.mock("src/common/dateUtils", () => ({
   createDate: (...args) => mockCreateDate(...args),

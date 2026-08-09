@@ -24,6 +24,7 @@ jest.mock("src/requests", () => ({
 }));
 
 jest.mock("antd", () => {
+  const { mockAntdVersion } = jest.requireActual("../test-utils/testVersion");
   const UploadMock = (props) => {
     mockUploadProps = props;
     return <div data-testid="upload">{props.children}</div>;
@@ -35,6 +36,7 @@ jest.mock("antd", () => {
   const SpaceMock = ({ children, ...props }) => <div {...props}>{children}</div>;
   SpaceMock.Compact = ({ children, ...props }) => <div {...props}>{children}</div>;
   return {
+    version: mockAntdVersion,
     Button: ({ children, ...props }) => <button {...props}>{children}</button>,
     Image: ({ src, alt }) => <img alt={alt} src={src} data-testid="readonly-image" />,
     message: {

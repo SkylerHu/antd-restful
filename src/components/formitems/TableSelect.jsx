@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import { version as antdVersion, Button, Collapse, Space } from "antd";
+import { Button, Collapse, Space } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
+import { isAntd5Plus, isAntd6Plus } from "../../common/versionUtil";
 import { getShowTitle } from "../../common/parser";
 import { isArray, isDict, isFunction } from "../../common/typeTools";
 import RestTable from "../RestTable";
@@ -24,6 +25,9 @@ const TableSelect = ({
   antdSpaceProps,
   ...restProps
 }) => {
+  const compactOrientation = isAntd6Plus
+    ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "vertical"
+    : antdSpaceProps?.direction || antdSpaceProps?.orientation || "vertical";
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -145,8 +149,13 @@ const TableSelect = ({
     return readOnlyView;
   }
   return (
-    <Space.Compact block direction="vertical" {...antdSpaceProps} style={{ rowGap: 8, ...antdSpaceProps?.style }}>
-      {antdVersion && antdVersion >= "5" ? (
+    <Space.Compact
+      block
+      {...antdSpaceProps}
+      {...(isAntd6Plus ? { orientation: compactOrientation } : { direction: compactOrientation })}
+      style={{ rowGap: 8, ...antdSpaceProps?.style }}
+    >
+      {isAntd5Plus ? (
         <Collapse
           defaultActiveKey={expandSelected ? "title" : undefined}
           {...antdCollapseProps}

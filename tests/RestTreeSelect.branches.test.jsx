@@ -18,9 +18,11 @@ jest.mock("src/components/CopyView", () => (props) => (
 ));
 
 jest.mock("antd", () => {
+  const { mockAntdVersion } = jest.requireActual("../test-utils/testVersion");
   const SpaceMock = ({ children }) => <div>{children}</div>;
   SpaceMock.Compact = ({ children }) => <div data-testid="space-compact">{children}</div>;
   return {
+    version: mockAntdVersion,
     Space: SpaceMock,
     Spin: () => <span data-testid="loading">loading</span>,
     Tag: ({ children }) => <span data-testid="tag">{children}</span>,

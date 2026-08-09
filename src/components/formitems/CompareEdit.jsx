@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Space, Tag } from "antd";
 import { dequal as deepEqual } from "dequal";
 import { READ_ONLY_CLASS } from "../../common/constants";
+import { isAntd6Plus } from "../../common/versionUtil";
 import { transformValue } from "../../common/parser";
 import { isArray, isBasicType, isBlank, isDict, isEmpty, isFunction } from "../../common/typeTools";
 import { useDeepCompareMemoize } from "../../hooks";
@@ -30,6 +31,9 @@ const CompareEdit = ({
   readOnly = false,
   antdSpaceProps,
 }) => {
+  const compactOrientation = isAntd6Plus
+    ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "vertical"
+    : antdSpaceProps?.direction || antdSpaceProps?.orientation || "vertical";
   const [innerValue, setInnerValue] = useState(value);
   const [hisValue, setHisValue] = useState();
 
@@ -140,7 +144,11 @@ const CompareEdit = ({
   }, [hisValue, innerValue, readOnly, emptyLabel, enableCopy, memOptions, fieldValue, labelTemplate]);
 
   return (
-    <Space.Compact block direction="vertical" {...antdSpaceProps}>
+    <Space.Compact
+      block
+      {...antdSpaceProps}
+      {...(isAntd6Plus ? { orientation: compactOrientation } : { direction: compactOrientation })}
+    >
       {!readOnly && (
         <div style={{ marginBottom: 10 }}>
           {React.cloneElement(children, {

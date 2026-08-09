@@ -14,11 +14,15 @@ import requests, {
 let mockAxiosInstance;
 
 // Mock antd notification
-jest.mock("antd", () => ({
-  notification: {
-    error: jest.fn(),
-  },
-}));
+jest.mock("antd", () => {
+  const { mockAntdVersion } = jest.requireActual("../test-utils/testVersion");
+  return {
+    version: mockAntdVersion,
+    notification: {
+      error: jest.fn(),
+    },
+  };
+});
 
 // Mock axios
 jest.mock("axios", () => {

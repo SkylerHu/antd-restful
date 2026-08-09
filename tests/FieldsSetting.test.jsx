@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FieldsSetting from "src/components/FieldsSetting";
 import * as hooks from "src/hooks";
@@ -384,7 +384,7 @@ describe("FieldsSetting", () => {
 
     // Click the select all checkbox
     const selectAllCheckbox = screen.getByText("全选").closest("label").querySelector("input[type='checkbox']");
-    await user.click(selectAllCheckbox);
+    fireEvent.click(selectAllCheckbox);
 
     // Verify setKeys was called with allKeys
     expect(mockSetKeys).toHaveBeenCalledWith(["name", "age", "email", "address"]);
@@ -423,7 +423,7 @@ describe("FieldsSetting", () => {
 
     // Click the select all checkbox to uncheck it
     const selectAllCheckbox = screen.getByText("全选").closest("label").querySelector("input[type='checkbox']");
-    await user.click(selectAllCheckbox);
+    fireEvent.click(selectAllCheckbox);
 
     // Verify setKeys was called with forceChecks (disabled fields)
     expect(mockSetKeys).toHaveBeenCalledWith(["name"]);
@@ -454,7 +454,7 @@ describe("FieldsSetting", () => {
 
     // Click the age checkbox
     const ageCheckbox = screen.getByDisplayValue("age");
-    await user.click(ageCheckbox);
+    fireEvent.click(ageCheckbox);
 
     // Verify setKeys was called with the new selection
     expect(mockSetKeys).toHaveBeenCalledWith(["name", "age"]);

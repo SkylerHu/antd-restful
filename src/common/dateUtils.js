@@ -2,7 +2,7 @@
  * 根据antd版本自动选择时间库并创建日期对象
  * antd4使用moment，antd5+使用dayjs
  */
-import { version as antdVersion } from "antd";
+import { antdMajorVersion } from "./versionUtil";
 import { isString } from "./typeTools";
 
 let moment = null;
@@ -10,8 +10,7 @@ let dayjs = null;
 
 // 检测antd版本
 export function detectAntdVersion() {
-  const majorVersion = parseInt(antdVersion.split(".")[0]);
-  return majorVersion;
+  return antdMajorVersion;
 }
 
 // 懒加载moment
