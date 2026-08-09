@@ -18,6 +18,9 @@ on:
 jobs:
   test-antd6:
     runs-on: ubuntu-latest
+    env:
+      ANTD_TEST_VERSION: "6.5.4"
+      ANTD_ICONS_TEST_VERSION: "6.3.2"
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -32,7 +35,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-node18-antd6-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node18-antd6-${{ env.ANTD_TEST_VERSION }}-icons-${{ env.ANTD_ICONS_TEST_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node18-antd6-
 
@@ -41,12 +44,13 @@ jobs:
         run: npm ci
 
       - name: install antd6 and icons6
-        run: npm install --no-save antd@6.5.4 @ant-design/icons@6.3.2
+        if: steps.node_modules_cache.outputs.cache-hit != 'true'
+        run: npm install --no-save antd@${{ env.ANTD_TEST_VERSION }} @ant-design/icons@${{ env.ANTD_ICONS_TEST_VERSION }}
 
       - name: remove snapshots directory
         run: rm -rf tests/__snapshots__
 
       - name: run tests with antd6
         env:
-          ANTD_TEST_VERSION: "6.5.4"
+          ANTD_TEST_VERSION: ${{ env.ANTD_TEST_VERSION }}
         run: npm run test
