@@ -1,3 +1,7 @@
+---
+title: RestList
+---
+
 ## RestList
 
 基于 Ant Design List 组件实现了远程加载数据的列表。
@@ -113,11 +117,16 @@
 **loadMore 模式（默认）：**
 
 ```jsx
-import { RestList } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { RestList } = antdRestful;
 
 const LoadMoreList = () => (
   <RestList
-    restful="/api/users/"
+    restful="https://dummyjson.com/users"
+    parseRowsPath="users"
+    parseTotalPath="total"
+    fieldPage="skip"
+    fieldPageSize="limit"
     defaultPageSize={10}
     rowKey="id"
     filterFormProps={{
@@ -128,61 +137,74 @@ const LoadMoreList = () => (
     renderItem={(item) => (
       <RestList.Item>
         <RestList.Item.Meta
-          title={item.name}
+          title={item.firstName}
           description={item.email}
         />
       </RestList.Item>
     )}
   />
 );
+export default LoadMoreList;
 ```
 
 **pagination 模式：**
 
 ```jsx
-import { RestList } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { RestList } = antdRestful;
 
 const PaginationList = () => (
   <RestList
-    restful="/api/users/"
+    restful="https://dummyjson.com/users"
+    parseRowsPath="users"
+    parseTotalPath="total"
+    fieldPage="skip"
+    fieldPageSize="limit"
     defaultPageSize={10}
     rowKey="id"
     pagination={{ showSizeChanger: true, pageSizeOptions: [10, 20, 50] }}
     renderItem={(item) => (
       <RestList.Item>
         <RestList.Item.Meta
-          title={item.name}
+          title={item.firstName}
           description={item.email}
         />
       </RestList.Item>
     )}
   />
 );
+export default PaginationList;
 ```
 
 **Grid 卡片布局：**
 
 ```jsx
 import { Card, Tag } from 'antd';
-import { RestList } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { RestList } = antdRestful;
 
 // page_size=4 是 column=2 的倍数，布局正确
 const GridCardList = () => (
   <RestList
-    restful="/api/products/"
+    restful="https://dummyjson.com/products"
+    parseRowsPath="products"
+    parseTotalPath="total"
+    fieldPage="skip"
+    fieldPageSize="limit"
     defaultPageSize={4}
     rowKey="id"
     grid={{ gutter: 16, column: 2 }}
     renderItem={(item) => (
       <RestList.Item style={{ height: '100%' }}>
         <Card style={{ height: '100%' }}>
-          <p>名称: {item.name}</p>
+          <p>名称: {item.title}</p>
           <p>价格: ¥{item.price}</p>
         </Card>
       </RestList.Item>
     )}
   />
 );
+export default GridCardList;
 ```
 
 **配合 RouteBaseTable 使用（路由联动 + 分页）：**
@@ -191,9 +213,10 @@ const GridCardList = () => (
 > loadMore 模式下数据会追加累积，不适合通过 URL 参数还原状态。
 
 ```jsx
-import { RestList, RouteBaseTable, constants } from 'antd-restful';
+import antdRestful from 'antd-restful';
 import { useLocation, useNavigate } from 'react-router';
 
+const { RestList, RouteBaseTable, constants } = antdRestful;
 const { ViewType, FieldType } = constants;
 
 const RouteListPage = () => {
@@ -208,7 +231,11 @@ const RouteListPage = () => {
         navigate(`${location.pathname}${search}`);
       }}
       restProps={{
-        restful: '/api/users/',
+        restful: "https://dummyjson.com/users",
+        parseRowsPath: "users",
+        parseTotalPath: "total",
+        fieldPage: "skip",
+        fieldPageSize: "limit",
         defaultPageSize: 10,
         rowKey: 'id',
         pagination: true,
@@ -220,7 +247,7 @@ const RouteListPage = () => {
         renderItem: (item) => (
           <RestList.Item>
             <RestList.Item.Meta
-              title={item.name}
+              title={item.firstName}
               description={item.email}
             />
           </RestList.Item>
@@ -229,6 +256,7 @@ const RouteListPage = () => {
     />
   );
 };
+export default RouteListPage;
 ```
 
 ### 两种分页模式对比
@@ -250,7 +278,7 @@ const RouteListPage = () => {
 当 page_size 不是 grid.column 的倍数时，最后一行的卡片数量不一致，导致布局不对齐。组件会在控制台输出 error 提示：
 
 ```
-[RestList] restful="api/users/" page_size=3 必须是 grid.column=2 的倍数，当前不满足，会导致列表布局不对齐。
+[RestList] restful="/api/users/" page_size=3 必须是 grid.column=2 的倍数，当前不满足，会导致列表布局不对齐。
 ```
 
 确保 `defaultPageSize`（或 `baseParams.page_size`）是 `grid.column` 的倍数即可。

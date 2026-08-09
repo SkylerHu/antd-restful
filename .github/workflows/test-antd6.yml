@@ -7,11 +7,13 @@ on:
     paths-ignore:
       - "docs/**"
       - "demo/**"
+      - "public/**"
       - "README.md"
   pull_request:
     paths-ignore:
       - "docs/**"
       - "demo/**"
+      - "public/**"
       - "README.md"
   workflow_dispatch:
 

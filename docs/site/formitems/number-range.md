@@ -1,3 +1,7 @@
+---
+title: NumberRange
+---
+
 ## NumberRange
 基于 Ant Design InputNumber 组件的数字区间输入器，支持闭区间数值范围输入，适用于价格区间、年龄范围等场景。
 
@@ -44,131 +48,67 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { NumberRange } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { NumberRange } } = antdRestful;
 
-// 基本使用示例
-const BasicNumberRange = () => {
-  const [value, setValue] = useState();
-
-  return (
-    <NumberRange
-      value={value}
-      onChange={(value) => {
-        console.log('选择的范围:', value);
-        setValue(value);
-      }}
-      placeholder={['最小值', '最大值']}
-    />
-  );
-};
-
-// 价格区间示例
-const PriceRangeNumberRange = () => {
+export default () => {
+  const [basicRange, setBasicRange] = useState();
   const [priceRange, setPriceRange] = useState([100, 1000]);
-
-  return (
-    <NumberRange
-      value={priceRange}
-      onChange={setPriceRange}
-      antdInputProps={{
-        min: 0,
-        precision: 2,
-        formatter: (value) => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        parser: (value) => value.replace(/¥\s?|(,*)/g, ''),
-      }}
-      antdStartProps={{
-        placeholder: '最低价格'
-      }}
-      antdEndProps={{
-        placeholder: '最高价格'
-      }}
-    />
-  );
-};
-
-// 年龄范围示例
-const AgeRangeNumberRange = () => {
   const [ageRange, setAgeRange] = useState();
+  const [stepRange, setStepRange] = useState();
 
   return (
-    <NumberRange
-      value={ageRange}
-      onChange={setAgeRange}
-      antdInputProps={{
-        min: 0,
-        max: 120,
-        precision: 0,
-      }}
-      antdStartProps={{
-        placeholder: '最小年龄'
-      }}
-      antdEndProps={{
-        placeholder: '最大年龄'
-      }}
-    />
-  );
-};
+    <div style={{ display: 'grid', gap: 12 }}>
+      <div>场景1：基础数值范围</div>
+      <NumberRange
+        value={basicRange}
+        onChange={setBasicRange}
+        antdStartProps={{ placeholder: '最小值' }}
+        antdEndProps={{ placeholder: '最大值' }}
+      />
+      <div>基础范围：{JSON.stringify(basicRange ?? null)}</div>
 
-// 只读模式示例
-const ReadOnlyNumberRange = () => {
-  return (
-    <NumberRange
-      value={[18, 65]}
-      readOnly
-      labelTemplate="年龄范围：{0} - {1} 岁"
-    />
-  );
-};
+      <div>场景2：价格区间（货币格式）</div>
+      <NumberRange
+        value={priceRange}
+        onChange={setPriceRange}
+        antdInputProps={{
+          min: 0,
+          precision: 2,
+          formatter: (value) => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+          parser: (value) => value.replace(/¥\s?|(,*)/g, ''),
+        }}
+        antdStartProps={{ placeholder: '最低价格' }}
+        antdEndProps={{ placeholder: '最高价格' }}
+      />
+      <div>价格区间：{JSON.stringify(priceRange ?? null)}</div>
 
-// 自定义样式示例
-const CustomStyleNumberRange = () => {
-  const [value, setValue] = useState();
+      <div>场景3：年龄区间（整数限制）</div>
+      <NumberRange
+        value={ageRange}
+        onChange={setAgeRange}
+        antdInputProps={{ min: 0, max: 120, precision: 0 }}
+        antdStartProps={{ placeholder: '最小年龄' }}
+        antdEndProps={{ placeholder: '最大年龄' }}
+      />
+      <div>年龄区间：{JSON.stringify(ageRange ?? null)}</div>
 
-  return (
-    <NumberRange
-      value={value}
-      onChange={setValue}
-      style={{ width: '100%' }}
-      antdSpaceProps={{
-        style: { display: 'flex', alignItems: 'center' }
-      }}
-      antdInputProps={{
-        style: { flex: 1 }
-      }}
-    />
-  );
-};
+      <div>场景4：步长输入</div>
+      <NumberRange
+        value={stepRange}
+        onChange={setStepRange}
+        antdInputProps={{ step: 10, min: 0, max: 1000 }}
+        antdStartProps={{ placeholder: '起始值' }}
+        antdEndProps={{ placeholder: '结束值' }}
+      />
+      <div>步长区间：{JSON.stringify(stepRange ?? null)}</div>
 
-// 带步长的示例
-const StepNumberRange = () => {
-  const [value, setValue] = useState();
+      <div>场景5：只读模式</div>
+      <NumberRange value={[18, 65]} readOnly labelTemplate="年龄范围：{0} - {1} 岁" />
 
-  return (
-    <NumberRange
-      value={value}
-      onChange={setValue}
-      antdInputProps={{
-        step: 10,
-        min: 0,
-        max: 1000,
-      }}
-      antdStartProps={{
-        placeholder: '起始值'
-      }}
-      antdEndProps={{
-        placeholder: '结束值'
-      }}
-    />
-  );
-};
-
-// 禁用状态示例
-const DisabledNumberRange = () => {
-  return (
-    <NumberRange
-      value={[10, 100]}
-      disabled
-    />
+      <div>场景6：禁用状态</div>
+      <NumberRange value={[10, 100]} disabled />
+    </div>
   );
 };
 ```
@@ -177,10 +117,12 @@ const DisabledNumberRange = () => {
 
 #### 表单验证集成
 ```jsx
+import React from 'react';
 import { Form, Button } from 'antd';
-import { NumberRange } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { NumberRange } } = antdRestful;
 
-const FormNumberRange = () => {
+export default () => {
   const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
@@ -196,11 +138,11 @@ const FormNumberRange = () => {
           {
             validator: (_, value) => {
               if (!value || value.length !== 2) {
-                return Promise.reject('请输入完整的价格区间');
+                return Promise.reject(new Error('请输入完整的价格区间'));
               }
               const [min, max] = value;
               if (min >= max) {
-                return Promise.reject('最小值必须小于最大值');
+                return Promise.reject(new Error('最小值必须小于最大值'));
               }
               return Promise.resolve();
             },
@@ -226,7 +168,11 @@ const FormNumberRange = () => {
 
 #### 受控组件示例
 ```jsx
-const ControlledNumberRange = () => {
+import React, { useState } from 'react';
+import antdRestful from 'antd-restful';
+const { formitems: { NumberRange } } = antdRestful;
+
+export default () => {
   const [range, setRange] = useState([0, 100]);
 
   const handleRangeChange = (value) => {
@@ -246,6 +192,8 @@ const ControlledNumberRange = () => {
       <NumberRange
         value={range}
         onChange={handleRangeChange}
+        antdStartProps={{ placeholder: '最小值' }}
+        antdEndProps={{ placeholder: '最大值' }}
       />
       <p>当前范围: {range ? `${range[0]} ~ ${range[1]}` : '未设置'}</p>
     </div>

@@ -1,3 +1,7 @@
+---
+title: UploadView
+---
+
 ## UploadView
 基于 Ant Design Upload 组件扩展的文件上传器，支持拖拽上传、进度显示、文件预览等功能。
 
@@ -114,87 +118,81 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { UploadView } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { UploadView } } = antdRestful;
 
-// 基本使用示例
-const BasicUploadView = () => {
-  const [fileList, setFileList] = useState([]);
+export default () => {
+  // 演示地址：这里故意使用不可达接口，示例仅用于展示 UploadView JSX 用法。
+  const demoUploadUrl = 'https://example.invalid/api/upload';
+  const [basicFiles, setBasicFiles] = useState([]);
+  const [draggerFiles, setDraggerFiles] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
+  const [responseFiles, setResponseFiles] = useState([]);
 
-  return (
-    <UploadView
-      uploadUrl="/api/upload"
-      value={fileList}
-      onChange={setFileList}
-      maxCount={3}
-      maxSize={10 * 1024 * 1024} // 10MB
-    />
-  );
-};
-
-// 拖拽上传示例
-const DraggerUploadView = () => {
-  const [files, setFiles] = useState([]);
-
-  return (
-    <UploadView
-      uploadUrl="/api/upload"
-      value={files}
-      onChange={setFiles}
-      enableDragger={true}
-      maxCount={5}
-      listType="text"
-    />
-  );
-};
-
-// 图片上传示例
-const ImageUploadView = () => {
-  const [images, setImages] = useState([]);
-
-  return (
-    <UploadView
-      uploadUrl="/api/upload/image"
-      value={images}
-      onChange={setImages}
-      listType="picture-card"
-      maxCount={6}
-      baseParams={{ type: 'image' }}
-    />
-  );
-};
-
-// 保留服务端响应数据示例
-const KeepResponseUploadView = () => {
-  const [fileList, setFileList] = useState([]);
-
-  // 启用 preserveResponse 后，onChange 回调中的文件对象会包含 response 字段
-  // response 为服务端接口返回的完整数据，例如 { url: "...", thumbUrl: "...", id: 123, path: "/uploads/..." }
-  return (
-    <UploadView
-      uploadUrl="/api/upload"
-      value={fileList}
-      onChange={setFileList}
-      preserveResponse
-    />
-  );
-};
-
-// 只读模式示例
-const ReadOnlyUploadView = () => {
   const files = [
     { uid: '1', url: '/files/document.pdf', name: 'document.pdf' },
     { uid: '2', url: '/files/image.jpg', name: 'image.jpg' },
   ];
 
   return (
-    <UploadView
-      value={files}
-      readOnly
-      listType="picture"
-    />
+    <div style={{ display: 'grid', gap: 12 }}>
+      <div>场景说明：以下 uploadUrl 为不可达演示地址，仅用于展示 UploadView 用法。</div>
+
+      <div>场景1：基础上传（限制数量和大小）</div>
+      <UploadView
+        uploadUrl={demoUploadUrl}
+        value={basicFiles}
+        onChange={setBasicFiles}
+        maxCount={3}
+        maxSize={10 * 1024 * 1024}
+      />
+      <div>基础上传文件数：{Array.isArray(basicFiles) ? basicFiles.length : basicFiles ? 1 : 0}</div>
+
+      <div>场景2：拖拽上传</div>
+      <UploadView
+        uploadUrl={demoUploadUrl}
+        value={draggerFiles}
+        onChange={setDraggerFiles}
+        enableDragger
+        maxCount={5}
+        listType="text"
+      />
+      <div>拖拽上传文件数：{Array.isArray(draggerFiles) ? draggerFiles.length : draggerFiles ? 1 : 0}</div>
+
+      <div>场景3：图片卡片上传</div>
+      <UploadView
+        uploadUrl={demoUploadUrl}
+        value={imageFiles}
+        onChange={setImageFiles}
+        listType="picture-card"
+        maxCount={6}
+        baseParams={{ type: 'image' }}
+      />
+      <div>图片上传文件数：{Array.isArray(imageFiles) ? imageFiles.length : imageFiles ? 1 : 0}</div>
+
+      <div>场景4：保留服务端响应</div>
+      <UploadView
+        uploadUrl={demoUploadUrl}
+        value={responseFiles}
+        onChange={setResponseFiles}
+        preserveResponse
+      />
+      <div>保留响应示例值：{JSON.stringify(responseFiles ?? null)}</div>
+
+      <div>场景5：只读模式</div>
+      <UploadView value={files} readOnly listType="picture" />
+    </div>
   );
 };
 ```
+
+### 远程接口要求
+- **请求方式**：默认 `POST`，可通过 `method` 切换；请求体使用 `multipart/form-data`。
+- **文件字段名**：默认字段名为 `file`，可通过 `name` 自定义（如 `attachment`）。
+- **附加参数**：`baseParams` 会作为额外字段一并提交；可用于业务类型、目录、租户等标识。
+- **成功响应**：建议返回至少包含 `url`；若希望上传列表直接显示缩略图，建议同时返回 `thumbUrl`。
+- **响应透传**：开启 `preserveResponse` 后，组件会把服务端完整响应挂到文件对象 `response` 字段。
+- **失败语义**：接口返回 4xx/5xx 或网络错误会进入失败状态，组件展示“上传失败”并保留失败项。
 
 ### 注意事项
 1. **uploadUrl 必需**：必须提供有效的上传接口地址

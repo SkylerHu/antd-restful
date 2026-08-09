@@ -6,13 +6,9 @@
 [![GitHub License](https://img.shields.io/github/license/skylerhu/antd-restful)](https://github.com/skylerhu/antd-restful)
 [![CodeSandbox](https://img.shields.io/badge/CodeSandbox-Open%20in%20Sandbox-blue?style=flat&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/skylerhu/antd-restful)
 
-
 #### 面向 Ant Design 的配置化 RESTful 数据组件库
 
 该库基于 React + Ant Design，围绕 RESTful 接口封装了开箱即用的数据驱动组件体系，覆盖表格与列表展示、筛选表单联动、分页排序、路由参数双向同步、请求取消与错误提示等高频能力。通过声明式配置即可完成接口对接与交互编排，并提供字段解析、格式化、校验及多种表单子组件，兼顾 antd4/5/6 时间库与组件 API 差异，适合后台管理、运营系统与动态 JSON 配置场景。
-
-
-可查看版本变更记录[ChangeLog](./docs/CHANGELOG-1.x.md)
 
 当前版本兼容范围：
 
@@ -26,23 +22,32 @@
   <video src="https://github.com/user-attachments/assets/d22d1a71-271b-4ad7-bfe3-83ab48b83b27" autoplay loop muted playsinline width="100%"></video>
 </p>
 
+
+
 ## 一. 安装
 
-    npm install antd-restful
+```
+npm install antd-restful
+```
 
 还需要安装库自身的依赖：
 
-    npm install react react-dom antd @ant-design/icons axios
+```
+npm install react react-dom antd @ant-design/icons axios
+```
 
 可选依赖（按 `antd` 版本选择安装，建议安装其一）：
 
-    # antd v5/v6 推荐
-    npm install dayjs
+```
+# antd v5/v6 推荐
+npm install dayjs
 
-    # antd v4 推荐
-    npm install moment
+# antd v4 推荐
+npm install moment
+```
 
 使用示例：
+
 ```jsx
 // 推荐：ESM 默认导入
 import antdRestful from "antd-restful";
@@ -58,11 +63,13 @@ const {
 ```
 
 若在 CommonJS 环境（`require`）下使用：
+
 ```js
 const antdRestful = require("antd-restful").default;
 ```
 
 最常见的用法——直接在 `RestTable` 中配置 `restful`：
+
 ```jsx
 import antdRestful from "antd-restful";
 const { RestTable } = antdRestful;
@@ -83,6 +90,7 @@ function UserList() {
 需要注意的是：组件中远程请求，内部关于 `query` 序列化的处理，使用的是 `query-string` 库，设置了 `{ arrayFormat: "comma", skipNull: true, skipEmptyString: true }` 等参数。
 
 若是需要调整请求参数的序列化，或者 DRF 相关的默认配置字段，可以在入口中修改：
+
 ```jsx
 import antdRestful from "antd-restful";
 
@@ -103,49 +111,29 @@ setRestOptions({
 });
 ```
 
-### 2.1 通用组件
+常见组件说明（简要）：
 
-| 组件 | 说明 |
-|------|------|
-| [RestTable](./docs/reference/RestTable.md) | 基于 Table 的 RESTful 封装，支持远程数据加载、多种表头筛选类型（输入/选择/数字范围/日期范围）、排序、工具栏（高级搜索/自动刷新/下载/列设置）及展开行 |
-| [RestList](./docs/reference/RestList.md) | 基于 List 的 RESTful 封装，支持 loadMore（加载更多）与 pagination（分页器）两种模式、筛选表单及 Grid 卡片布局 |
-| [GridForm](./docs/reference/GridForm.md) | 响应式栅格表单，支持 12 种字段类型、高级搜索/单项模式切换、自定义按钮文案、智能表单项激活策略及占位字段自动补充 |
-| [LongText](./docs/reference/LongText.md) | 长文本截断展示，支持数组/对象/字符串等多种数据类型、模板格式化、弹窗查看完整内容及原始数据切换 |
-| [CopyView](./docs/reference/CopyView.md) | 一键复制组件，支持字符串、数组、对象等多种数据类型，支持文本截断显示、自定义分隔符及隐藏值模式 |
-| [RouteBaseTable](./docs/reference/RouteBaseTable.md) | RestTable/RestList 的路由联动封装，通过 viewType 切换表格/列表视图，将筛选参数同步到 URL 并自动推断参数解析类型 |
+- RestTable：远程表格组件，支持分页、排序、筛选、高级搜索、列设置等常见后台表格能力。
+- RestList：远程列表组件，适合卡片流或信息列表展示，支持分页与加载更多模式。
+- GridForm：栅格表单容器，负责统一布局与字段编排，可配合各类 formitems 使用。
+- RouteBaseTable：将筛选状态与 URL 参数联动，适合需要可分享链接和刷新保留状态的页面。
+- RestSelect / RestTreeSelect / RestCascader：远程选择类组件，覆盖下拉、树形和级联选择场景。
+- DateStrPicker / RangeStrPicker / NumberRange：常用范围输入组件，适合时间范围、日期范围与数值区间筛选。
+- UploadView：文件上传组件，支持拖拽、大小/数量限制、只读回显与上传结果处理。
+- CompareEdit：历史值对比编辑组件，用于展示变更前后差异并支持只读对比视图。
 
-### 2.2 表单项 (formitems)
+更多组件能力、表单项示例、工具函数与完整 API，请访问在线文档：
 
-| 组件 | 说明 |
-|------|------|
-| [RestSelect](./docs/reference/formitems/RestSelect.md) | 基于 Select 的远程选择器，支持搜索防抖、数据缓存、多选、复制功能、labelTemplate 模板及只读模式 |
-| [DateStrPicker](./docs/reference/formitems/DateStrPicker.md) | 字符串格式日期选择器，自动处理字符串与 dayjs 对象转换，支持 date/time/week/month/year 等 picker 类型 |
-| [RangeStrPicker](./docs/reference/formitems/RangeStrPicker.md) | 字符串格式日期范围选择器，支持逗号分隔字符串与数组两种输入格式，支持时间范围选择 |
-| [ExpansionView](./docs/reference/formitems/ExpansionView.md) | 文本扩展输入组件，支持 brace-expansion 语法扩展与远程验证，可配合 expansionValidator 在表单中使用 |
-| [NumberRange](./docs/reference/formitems/NumberRange.md) | 闭区间数字范围输入，支持数组/字符串/数字多种输入格式，支持自定义只读模板及起止输入框分别配置 |
-| [TableSelect](./docs/reference/formitems/TableSelect.md) | 基于 RestTable 的表格选择器，支持多行选择、折叠面板展示已选数据、取消选择及聚合统计 |
-| [UploadView](./docs/reference/formitems/UploadView.md) | 文件上传组件，支持拖拽上传、自定义请求配置、进度显示、预览/下载及大小/数量限制 |
-| [CompareEdit](./docs/reference/formitems/CompareEdit.md) | 历史值对比编辑器，可视化展示新增/删除/未修改的差异，支持基础类型与数组对比及复制功能 |
-| [RestAutoComplete](./docs/reference/formitems/RestAutoComplete.md) | 基于 AutoComplete 的远程搜索自动补全，支持防抖、最小搜索字符数、自定义 fieldNames 映射及 labelTemplate |
-| [RestCascader](./docs/reference/formitems/RestCascader.md) | 基于 Cascader 的远程级联选择，支持子节点懒加载、多选、复制路径及只读展示 |
-| [RestTreeSelect](./docs/reference/formitems/RestTreeSelect.md) | 基于 TreeSelect 的远程树形选择，支持子节点懒加载、多选、复制功能及自定义字段映射 |
-| [MentionView](./docs/reference/formitems/MentionView.md) | 基于 Mentions 的远程 @提及输入框，支持搜索防抖、自定义 fieldNames 映射及 inValue 提及信息提取 |
-
-### 2.3 工具与 Hooks
-
-| 模块 | 说明 |
-|------|------|
-| [config](./docs/reference/config.md) | 全局参数与接口配置模块，提供 `setRestOptions` 与 `setGlobalConfig` 覆盖默认配置 |
-| [apiTools](./docs/reference/requests.md) | HTTP 请求模块，提供 axios 实例、拦截器、useSafeRequest 等 |
-| [hooks](./docs/reference/hooks.md) | React Hooks 集合：localStorage/sessionStorage、定时器、防抖等 |
-| [typeTools](./docs/reference/typeTools.md) | 类型判断工具函数：isNull、isBlank 等 |
-
+- [https://skylerhu.github.io/antd-restful/](https://skylerhu.github.io/antd-restful/)
 
 ## 三、应用场景
+
 - [依赖restful接口的表格数据展示](./demo/views/TableDemo.jsx)
 - [依赖restful接口的列表数据展示](./demo/views/ListDemo.jsx)
 - [动态表单中的应用](./demo/views/JSONForm.jsx)
 - [支持路由参数同步的 RouteTable 表格应用](./demo/views/RouteTable.jsx)
 
 ## 四、常见问题 (FAQ)
-- [查看常见问题说明](./docs/FAQ.md)
+
+- [查看常见问题说明](./docs/site/faq/index.md)
+
