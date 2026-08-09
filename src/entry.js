@@ -17,4 +17,11 @@ export * as constants from "./common/constants";
 export * as sorter from "./common/sorter";
 export * as formatter from "./common/formatter";
 export * as hooks from "./hooks";
-export { default as globalConfig, setGlobalConfig, restOptions, setRestOptions } from "./config";
+export {
+  default as globalConfig,
+  setGlobalConfig,
+  restOptions,
+  setRestOptions,
+  textOptions,
+  setTextOptions,
+} from "./config";

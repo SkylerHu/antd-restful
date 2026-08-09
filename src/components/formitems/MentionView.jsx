@@ -6,7 +6,7 @@ import { READ_ONLY_CLASS } from "../../common/constants";
 import { isAntd6Plus } from "../../common/versionUtil";
 import { commonFormat, findDataByPath } from "../../common/parser";
 import { isBlank, isDict, isFunction } from "../../common/typeTools";
-import { restOptions } from "../../config";
+import { restOptions, textOptions } from "../../config";
 import { useDeepCompareMemoize } from "../../hooks";
 import { useSafeRequest } from "../../requests";
 
@@ -129,7 +129,7 @@ const MentionView = ({
       <Mentions
         style={style}
         className={className}
-        notFoundContent={loading ? <Spin /> : null}
+        notFoundContent={loading ? <Spin /> : textOptions.notFoundContent}
         {...antdMentionsProps}
         value={innerValue}
         onChange={onValueChange}
@@ -146,7 +146,7 @@ const MentionView = ({
     <Mentions
       style={style}
       className={className}
-      notFoundContent={loading ? <Spin /> : null}
+      notFoundContent={loading ? <Spin /> : textOptions.notFoundContent}
       {...antdMentionsProps}
       value={innerValue}
       onChange={onValueChange}

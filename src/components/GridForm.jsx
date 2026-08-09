@@ -6,6 +6,7 @@ import { handleFormValues } from "../common/parser";
 import { isEmpty, isFunction } from "../common/typeTools";
 import FormItems from "./formitems";
 import { useDeepCompareMemoize } from "../hooks";
+import { textOptions } from "../config";
 
 const GridForm = forwardRef(
   (props, ref) => {
@@ -17,8 +18,8 @@ const GridForm = forwardRef(
       onSubmit,
       onValuesChange,
       onReset,
-      submitTitle = "提交",
-      resetTitle = "重置",
+      submitTitle = textOptions.btnSubmitTitle,
+      resetTitle = textOptions.btnResetTitle,
       enablePlaceholder = false,
       initialValues,
       antdFormProps,
@@ -238,7 +239,7 @@ const GridForm = forwardRef(
               </Form.Item>
             )}
             <Button type="primary" htmlType="submit">
-              搜索
+              {submitTitle}
             </Button>
           </Space>
         ) : (

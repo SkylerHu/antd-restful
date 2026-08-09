@@ -68,6 +68,8 @@ const globalConfig = {
   queryStringify: (params, options) => queryString.stringify(params, options),
   // URL 查询参数的反序列化方法
   queryParse: (params, options) => queryString.parse(params, options),
+  // 组件文案配置
+  textOptions,
 };
 ```
 
@@ -90,7 +92,40 @@ setGlobalConfig({
 });
 ```
 
+## `textOptions`
+
+针对组件文案的全局配置。默认配置如下：
+
+```javascript
+export const textOptions = {
+  // 下拉、自动补全等无数据时的默认文案
+  notFoundContent: "暂无数据",
+  // 常用按钮文案（一级配置，btn前缀）
+  btnSubmitTitle: "查询",
+  btnResetTitle: "重置",
+  btnCancelTitle: "取消",
+};
+```
+
+### `setTextOptions(options)`
+
+动态更新文案默认值。更新后，组件在重新渲染或新挂载时会读取到最新文案。
+
+**使用示例：**
+
+```javascript
+import antdRestful from "antd-restful";
+const { setTextOptions } = antdRestful;
+
+setTextOptions({
+  notFoundContent: "No Data",
+  btnSubmitTitle: "Search",
+  btnResetTitle: "Reset",
+  btnCancelTitle: "Cancel",
+});
+```
+
 ---
 
-> **注意：** 建议将 `setRestOptions` 和 `setGlobalConfig` 放在您 React 应用的最顶层入口文件（如 `src/index.js` 或 `src/App.js` 的开头位置）统一执行一次，以确保对所有组件稳定生效。
+> **注意：** 建议将 `setRestOptions`、`setTextOptions` 和 `setGlobalConfig` 放在您 React 应用的最顶层入口文件（如 `src/index.js` 或 `src/App.js` 的开头位置）统一执行一次，以确保对所有组件稳定生效。
 

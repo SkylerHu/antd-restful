@@ -2,6 +2,30 @@
 
 本文件记录该项目的所有重要变更。
 
+## [1.0.2](https://github.com/skylerhu/antd-restful/compare/v1.0.1...v1.0.2) - 2026-08-09
+
+### Added
+
+- `src/config.js` 新增全局文案配置 `textOptions`，并提供 `setTextOptions` 用于统一设置组件按钮与空数据提示文案。
+
+### Changed
+
+- `GridForm` 的默认按钮文案改为读取 `textOptions`（`btnSubmitTitle`、`btnResetTitle`），单项模式提交按钮也改为复用该配置。
+- `MentionView`、`RestAutoComplete`、`RestTreeSelect` 的 `notFoundContent` 默认文案统一读取 `textOptions.notFoundContent`。
+- `RestTreeSelect` 在 `enableCopy=true` 场景下补充 `TreeSelect` 的默认宽度 `style={{ width: "100%" }}`，避免未传样式时控件宽度不稳定。
+- 包入口 `src/entry.js` 新增导出 `textOptions` 与 `setTextOptions`，便于业务侧统一配置。
+
+### Docs
+
+- 更新 `tools/config` 与 `components/grid-form` 文档，补充 `textOptions`、`setTextOptions` 以及按钮文案默认值来源说明。
+
+### Tests
+
+- `tests/config.test.jsx` 新增 `textOptions` 默认值与 `setTextOptions` 更新行为测试。
+- `tests/GridForm.test.jsx` 新增默认按钮文案读取 `textOptions`、单项模式按钮文案读取 `textOptions` 的测试用例。
+
+---
+
 ## [1.0.1](https://github.com/skylerhu/antd-restful/compare/v1.0.0...v1.0.1) - 2026-08-09
 
 ### Added

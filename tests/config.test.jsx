@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 
 import "@testing-library/jest-dom";
 
-import globalConfig, { restOptions, setGlobalConfig, setRestOptions } from "src/config";
+import globalConfig, { restOptions, setGlobalConfig, setRestOptions, textOptions, setTextOptions } from "src/config";
 
 // 创建一个用于测试默认参数的简单组件
 const TestComponent = ({
@@ -23,11 +23,13 @@ const TestComponent = ({
 describe("globalConfig 测试", () => {
   // 保存原始配置以便恢复
   const originalRestOptions = { ...restOptions };
+  const originalTextOptions = { ...textOptions };
   const originalGlobalConfig = { ...globalConfig };
 
   afterEach(() => {
     // 每次测试后恢复原始配置
     setRestOptions(originalRestOptions);
+    setTextOptions(originalTextOptions);
     setGlobalConfig(originalGlobalConfig);
   });
 
@@ -51,6 +53,25 @@ describe("globalConfig 测试", () => {
     // 验证未被更新的值仍然保留原有默认值
     expect(restOptions.fieldPageSize).toBe("page_size");
     expect(restOptions.searchKey).toBe("search");
+  });
+
+  it("默认 textOptions 配置正确", () => {
+    expect(textOptions.notFoundContent).toBe("暂无数据");
+    expect(textOptions.btnSubmitTitle).toBe("查询");
+    expect(textOptions.btnResetTitle).toBe("重置");
+    expect(textOptions.btnCancelTitle).toBe("取消");
+  });
+
+  it("调用 setTextOptions 可以局部更新 textOptions", () => {
+    setTextOptions({
+      notFoundContent: "No Data",
+      btnSubmitTitle: "Search",
+    });
+
+    expect(textOptions.notFoundContent).toBe("No Data");
+    expect(textOptions.btnSubmitTitle).toBe("Search");
+    // 未修改字段保持原值
+    expect(textOptions.btnResetTitle).toBe("重置");
   });
 
   it("调用 setGlobalConfig 可以局部更新 globalConfig", () => {

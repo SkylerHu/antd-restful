@@ -28,9 +28,23 @@ export const setRestOptions = (options = {}) => {
   Object.assign(restOptions, options);
 };
 
+export const textOptions = {
+  // 下拉、自动补全等无数据时的默认文案
+  notFoundContent: "暂无数据",
+  // 常用按钮文案（一级配置，btn前缀）
+  btnSubmitTitle: "查询",
+  btnResetTitle: "重置",
+  btnCancelTitle: "取消",
+};
+
+export const setTextOptions = (options = {}) => {
+  Object.assign(textOptions, options);
+};
+
 const globalConfig = {
   queryStringify: (params, options) => queryString.stringify(params, options),
   queryParse: (params, options) => queryString.parse(params, options),
+  textOptions,
 };
 
 export const setGlobalConfig = (config = {}) => {
