@@ -7,6 +7,9 @@ jest.mock("src/common/versionUtil", () => ({
   get antdMajorVersion() {
     return mockedAntdMajorVersion;
   },
+  get isAntd5Plus() {
+    return mockedAntdMajorVersion >= 5;
+  },
 }));
 
 import * as dateUtils from "src/common/dateUtils";

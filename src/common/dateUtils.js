@@ -2,7 +2,7 @@
  * 根据antd版本自动选择时间库并创建日期对象
  * antd4使用moment，antd5+使用dayjs
  */
-import { antdMajorVersion } from "./versionUtil";
+import { isAntd5Plus } from "./versionUtil";
 import { isString } from "./typeTools";
 
 let moment = null;
@@ -47,9 +47,7 @@ export function createDate(dateInput, format = null) {
     return null;
   }
 
-  const version = antdMajorVersion;
-
-  if (version >= 5) {
+  if (isAntd5Plus) {
     // antd5+ 使用dayjs
     const dayjsInstance = getDayjs();
     if (!dayjsInstance) {
