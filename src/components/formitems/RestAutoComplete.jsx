@@ -5,7 +5,7 @@ import { dequal as deepEqual } from "dequal";
 import { READ_ONLY_CLASS } from "../../common/constants";
 import { commonFormat, findDataByPath } from "../../common/parser";
 import { isArray, isBlank, isFunction } from "../../common/typeTools";
-import { restOptions } from "../../config";
+import { restOptions, textOptions } from "../../config";
 import { useDeepCompareMemoize } from "../../hooks";
 import { useSafeRequest } from "../../requests";
 
@@ -107,7 +107,7 @@ const RestAutoComplete = ({
   );
 
   const notFoundContent = useMemo(() => {
-    return loading ? <Spin size="small" /> : "暂无数据";
+    return loading ? <Spin size="small" /> : textOptions.notFoundContent;
   }, [loading]);
 
   if (readOnly) {

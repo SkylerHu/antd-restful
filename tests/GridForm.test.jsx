@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FieldType } from "src/common/constants";
+import { setTextOptions, textOptions } from "src/config";
 import GridForm from "src/components/GridForm";
 
 // Mock FormItems components
@@ -41,11 +42,15 @@ jest.mock("src/components/formitems", () => ({
 
 describe("GridForm", () => {
   let user;
+  const originalTextOptions = { ...textOptions };
 
   beforeEach(() => {
     user = userEvent.setup();
     // 抑制控制台错误（因为未处理的 Promise rejection 会输出错误）
     jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+  afterEach(() => {
+    setTextOptions(originalTextOptions);
   });
 
   describe("基本渲染测试", () => {
@@ -67,6 +72,29 @@ describe("GridForm", () => {
       const form = container.querySelector("form");
       expect(form).toHaveStyle("background-color: red");
       expect(form).toHaveClass("custom-form");
+    });
+
+    it("should use textOptions as default submit/reset titles", () => {
+      setTextOptions({
+        btnSubmitTitle: "Search",
+        btnResetTitle: "Clear",
+      });
+      const { container } = render(<GridForm fields={[{ key: "username", label: "用户名", type: FieldType.INPUT }]} />);
+      const submitButton = container.querySelector('button[type="submit"]');
+      const resetButton = container.querySelector('button[type="reset"]');
+      expect(submitButton).toHaveTextContent("Search");
+      expect(resetButton).toHaveTextContent("Clear");
+    });
+
+    it("should use textOptions submit title in simple mode", () => {
+      setTextOptions({
+        btnSubmitTitle: "Do Search",
+      });
+      const { container } = render(
+        <GridForm advancedSearch={false} fields={[{ key: "username", label: "用户名", type: FieldType.INPUT }]} />
+      );
+      const submitButton = container.querySelector('button[type="submit"]');
+      expect(submitButton).toHaveTextContent("Do Search");
     });
   });
 

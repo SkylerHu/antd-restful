@@ -27,6 +27,9 @@ export default defineConfig({
       { title: 'FAQ', link: '/faq' },
       { title: '更新日志', link: '/changelog' },
     ],
+    socialLinks: {
+      github: 'https://github.com/skylerhu/antd-restful',
+    },
     sidebar: {
       '/': [
         {

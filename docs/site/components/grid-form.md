@@ -36,8 +36,8 @@ order: 4
 | onReset | 表单重置回调 | `function(values)` | - | - | - |
 | onValuesChange | 表单值变化回调 | `function(changedValues, allValues)` | - | - | - |
 | **按钮配置** | | | | | |
-| submitTitle | 提交按钮文案（高级搜索模式） | `node` | `'提交'` | - | - |
-| resetTitle | 重置按钮文案（高级搜索模式） | `node` | `'重置'` | - | - |
+| submitTitle | 提交按钮文案 | `node` | `textOptions.btnSubmitTitle`（默认 `'查询'`） | - | - |
+| resetTitle | 重置按钮文案（仅高级搜索模式） | `node` | `textOptions.btnResetTitle`（默认 `'重置'`） | - | - |
 | **Ant Design 原生配置** | | | | | |
 | antdFormProps | Ant Design [Form](https://ant.design/components/form-cn) 组件的属性 | `object` | - | 透传 Form 属性，`form` / `initialValues` / `onFinish` 由内部管理 | - |
 | antdListProps | Ant Design [List](https://ant.design/components/list-cn) 组件的属性，用于高级搜索模式下的网格布局 | `object` | `{ grid: { gutter: 10, column: 3 } }` | 透传 List 属性，`dataSource` / `renderItem` 由内部管理 | - |
@@ -91,7 +91,7 @@ order: 4
 - 用户可通过下拉选择器切换字段
 - 智能激活策略：优先激活有值的字段，否则激活第一个字段
 - 适合简单搜索或移动端场景
-- 单项模式下固定显示“搜索”按钮，不显示重置按钮
+- 单项模式下显示提交按钮（默认读取 `textOptions.btnSubmitTitle`），不显示重置按钮
 
 ### 使用示例
 

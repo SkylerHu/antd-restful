@@ -7,7 +7,7 @@ import { findDataByPath, findLabelFromTreeData } from "../../common/parser";
 import { insertChildrenToTreeNode, patchTreeNodeInfo, refreshTreeKeyMap } from "../../common/treeUtils";
 import { isArray, isEmpty, isFunction } from "../../common/typeTools";
 import CopyView from "../CopyView";
-import { restOptions } from "../../config";
+import { restOptions, textOptions } from "../../config";
 import { useDeepCompareMemoize } from "../../hooks";
 import { useSafeRequest } from "../../requests";
 
@@ -146,7 +146,7 @@ const RestTreeSelect = ({
   }, [treeInnerData, fieldKey, fieldChildren]);
 
   const notFoundContent = useMemo(() => {
-    return loading ? <Spin size="small" /> : "暂无数据";
+    return loading ? <Spin size="small" /> : textOptions.notFoundContent;
   }, [loading]);
 
   let view = null;
@@ -177,7 +177,7 @@ const RestTreeSelect = ({
 
   view = (
     <TreeSelect
-      {...(!enableCopy ? { style, className } : {})}
+      {...(!enableCopy ? { style, className } : { style: { width: "100%" } })}
       notFoundContent={notFoundContent}
       allowClear
       showSearch
