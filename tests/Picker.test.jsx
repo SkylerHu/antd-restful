@@ -18,7 +18,6 @@ describe("RangeStrPicker", () => {
   it("should render", () => {
     const { container } = render(<RangeStrPicker value={"2025-05-25,2025-05-26"} />);
     expect(container).toMatchSnapshot();
-
     const { container: container2 } = render(<RangeStrPicker value={"2025_05_25"} format="YYYY_MM_DD" />);
     expect(container2).toMatchSnapshot();
   });

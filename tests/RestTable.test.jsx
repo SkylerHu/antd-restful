@@ -8,6 +8,7 @@ import RestTable, { getColumnSearchProps, renderRowLabel } from "src/components/
 
 // Mock useSafeRequest hook
 const mockMakeRequest = jest.fn();
+const mockRunInterval = jest.fn();
 jest.mock("src/requests", () => ({
   useSafeRequest: () => [mockMakeRequest],
 }));
@@ -26,7 +27,7 @@ Object.defineProperty(window, "localStorage", {
 // Mock hooks
 jest.mock("src/hooks", () => ({
   ...jest.requireActual("src/hooks"),
-  useInterval: () => [jest.fn()],
+  useInterval: () => [mockRunInterval],
   useLocalStorage: jest.fn((key, defaultValue) => {
     const [value, setValue] = jest.requireActual("react").useState(defaultValue);
     return [value, setValue];
@@ -39,6 +40,7 @@ describe("RestTable", () => {
   beforeEach(() => {
     user = userEvent.setup();
     mockMakeRequest.mockClear();
+    mockRunInterval.mockClear();
     localStorageMock.getItem.mockClear();
     localStorageMock.setItem.mockClear();
     // 抑制控制台错误
@@ -519,6 +521,24 @@ describe("RestTable", () => {
       const { container } = render(<RestTable restful="/api/users" columns={columns} tools={{ refreshInterval: 0 }} />);
 
       expect(container.querySelector('[aria-label="reload"]')).toBeInTheDocument();
+    });
+
+    it("should toggle refresh interval when clicking refresh button", async () => {
+      const columns = [{ title: "姓名", dataIndex: "name", key: "name" }];
+      mockMakeRequest.mockReturnValue({
+        get: jest.fn().mockResolvedValue({ data: { results: [], count: 0 } }),
+      });
+      const { container } = render(
+        <RestTable restful="/api/users" columns={columns} tools={{ refreshInterval: 3000 }} />
+      );
+
+      const refreshBtn = container.querySelector('[aria-label="reload"]');
+      expect(refreshBtn).toBeInTheDocument();
+      await user.click(refreshBtn);
+      await user.click(refreshBtn);
+
+      expect(mockRunInterval).toHaveBeenNthCalledWith(1, false);
+      expect(mockRunInterval).toHaveBeenNthCalledWith(2, true);
     });
 
     it("should render download dropdown", () => {
@@ -1372,6 +1392,25 @@ describe("RestTable", () => {
         <RestTable columns={columns} dataSource={dataSource} showHeaderTags={true} baseParams={{ name: "u" }} />
       );
       expect(container.firstChild).toMatchSnapshot();
+    });
+
+    it("should clear all header tags when clicking clear", async () => {
+      const columns = [
+        {
+          title: "姓名",
+          dataIndex: "name",
+          dropdownLocalConfig: {},
+        },
+      ];
+      const dataSource = [{ id: 1, name: "u" }];
+
+      render(<RestTable columns={columns} dataSource={dataSource} showHeaderTags={true} baseParams={{ name: "u" }} />);
+      expect(screen.getByText("清除")).toBeInTheDocument();
+
+      await user.click(screen.getByText("清除"));
+      await waitFor(() => {
+        expect(screen.queryByText("清除")).not.toBeInTheDocument();
+      });
     });
   });
 
