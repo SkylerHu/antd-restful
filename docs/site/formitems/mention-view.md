@@ -1,3 +1,7 @@
+---
+title: MentionView
+---
+
 ## MentionView
 基于 Ant Design Mentions 组件扩展的远程提及输入器，支持远程数据搜索、自定义字段映射等功能。
 
@@ -38,66 +42,45 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { MentionView } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { MentionView } } = antdRestful;
 
-// 基本使用示例
-const BasicMentionView = () => {
-  const [value, setValue] = useState('');
-
-  return (
-    <MentionView
-      restful="/api/users/search"
-      value={value}
-      onChange={setValue}
-      searchKey="keyword"
-      fieldNames={{ value: 'username', label: 'nickname' }}
-      placeholder="输入 @ 提及用户"
-    />
-  );
-};
-
-// 带模板的示例
-const TemplateMentionView = () => {
-  const [value, setValue] = useState('');
+export default () => {
+  const [basicValue, setBasicValue] = useState('');
+  const [inValueData, setInValueData] = useState({ value: '', mentions: [] });
 
   return (
-    <MentionView
-      restful="/api/employees"
-      value={value}
-      onChange={setValue}
-      fieldNames={{ value: 'emp_id', label: 'emp_name' }}
-      labelTemplate="{emp_name}({department})"
-      searchMinEnter={2}
-    />
-  );
-};
+    <div style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
+      <MentionView
+        style={{ width: 360 }}
+        restful="https://dummyjson.com/users/search"
+        parseRowsPath="users"
+        value={basicValue}
+        onChange={setBasicValue}
+        searchKey="q"
+        fieldNames={{ value: 'username', label: 'firstName' }}
+        labelTemplate="{firstName} (@{username})"
+        antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 提及用户' }}
+      />
+      <div>当前输入值：{basicValue || '-'}</div>
 
-// 包含提及信息的示例
-const InValueMentionView = () => {
-  const [value, setValue] = useState({ value: '', mentions: [] });
+      <MentionView
+        style={{ width: 360 }}
+        restful="https://dummyjson.com/users/search"
+        parseRowsPath="users"
+        value={inValueData.value}
+        onChange={setInValueData}
+        inValue
+        searchKey="q"
+        searchMinEnter={1}
+        fieldNames={{ value: 'username', label: 'firstName' }}
+        labelTemplate="{firstName} (@{username})"
+        antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 查看 mentions 结构' }}
+      />
+      <div>当前 mentions：{JSON.stringify(inValueData.mentions || [])}</div>
 
-  return (
-    <MentionView
-      restful="/api/users"
-      value={value.value}
-      onChange={(data) => {
-        console.log('输入内容:', data.value);
-        console.log('提及用户:', data.mentions);
-        setValue(data);
-      }}
-      inValue={true}
-      fieldNames={{ value: 'id', label: 'name' }}
-    />
-  );
-};
-
-// 只读模式示例
-const ReadOnlyMentionView = () => {
-  return (
-    <MentionView
-      value="Hello @张三, 请查看这个任务"
-      readOnly
-    />
+      <MentionView style={{ width: 360 }} value="Hello @张三, 请查看这个任务" readOnly />
+    </div>
   );
 };
 ```
@@ -106,8 +89,16 @@ const ReadOnlyMentionView = () => {
 ```javascript
 {
   value: 'username',  // 提及值字段名
-  label: 'nickname'   // 显示标签字段名
+  label: 'firstName'  // 显示标签字段名
 }
+```
+
+### 字段映射建议
+- `value` 建议映射为你希望真正插入到文本中的字段（常用 `username`）。
+- `label` 建议映射为下拉面板里更友好的显示字段（常用 `firstName` / `name`）。
+- 若接口返回 `id/title` 结构，可改为：
+```javascript
+fieldNames={{ value: 'title', label: 'title' }}
 ```
 
 ### 注意事项

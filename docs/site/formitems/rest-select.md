@@ -1,3 +1,7 @@
+---
+title: RestSelect
+---
+
 ## RestSelect
 基于 Ant Design Select 组件扩展的远程选择器，支持远程数据获取、搜索、多选等功能。
 
@@ -46,109 +50,48 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { RestSelect } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { RestSelect } } = antdRestful;
 
-// 基本远程数据示例
-const BasicRestSelect = () => {
-  const [value, setValue] = useState();
+const options = [
+  { value: 1, label: '选项1' },
+  { value: 2, label: '选项2' },
+  { value: 3, label: '选项3' },
+];
 
-  return (
-    <RestSelect
-      restful="/api/options"
-      value={value}
-      onChange={setValue}
-      searchKey="keyword"
-      searchMinEnter={2}
-      placeholder="请输入关键字搜索"
-    />
-  );
-};
-
-// 多选模式示例
-const MultipleRestSelect = () => {
-  const [value, setValue] = useState([]);
+export default () => {
+  const [singleValue, setSingleValue] = useState(1);
+  const [multipleValue, setMultipleValue] = useState([1, 2]);
 
   return (
-    <RestSelect
-      restful="/api/users"
-      mode="multiple"
-      value={value}
-      onChange={setValue}
-      fieldNames={{ value: 'id', label: 'name' }}
-      labelTemplate="{name}({email})"
-      enableCopy
-    />
-  );
-};
-
-// 静态数据示例
-const StaticRestSelect = () => {
-  const [value, setValue] = useState();
-
-  const options = [
-    { value: 1, label: "选项1" },
-    { value: 2, label: "选项2" },
-    { value: 3, label: "选项3" },
-  ];
-
-  return (
-    <RestSelect
-      options={options}
-      value={value}
-      onChange={setValue}
-    />
-  );
-};
-
-// 只读模式示例
-const ReadOnlyRestSelect = () => {
-  const options = [
-    { value: 1, label: "选项1" },
-    { value: 2, label: "选项2" },
-  ];
-
-  return (
-    <RestSelect
-      options={options}
-      value={[1, 2]}
-      mode="multiple"
-      readOnly
-      enableCopy
-    />
-  );
-};
-
-// 自定义字段名示例
-const CustomFieldRestSelect = () => {
-  const [value, setValue] = useState();
-
-  return (
-    <RestSelect
-      restful="/api/departments"
-      value={value}
-      onChange={setValue}
-      fieldNames={{ value: 'dept_id', label: 'dept_name' }}
-      baseParams={{ status: 'active' }}
-    />
-  );
-};
-
-// labelInValue 模式示例
-const LabelInValueRestSelect = () => {
-  const [value, setValue] = useState();
-
-  return (
-    <RestSelect
-      restful="/api/users"
-      value={value}
-      onChange={(value, option) => {
-        console.log('选中的值:', value);
-        console.log('选中的选项:', option);
-        setValue(value);
-      }}
-      labelInValue
-      searchMinEnter={1}
-    />
+    <div style={{ display: 'grid', gap: 12 }}>
+      <RestSelect
+        options={options}
+        value={singleValue}
+        onChange={setSingleValue}
+        antdSelectProps={{ style: { width: 320 } }}
+      />
+      <div>当前单选值：{String(singleValue ?? '')}</div>
+      <RestSelect
+        options={options}
+        mode="multiple"
+        value={multipleValue}
+        onChange={setMultipleValue}
+        enableCopy
+        style={{ width: 320 }}
+        antdSpaceProps={{ block: false }}
+        antdSelectProps={{ style: { width: 280 } }}
+      />
+      <div>当前多选值：{JSON.stringify(multipleValue)}</div>
+      <RestSelect
+        style={{ width: 320 }}
+        options={options}
+        mode="multiple"
+        value={[1, 2]}
+        readOnly
+        enableCopy
+      />
+    </div>
   );
 };
 ```
@@ -157,40 +100,59 @@ const LabelInValueRestSelect = () => {
 
 #### 自定义接口详情地址
 ```jsx
-const DetailTemplateRestSelect = () => {
+import React, { useState } from 'react';
+import antdRestful from 'antd-restful';
+const { formitems: { RestSelect } } = antdRestful;
+
+export default () => {
   const [value, setValue] = useState(123);
 
   return (
-    <RestSelect
-      restful="/api/options"
-      urlDetailTemplate="/api/options/batch?ids={0}"
-      value={value}
-      onChange={setValue}
-    />
+    <div style={{ display: 'grid', gap: 8 }}>
+      <RestSelect
+        style={{ width: 320 }}
+        restful="https://dummyjson.com/users"
+        parseRowsPath="users"
+        fieldPageSize="limit"
+        fieldNames={{ value: 'id', label: 'firstName' }}
+        urlDetailTemplate="https://dummyjson.com/users/{0}"
+        value={value}
+        onChange={setValue}
+      />
+      <div>当前选中值：{String(value ?? '')}</div>
+    </div>
   );
 };
 ```
 
 #### 复杂搜索条件
 ```jsx
-const ComplexSearchRestSelect = () => {
+import React, { useState } from 'react';
+import antdRestful from 'antd-restful';
+const { formitems: { RestSelect } } = antdRestful;
+
+export default () => {
   const [value, setValue] = useState();
 
   return (
-    <RestSelect
-      restful="/api/products"
-      value={value}
-      onChange={setValue}
-      baseParams={{
-        category: 'electronics',
-        status: 'active',
-        in_stock: true
-      }}
-      searchKey="name"
-      searchMinEnter={3}
-      fieldNames={{ value: 'product_id', label: 'product_name' }}
-      labelTemplate="{product_name} - ¥{price}"
-    />
+    <div style={{ display: 'grid', gap: 8 }}>
+      <RestSelect
+        style={{ width: 320 }}
+        restful="https://dummyjson.com/products"
+        parseRowsPath="products"
+        fieldPageSize="limit"
+        value={value}
+        onChange={setValue}
+        baseParams={{
+          limit: 10
+        }}
+        searchKey="q"
+        searchMinEnter={3}
+        fieldNames={{ value: 'id', label: 'title' }}
+        labelTemplate="{title} - ¥{price}"
+      />
+      <div>当前选中值：{String(value ?? '')}</div>
+    </div>
   );
 };
 ```

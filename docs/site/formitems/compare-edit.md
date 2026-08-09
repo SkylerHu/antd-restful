@@ -1,3 +1,7 @@
+---
+title: CompareEdit
+---
+
 ## CompareEdit
 一个支持历史值对比的编辑组件，可以显示当前值与历史值的差异，适用于需要对比修改前后数据的场景。
 
@@ -42,106 +46,65 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { CompareEdit, RestSelect } from 'antd-restful';
+import { Input } from 'antd';
+import antdRestful from 'antd-restful';
+const { formitems: { CompareEdit, RestSelect } } = antdRestful;
 
-// 基本使用示例
-const BasicCompareEdit = () => {
-  const [value, setValue] = useState(1);
-
+export default () => {
+  const [basicValue, setBasicValue] = useState(1);
+  const [arrayValue, setArrayValue] = useState([1, 3]);
+  const [textValue, setTextValue] = useState('new value');
+  const [nullableValue, setNullableValue] = useState(null);
   const options = [
-    { value: 1, label: "选项1" },
-    { value: 2, label: "选项2" },
-    { value: 3, label: "选项3" },
+    { value: 1, label: '选项1' },
+    { value: 2, label: '选项2' },
+    { value: 3, label: '选项3' },
+    { value: 4, label: '选项4' },
   ];
 
   return (
-    <CompareEdit
-      value={value}
-      historyValue={2}
-      fieldValue="value"
-      options={options}
-      onChange={setValue}
-    >
-      <RestSelect options={options} />
-    </CompareEdit>
-  );
-};
+    <div style={{ display: 'grid', gap: 12 }}>
+      <div>场景1：基础值对比（单选）</div>
+      <CompareEdit
+        value={basicValue}
+        historyValue={2}
+        fieldValue="value"
+        options={options}
+        onChange={setBasicValue}
+      >
+        <RestSelect style={{ width: 320 }} options={options} />
+      </CompareEdit>
+      <div>基础值：{JSON.stringify(basicValue)}</div>
 
-// 只读模式示例
-const ReadOnlyCompareEdit = () => {
-  const options = [
-    { value: 1, label: "选项1" },
-    { value: 2, label: "选项2" },
-    { value: 3, label: "选项3" },
-  ];
+      <div>场景2：数组值对比（多选）</div>
+      <CompareEdit
+        value={arrayValue}
+        historyValue={[1, 2]}
+        fieldValue="value"
+        options={options}
+        onChange={setArrayValue}
+      >
+        <RestSelect style={{ width: 320 }} mode="multiple" options={options} />
+      </CompareEdit>
+      <div>数组值：{JSON.stringify(arrayValue)}</div>
 
-  return (
-    <CompareEdit
-      value={[1, 3]}
-      historyValue={[1, 2]}
-      fieldValue="value"
-      options={options}
-      readOnly
-      enableCopy
-    >
-      <RestSelect mode="multiple" options={options} />
-    </CompareEdit>
-  );
-};
+      <div>场景3：文本对比 + 复制</div>
+      <CompareEdit value={textValue} historyValue="old value" enableCopy onChange={setTextValue}>
+        <Input style={{ width: 320 }} placeholder="输入文本并查看对比" />
+      </CompareEdit>
+      <div>文本值：{textValue || '-'}</div>
 
-// 启用复制功能示例
-const CopyEnabledCompareEdit = () => {
-  const [value, setValue] = useState("new value");
+      <div>场景4：空值标签展示</div>
+      <CompareEdit value={nullableValue} historyValue="some value" emptyLabel="无数据" onChange={setNullableValue}>
+        <Input style={{ width: 320 }} placeholder="清空可查看空值标签效果" />
+      </CompareEdit>
+      <div>空值示例：{nullableValue || '(空)'}</div>
 
-  return (
-    <CompareEdit
-      value={value}
-      historyValue="old value"
-      enableCopy
-      onChange={setValue}
-    >
-      <Input />
-    </CompareEdit>
-  );
-};
-
-// 自定义空值标签示例
-const CustomEmptyLabel = () => {
-  const [value, setValue] = useState(null);
-
-  return (
-    <CompareEdit
-      value={value}
-      historyValue="some value"
-      emptyLabel="无数据"
-      onChange={setValue}
-    >
-      <Input />
-    </CompareEdit>
-  );
-};
-
-// 数组值对比示例
-const ArrayCompareEdit = () => {
-  const [value, setValue] = useState([1, 3]);
-
-  const options = [
-    { value: 1, label: "选项1" },
-    { value: 2, label: "选项2" },
-    { value: 3, label: "选项3" },
-    { value: 4, label: "选项4" },
-  ];
-
-  return (
-    <CompareEdit
-      value={value}
-      historyValue={[1, 2]}
-      fieldValue="value"
-      options={options}
-      onChange={setValue}
-    >
-      <RestSelect mode="multiple" options={options} />
-    </CompareEdit>
+      <div>场景5：只读模式（含复制）</div>
+      <CompareEdit value={[1, 3]} historyValue={[1, 2]} fieldValue="value" options={options} readOnly enableCopy>
+        <RestSelect style={{ width: 320 }} mode="multiple" options={options} />
+      </CompareEdit>
+    </div>
   );
 };
 ```

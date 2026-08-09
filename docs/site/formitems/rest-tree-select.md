@@ -1,3 +1,7 @@
+---
+title: RestTreeSelect
+---
+
 ## RestTreeSelect
 基于 Ant Design TreeSelect 组件扩展的远程树形选择器，支持远程数据懒加载、树形结构展示、复制等功能。
 
@@ -55,59 +59,65 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { RestTreeSelect } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { RestTreeSelect } } = antdRestful;
 
-// 基本使用示例
-const BasicRestTreeSelect = () => {
-  const [value, setValue] = useState();
+const treeData = [
+  {
+    id: 1,
+    firstName: 'Emily',
+    children: [
+      { id: 11, firstName: 'Emily-Child-A' },
+      { id: 12, firstName: 'Emily-Child-B' },
+    ],
+  },
+  {
+    id: 2,
+    firstName: 'Michael',
+    children: [
+      { id: 21, firstName: 'Michael-Child-A' },
+    ],
+  },
+];
+
+export default () => {
+  const [singleValue, setSingleValue] = useState();
+  const [multipleValue, setMultipleValue] = useState([]);
 
   return (
-    <RestTreeSelect
-      restful="/api/tree-data"
-      value={value}
-      onChange={(value, nodes) => {
-        console.log('选中值:', value);
-        console.log('选中节点:', nodes);
-        setValue(value);
-      }}
-      fieldNames={{ value: 'id', label: 'name' }}
-      fieldParent="parent_id"
-    />
-  );
-};
+    <div style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
+      <div style={{ width: 320 }}>
+        <RestTreeSelect
+          style={{ width: 320 }}
+          treeData={treeData}
+          fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
+          value={singleValue}
+          onChange={setSingleValue}
+          antdTreeSelectProps={{ placeholder: '请选择单个节点', style: { width: '100%' } }}
+        />
+      </div>
+      <div>当前单选值：{String(singleValue ?? '')}</div>
 
-// 多选模式示例
-const MultipleRestTreeSelect = () => {
-  const [value, setValue] = useState([]);
+      <RestTreeSelect
+        style={{ width: 320 }}
+        treeData={treeData}
+        fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
+        value={multipleValue}
+        onChange={setMultipleValue}
+        antdTreeSelectProps={{ multiple: true, treeCheckable: true, placeholder: '请选择多个节点' }}
+        enableCopy
+      />
+      <div>当前多选值：{JSON.stringify(multipleValue || [])}</div>
 
-  return (
-    <RestTreeSelect
-      restful="/api/departments"
-      value={value}
-      onChange={setValue}
-      antdTreeSelectProps={{
-        multiple: true,
-        treeCheckable: true,
-        placeholder: "请选择部门"
-      }}
-      enableCopy
-    />
-  );
-};
-
-// 只读模式示例
-const ReadOnlyRestTreeSelect = () => {
-  return (
-    <RestTreeSelect
-      value={[1, 2]}
-      treeData={[
-        { id: 1, name: '技术部', children: [] },
-        { id: 2, name: '产品部', children: [] },
-      ]}
-      fieldNames={{ value: 'id', label: 'name' }}
-      readOnly
-      enableCopy
-    />
+      <RestTreeSelect
+        style={{ width: 320 }}
+        value={[11, 21]}
+        treeData={treeData}
+        fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
+        readOnly
+        enableCopy
+      />
+    </div>
   );
 };
 ```
@@ -118,36 +128,26 @@ RestTreeSelect 期望的 API 响应数据格式如下：
 
 ```json
 {
-  "results": [
+  "users": [
     {
       "id": 1,
-      "key": "anhui",
-      "name": "安徽",
-      "belong": null,
-      "isLeaf": false
+      "firstName": "Emily",
+      "lastName": "Johnson"
     },
     {
       "id": 2,
-      "key": "beijing",
-      "name": "北京",
-      "belong": null,
-      "isLeaf": false
-    },
-    {
-      "id": 8,
-      "key": "hefei",
-      "name": "合肥",
-      "belong": "anhui",
-      "isLeaf": true
+      "firstName": "Michael",
+      "lastName": "Williams"
     }
-  ]
+  ],
+  "total": 208
 }
 ```
 
 其中：
-- `belong` 字段表示父级节点的 key 值，根节点的 `belong` 为 `null`
-- `isLeaf` 字段表示是否为叶子节点
-- 组件会根据 `fieldParent` 配置自动构建树状结构
+- 示例使用 `parseRowsPath="users"` 解析列表数据
+- 通过 `fieldNames` 将 `id` / `firstName` 映射到 value / label
+- 若需要严格树形结构，建议使用具备 parent/children 关系的数据源
 
 ### 注意事项
 1. **字段映射**：通过 `fieldNames` 配置数据字段映射

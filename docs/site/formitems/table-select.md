@@ -1,3 +1,7 @@
+---
+title: TableSelect
+---
+
 ## TableSelect
 基于 RestTable 组件的表格选择器，支持多行选择、展示已选数据、取消选择等功能，适用于需要在表格中进行多选操作的场景。
 
@@ -45,227 +49,38 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { TableSelect } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { TableSelect } } = antdRestful;
 
-// 基本使用示例
-const BasicTableSelect = () => {
+const columns = [
+  { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
+  { title: '姓名', dataIndex: 'firstName', key: 'firstName' },
+  { title: '邮箱', dataIndex: 'email', key: 'email' },
+];
+
+export default () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: '部门',
-      dataIndex: 'department',
-      key: 'department',
-    },
-  ];
-
   return (
-    <TableSelect
-      restful="/api/users"
-      value={selectedRows}
-      onChange={setSelectedRows}
-      columns={columns}
-      rowKey="id"
-      expandSelected={true}
-    />
-  );
-};
-
-// 自定义行键示例
-const CustomRowKeyTableSelect = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  const columns = [
-    {
-      title: '员工号',
-      dataIndex: 'employee_id',
-      key: 'employee_id',
-    },
-    {
-      title: '员工姓名',
-      dataIndex: 'employee_name',
-      key: 'employee_name',
-    },
-  ];
-
-  return (
-    <TableSelect
-      restful="/api/employees"
-      value={selectedRows}
-      onChange={setSelectedRows}
-      columns={columns}
-      rowKey="employee_id"
-    />
-  );
-};
-
-// 带搜索功能示例
-const SearchableTableSelect = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  const columns = [
-    {
-      title: '产品名称',
-      dataIndex: 'product_name',
-      key: 'product_name',
-    },
-    {
-      title: '价格',
-      dataIndex: 'price',
-      key: 'price',
-      render: (price) => `¥${price}`,
-    },
-    {
-      title: '库存',
-      dataIndex: 'stock',
-      key: 'stock',
-    },
-  ];
-
-  return (
-    <TableSelect
-      restful="/api/products"
-      value={selectedRows}
-      onChange={setSelectedRows}
-      columns={columns}
-      rowKey="product_id"
-      searchKey="keyword"
-      enableQuickSearch
-      baseParams={{ status: 'active' }}
-    />
-  );
-};
-
-// 只读模式示例
-const ReadOnlyTableSelect = () => {
-  const selectedData = [
-    { id: 1, name: '张三', email: 'zhangsan@example.com' },
-    { id: 2, name: '李四', email: 'lisi@example.com' },
-  ];
-
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email',
-    },
-  ];
-
-  return (
-    <TableSelect
-      value={selectedData}
-      columns={columns}
-      rowKey="id"
-      readOnly
-    />
-  );
-};
-
-// 禁用状态示例
-const DisabledTableSelect = () => {
-  const [selectedRows, setSelectedRows] = useState([
-    { id: 1, name: '张三', email: 'zhangsan@example.com' },
-  ]);
-
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email',
-    },
-  ];
-
-  return (
-    <TableSelect
-      restful="/api/users"
-      value={selectedRows}
-      onChange={setSelectedRows}
-      columns={columns}
-      rowKey="id"
-      disabled
-    />
-  );
-};
-
-// 自定义表格属性示例
-const CustomTablePropsTableSelect = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  const columns = [
-    {
-      title: '订单号',
-      dataIndex: 'order_id',
-      key: 'order_id',
-    },
-    {
-      title: '客户名称',
-      dataIndex: 'customer_name',
-      key: 'customer_name',
-    },
-    {
-      title: '订单金额',
-      dataIndex: 'amount',
-      key: 'amount',
-      render: (amount) => `¥${amount.toFixed(2)}`,
-    },
-  ];
-
-  return (
-    <TableSelect
-      restful="/api/orders"
-      value={selectedRows}
-      onChange={setSelectedRows}
-      columns={columns}
-      rowKey="order_id"
-      antdTableProps={{
-        size: 'small',
-        scroll: { x: 800 },
-        pagination: {
-          pageSize: 10,
-          showSizeChanger: true,
-          showQuickJumper: true,
-        },
-        rowSelection: {
-          type: 'checkbox',
-          columnWidth: 60,
-        },
-      }}
-    />
+    <div style={{ display: 'grid', gap: 12 }}>
+      <TableSelect
+        restful="https://dummyjson.com/users"
+        parseRowsPath="users"
+        parseTotalPath="total"
+        fieldPage="skip"
+        fieldPageSize="limit"
+        baseParams={{ limit: 8 }}
+        value={selectedRows}
+        onChange={setSelectedRows}
+        columns={columns}
+        rowKey="id"
+        antdTableProps={{ size: 'small' }}
+      />
+      <div>当前选中行数：{selectedRows.length}</div>
+      <pre style={{ maxHeight: 160, overflow: 'auto', margin: 0 }}>
+        {JSON.stringify(selectedRows, null, 2)}
+      </pre>
+    </div>
   );
 };
 ```
@@ -274,10 +89,12 @@ const CustomTablePropsTableSelect = () => {
 
 #### 表单集成示例
 ```jsx
+import React from 'react';
 import { Form, Button } from 'antd';
-import { TableSelect } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { TableSelect } } = antdRestful;
 
-const FormTableSelect = () => {
+export default () => {
   const [form] = Form.useForm();
 
   const columns = [
@@ -316,7 +133,12 @@ const FormTableSelect = () => {
         ]}
       >
         <TableSelect
-          restful="/api/users"
+          restful="https://dummyjson.com/users"
+          parseRowsPath="users"
+          parseTotalPath="total"
+          fieldPage="skip"
+          fieldPageSize="limit"
+          baseParams={{ limit: 10 }}
           columns={columns}
           rowKey="id"
         />
@@ -333,14 +155,18 @@ const FormTableSelect = () => {
 
 #### 自定义折叠面板示例
 ```jsx
-const CustomCollapseTableSelect = () => {
+import React, { useState } from 'react';
+import antdRestful from 'antd-restful';
+const { formitems: { TableSelect } } = antdRestful;
+
+export default () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const columns = [
     {
       title: '商品名称',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
       title: '价格',
@@ -350,26 +176,38 @@ const CustomCollapseTableSelect = () => {
   ];
 
   return (
-    <TableSelect
-      restful="/api/products"
-      value={selectedRows}
-      onChange={setSelectedRows}
-      columns={columns}
-      rowKey="id"
-      expandSelected={false}
-      antdCollapseProps={{
-        size: 'small',
-        ghost: true,
-        collapsible: 'header',
-      }}
-    />
+    <div style={{ display: 'grid', gap: 8 }}>
+      <TableSelect
+        restful="https://dummyjson.com/products"
+        parseRowsPath="products"
+        parseTotalPath="total"
+        fieldPage="skip"
+        fieldPageSize="limit"
+        baseParams={{ limit: 10 }}
+        value={selectedRows}
+        onChange={setSelectedRows}
+        columns={columns}
+        rowKey="id"
+        expandSelected={false}
+        antdCollapseProps={{
+          size: 'small',
+          ghost: true,
+          collapsible: 'header',
+        }}
+      />
+      <div>当前选中行数：{selectedRows.length}</div>
+    </div>
   );
 };
 ```
 
 #### 带分页的大数据表格示例
 ```jsx
-const PaginatedTableSelect = () => {
+import React, { useState } from 'react';
+import antdRestful from 'antd-restful';
+const { formitems: { TableSelect } } = antdRestful;
+
+export default () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const columns = [
@@ -387,32 +225,40 @@ const PaginatedTableSelect = () => {
     },
     {
       title: '状态',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'tags',
+      key: 'tags',
       width: 100,
     },
   ];
 
   return (
-    <TableSelect
-      restful="/api/articles"
-      value={selectedRows}
-      onChange={setSelectedRows}
-      columns={columns}
-      rowKey="id"
-      antdTableProps={{
-        scroll: { y: 400 },
-        pagination: {
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: (total, range) =>
-            `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
-        },
-        rowSelection: {
-          preserveSelectedRowKeys: true,
-        },
-      }}
-    />
+    <div style={{ display: 'grid', gap: 8 }}>
+      <TableSelect
+        restful="https://dummyjson.com/posts"
+        parseRowsPath="posts"
+        parseTotalPath="total"
+        fieldPage="skip"
+        fieldPageSize="limit"
+        baseParams={{ limit: 10 }}
+        value={selectedRows}
+        onChange={setSelectedRows}
+        columns={columns}
+        rowKey="id"
+        antdTableProps={{
+          scroll: { y: 400 },
+          pagination: {
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) =>
+              `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
+          },
+          rowSelection: {
+            preserveSelectedRowKeys: true,
+          },
+        }}
+      />
+      <div>当前选中行数：{selectedRows.length}</div>
+    </div>
   );
 };
 ```
@@ -437,3 +283,9 @@ const PaginatedTableSelect = () => {
 5. **选择状态保持**：通过 `preserveSelectedRowKeys` 确保翻页时选择状态不丢失
 6. **取消选择**：组件会自动在已选数据表格中添加取消选择列
 7. **Ant Design 兼容**：自动适配 Ant Design v4 和 v5 的 Collapse 组件 API 差异
+
+### 远程接口要求
+- 列表接口需支持分页字段映射（如 `fieldPage` / `fieldPageSize`），并返回总数（`parseTotalPath`）。
+- 列表数据路径需与 `parseRowsPath` 对齐（如 `users` / `products` / `posts`）。
+- 每行数据需包含稳定唯一键（与 `rowKey` 对应，例如 `id`）。
+- 如果启用快速搜索，后端需支持 `searchKey` 对应的模糊查询参数。

@@ -12,6 +12,8 @@ node_modules/
 build/
 dist/
 package-lock.json
+docs-dist/
+.dumi/
 
 # misc
 .DS_Store

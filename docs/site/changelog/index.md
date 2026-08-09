@@ -2,11 +2,6 @@
 
 本文件记录该项目的所有重要变更。
 
-格式遵循 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)，
-版本号遵循 [Semantic Versioning](https://semver.org/spec/v2.0.0.html)。
-
-## [Unreleased](https://github.com/skylerhu/antd-restful/compare/v1.0.1...HEAD)
-
 ## [1.0.1](https://github.com/skylerhu/antd-restful/compare/v1.0.0...v1.0.1) - 2026-08-09
 
 ### Added
@@ -32,7 +27,7 @@
 - `setupTests.js` 增加 `ResizeObserver`、`MessageChannel`、`scrollIntoView` 等运行时补丁，并在非 antd5 场景跳过 snapshot 断言，降低跨版本测试噪声。
 - 多个测试文件更新 `antd` mock 版本注入逻辑，确保在 antd5/antd6 下分支行为可重复验证。
 
-
+---
 
 ## [1.0.0](https://github.com/skylerhu/antd-restful/releases/tag/v1.0.0) - 2026-08-08
 
@@ -53,3 +48,7 @@
 - `README.md` 的 changelog 链接切换到 `docs/CHANGELOG-1.x.md`，并补充 ESM/CommonJS 使用说明、可选日期库说明与 FAQ 入口。
 - `docs/CONTRIBUTING.md` 增加 `yalc` 本地联调流程与 father 发版说明。
 
+
+---
+
+查看 0.x 历史日志：[0.x 版本日志](./v0-x.md)

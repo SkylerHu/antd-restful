@@ -1,3 +1,7 @@
+---
+title: GridForm
+---
+
 ## GridForm
 基于 Ant Design 的网格布局表单组件，支持多种字段类型和响应式布局。
 
@@ -93,7 +97,8 @@
 
 ```jsx
 import React from 'react';
-import { GridForm, FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { GridForm, constants: { FieldType } } = antdRestful;
 
 const BasicForm = () => {
   const fields = [
@@ -159,13 +164,15 @@ const BasicForm = () => {
     />
   );
 };
+export default BasicForm;
 ```
 
 **单项模式使用：**
 
 ```jsx
 import React from 'react';
-import { GridForm, FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { GridForm, constants: { FieldType } } = antdRestful;
 
 const SingleModeForm = () => {
   const fields = [
@@ -182,8 +189,11 @@ const SingleModeForm = () => {
       label: '分类',
       type: FieldType.SELECT,
       antdFieldProps: {
-        restful: '/api/categories/',
-        fieldNames: { label: 'name', value: 'id' },
+        restful: 'https://dummyjson.com/users',
+        parseRowsPath: 'users',
+        fieldPageSize: 'limit',
+        baseParams: { limit: 10 },
+        fieldNames: { label: 'firstName', value: 'id' },
         placeholder: '请选择分类'
       }
     },
@@ -215,13 +225,15 @@ const SingleModeForm = () => {
     />
   );
 };
+export default SingleModeForm;
 ```
 
 **高级用法 - 远程数据和自定义布局：**
 
 ```jsx
 import React, { useRef } from 'react';
-import { GridForm, FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { GridForm, constants: { FieldType } } = antdRestful;
 import { Button, message } from 'antd';
 
 const AdvancedForm = () => {
@@ -236,8 +248,11 @@ const AdvancedForm = () => {
         rules: [{ required: true, message: '请选择商品分类' }]
       },
       antdFieldProps: {
-        restful: '/api/categories/',
-        fieldNames: { label: 'name', value: 'id' },
+        restful: 'https://dummyjson.com/users',
+        parseRowsPath: 'users',
+        fieldPageSize: 'limit',
+        baseParams: { limit: 10 },
+        fieldNames: { label: 'firstName', value: 'id' },
         placeholder: '请选择分类'
       }
     },
@@ -280,10 +295,12 @@ const AdvancedForm = () => {
       label: '销售地区',
       type: FieldType.CASCADER,
       antdFieldProps: {
-        restful: '/api/locations/',
-        fieldParent: 'parent_id',
+        restful: 'https://dummyjson.com/users',
+        parseRowsPath: 'users',
+        fieldPageSize: 'limit',
+        baseParams: { limit: 10 },
         fieldNames: {
-          label: 'name',
+          label: 'firstName',
           value: 'id',
           children: 'children'
         }
@@ -344,13 +361,15 @@ const AdvancedForm = () => {
     </div>
   );
 };
+export default AdvancedForm;
 ```
 
 **自定义渲染：**
 
 ```jsx
 import React from 'react';
-import { GridForm } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { GridForm } = antdRestful;
 import { Form, Input, Button } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 
@@ -398,13 +417,15 @@ const CustomRenderForm = () => {
     />
   );
 };
+export default CustomRenderForm;
 ```
 
 **表单联动：**
 
 ```jsx
 import React, { useState } from 'react';
-import { GridForm, FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { GridForm, constants: { FieldType } } = antdRestful;
 
 const LinkedForm = () => {
   const [formValues, setFormValues] = useState({});
@@ -466,13 +487,15 @@ const LinkedForm = () => {
     />
   );
 };
+export default LinkedForm;
 ```
 
 **单项模式下的特殊配置：**
 
 ```jsx
 import React from 'react';
-import { GridForm, FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { GridForm, constants: { FieldType } } = antdRestful;
 
 const SingleModeAdvanced = () => {
   const fields = [
@@ -494,8 +517,11 @@ const SingleModeAdvanced = () => {
       label: '分类',
       type: FieldType.SELECT,
       antdFieldProps: {
-        restful: '/api/categories/',
-        fieldNames: { label: 'name', value: 'id' }
+        restful: 'https://dummyjson.com/users',
+        parseRowsPath: 'users',
+        fieldPageSize: 'limit',
+        baseParams: { limit: 10 },
+        fieldNames: { label: 'firstName', value: 'id' }
       }
     }
   ];
@@ -508,6 +534,7 @@ const SingleModeAdvanced = () => {
     />
   );
 };
+export default SingleModeAdvanced;
 ```
 
 ### 最佳实践

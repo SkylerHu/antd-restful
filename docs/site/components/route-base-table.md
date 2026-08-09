@@ -1,3 +1,7 @@
+---
+title: RouteBaseTable
+---
+
 ## RouteBaseTable
 基于 RestTable 组件实现的路由联动表格，支持将表格的筛选参数同步到 URL 查询字符串中，实现页面刷新后保持筛选状态。
 
@@ -40,11 +44,13 @@
 
 ### 使用示例
 
-```jsx
+```jsx | pure
 import React, { forwardRef } from 'react';
 import PropTypes from "prop-types";
 import { useLocation, useNavigate } from 'react-router';
-import { RouteBaseTable, constants } from 'antd-restful';
+import antdRestful from 'antd-restful';
+
+const { RouteBaseTable, constants } = antdRestful;
 
 const { ViewType } = constants;
 
@@ -74,7 +80,11 @@ RouteTable.propTypes = {
 const UserList = () => {
   return (
     <RouteTable
-      restful="api/users/"
+      restful="https://dummyjson.com/users"
+      parseRowsPath="users"
+      parseTotalPath="total"
+      fieldPage="skip"
+      fieldPageSize="limit"
       columns={[
         {
           title: "ID",
@@ -87,14 +97,13 @@ const UserList = () => {
           sorter: true,
         },
         {
-          title: "昵称",
-          dataIndex: "nickname",
+          title: "姓名",
+          dataIndex: "firstName",
           sorter: true,
         },
       ]}
       baseParams={{
-        page_size: 10,
-        is_active: true,
+        limit: 10,
       }}
       tools={{
         advancedSearch: true,
@@ -107,15 +116,20 @@ const UserList = () => {
 
 #### 同时使用 filterFormProps?.fields 和 parseOptions.types
 
-```jsx
+```jsx | pure
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { constants: { FieldType } } = antdRestful;
 
 const UserListWithRangeFields = () => {
 
   const restProps = {
-    restful: "api/users/",
+    restful: "https://dummyjson.com/users",
+    parseRowsPath: "users",
+    parseTotalPath: "total",
+    fieldPage: "skip",
+    fieldPageSize: "limit",
     columns={[
       {
         title: "年龄",

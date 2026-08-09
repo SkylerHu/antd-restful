@@ -1,3 +1,7 @@
+---
+title: DateStrPicker
+---
+
 ## DateStrPicker
 基于 Ant Design DatePicker/TimePicker 的字符串日期选择器，值以字符串格式输入输出，支持日期和时间选择。
 
@@ -30,68 +34,33 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { DateStrPicker } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { DateStrPicker } } = antdRestful;
 
-// 基本日期选择示例
-const BasicDateStrPicker = () => {
+export default () => {
   const [date, setDate] = useState('');
-
-  return (
-    <DateStrPicker
-      value={date}
-      onChange={(dateString, date) => {
-        console.log('日期字符串:', dateString);
-        console.log('日期对象:', date);
-        setDate(dateString);
-      }}
-      format="YYYY-MM-DD"
-      placeholder="请选择日期"
-    />
-  );
-};
-
-// 时间选择示例
-const TimeStrPicker = () => {
   const [time, setTime] = useState('');
-
-  return (
-    <DateStrPicker
-      value={time}
-      onChange={setTime}
-      picker="time"
-      format="HH:mm:ss"
-      placeholder="请选择时间"
-    />
-  );
-};
-
-// 日期时间选择示例
-const DateTimeStrPicker = () => {
   const [datetime, setDatetime] = useState('');
 
   return (
-    <DateStrPicker
-      value={datetime}
-      onChange={setDatetime}
-      picker="date"
-      format="YYYY-MM-DD HH:mm:ss"
-      antdPickerProps={{
-        showTime: true,
-      }}
-    />
+    <div style={{ display: 'grid', gap: 12 }}>
+      <DateStrPicker style={{ width: 320 }} value={date} onChange={setDate} format="YYYY-MM-DD" placeholder="请选择日期" />
+      <div>当前日期值：{date || '-'}</div>
+      <DateStrPicker style={{ width: 320 }} value={time} onChange={setTime} picker="time" format="HH:mm:ss" placeholder="请选择时间" />
+      <div>当前时间值：{time || '-'}</div>
+      <DateStrPicker
+        style={{ width: 320 }}
+        value={datetime}
+        onChange={setDatetime}
+        format="YYYY-MM-DD HH:mm:ss"
+        antdPickerProps={{ showTime: true }}
+      />
+      <div>当前日期时间值：{datetime || '-'}</div>
+      <DateStrPicker style={{ width: 320 }} value="2023-12-25" format="YYYY-MM-DD" readOnly />
+    </div>
   );
 };
-
-// 只读模式示例
-const ReadOnlyDateStrPicker = () => {
-  return (
-    <DateStrPicker
-      value="2023-12-25"
-      format="YYYY-MM-DD"
-      readOnly
-    />
-  );
-};
+```
 
 ### picker 类型
 - `'date'` - 日期选择器（默认）

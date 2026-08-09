@@ -1,3 +1,7 @@
+---
+title: ExpansionView
+---
+
 ## ExpansionView
 支持文本扩展和远程验证的输入组件，可以将用户输入进行扩展处理或远程验证，适用于需要实时处理输入内容的场景。
 
@@ -43,66 +47,58 @@
 
 ```jsx
 import React, { useState } from 'react';
-import { ExpansionView } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { formitems: { ExpansionView } } = antdRestful;
 
-// 基本 brace-expansion 示例
-const BasicExpansionView = () => {
-  const [value, setValue] = useState();
+export default () => {
+  const [basicValue, setBasicValue] = useState();
+  const [templateValue, setTemplateValue] = useState();
+  const [remoteValue, setRemoteValue] = useState();
 
-  return (
-    <ExpansionView
-      value={value}
-      onChange={setValue}
-      enableBraceExpansion={true}
-      placeholder="输入 {a,b,c} 进行扩展"
-    />
-  );
-};
-
-// 远程验证示例
-const RemoteValidationExpansionView = () => {
-  const [value, setValue] = useState();
-
-  return (
-    <ExpansionView
-      value={value}
-      onChange={setValue}
-      restful="/api/validate"
-      inputKey="content"
-      inputMinEnter={3}
-      baseParams={{ type: 'validation' }}
-    />
-  );
-};
-
-// 带模板的示例
-const TemplateExpansionView = () => {
-  const [value, setValue] = useState();
-
-  return (
-    <ExpansionView
-      value={value}
-      onChange={setValue}
-      enableBraceExpansion={true}
-      valueTemplate="processed_{value}_result"
-      baseParams={{ prefix: 'custom' }}
-    />
-  );
-};
-
-// 只读模式示例
-const ReadOnlyExpansionView = () => {
-  const value = {
+  const readOnlyValue = {
     input: '{a,b,c}',
     output: ['a', 'b', 'c'],
     error: null,
   };
 
   return (
-    <ExpansionView
-      value={value}
-      readOnly
-    />
+    <div style={{ display: 'grid', gap: 12 }}>
+      <div>场景1：基础 brace-expansion 扩展</div>
+      <ExpansionView
+        value={basicValue}
+        onChange={setBasicValue}
+        enableBraceExpansion
+        antdInputProps={{ placeholder: '输入 {a,b,c} 进行扩展', style: { width: 380 } }}
+      />
+      <div>基础扩展输出：{JSON.stringify(basicValue?.output ?? null)}</div>
+
+      <div>场景2：模板化输出</div>
+      <ExpansionView
+        value={templateValue}
+        onChange={setTemplateValue}
+        enableBraceExpansion
+        valueTemplate="processed_{value}_result"
+        baseParams={{ prefix: 'custom' }}
+        antdInputProps={{ placeholder: '输入后按模板输出', style: { width: 380 } }}
+      />
+      <div>模板输出：{JSON.stringify(templateValue?.output ?? null)}</div>
+
+      <div>场景3：远程校验（输入至少 3 个字符）</div>
+      <ExpansionView
+        value={remoteValue}
+        onChange={setRemoteValue}
+        restful="/api/validate"
+        inputKey="content"
+        inputMinEnter={3}
+        baseParams={{ type: 'validation' }}
+        antdInputProps={{ placeholder: '输入至少 3 个字符触发远程验证', style: { width: 380 } }}
+      />
+      <div>远程返回：{JSON.stringify(remoteValue?.output ?? null)}</div>
+      <div>远程错误：{remoteValue?.error || '-'}</div>
+
+      <div>场景4：只读模式</div>
+      <ExpansionView value={readOnlyValue} readOnly />
+    </div>
   );
 };
 ```

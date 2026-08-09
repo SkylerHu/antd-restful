@@ -1,3 +1,7 @@
+---
+title: RestTable
+---
+
 ## RestTable
 基于 Ant Design Table 组件实现了远程加载数据。
 
@@ -20,7 +24,7 @@
 | style | 自定义样式 | `object` | - | 透传 Table `style` | - |
 | className | 自定义类名 | `string` | - | 透传 Table `className` | - |
 | **远程数据相关** | | | | | |
-| restful | RESTful API 接口地址 | `string` | - | - | - |
+| restful | RESTful API 接口地址，支持相对地址（如 `/api/users`）和绝对地址（如 `https://dummyjson.com/users`） | `string` | - | - | - |
 | reqConfig | 请求配置，axios请求的额外配置 | `object` | - | - | - |
 | parseOptions | 解析query参数的选项, [query-string](https://www.npmjs.com/package/query-string) 的配置项 | `object` | - | - | 0.1.14 |
 | urlDetailTemplate | 删除操作的自定义 URL 模板 | `string` | - | - | - |
@@ -105,7 +109,8 @@
 
 ```jsx
 import React, { useRef } from 'react';
-import { RestTable, constants: { FieldType } } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { RestTable, constants: { FieldType } } = antdRestful;
 
 // 基本使用示例
 const BasicTable = () => {
@@ -120,32 +125,18 @@ const BasicTable = () => {
     {
       title: "用户名",
       dataIndex: "username",
-      sorter: true,
-      filterDropdownConfig: {
-        type: FieldType.INPUT,
-      },
-      filterMultiple: false,
     },
     {
       title: "昵称",
-      dataIndex: "nickname",
-      sorter: true,
-      filterDropdownConfig: {
-        type: FieldType.INPUT,
-      },
+      dataIndex: "firstName",
     },
     {
       title: "性别",
       dataIndex: "gender",
-      filters: [
-        { text: "男", value: "male" },
-        { text: "女", value: "female" },
-      ],
     },
     {
       title: "年龄",
       dataIndex: "age",
-      sorter: true,
       render: (value, record) => `${value}岁`,
     },
     {
@@ -155,20 +146,26 @@ const BasicTable = () => {
     },
     {
       title: "城市",
-      dataIndex: "city",
-      labelTemplate: "城市：{name}",
+      dataIndex: "address",
+      labelTemplate: "城市：{city}",
     },
   ];
 
   return (
     <RestTable
       ref={tableRef}
-      restful="api/users/"
+      restful="https://dummyjson.com/users"
+      parseRowsPath="users"
+      parseTotalPath="total"
+      fieldPage="skip"
+      fieldPageSize="limit"
       columns={columns}
       rowKey="id"
       baseParams={{
-        page_size: 10,
-        is_active: true,
+        limit: 5,
+      }}
+      tools={{
+        settings: "rest-table-basic",
       }}
       onFiltersChange={(filters) => {
         console.log('筛选条件变化:', filters);
@@ -179,114 +176,16 @@ const BasicTable = () => {
     />
   );
 };
-```
 
-**带工具栏的表格：**
-
-```jsx
-import React from 'react';
-import { RestTable, FieldType } from 'antd-restful';
-
-const TableWithTools = () => {
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      width: 80,
-    },
-    {
-      title: "产品名称",
-      dataIndex: "name",
-      sorter: true,
-      filterDropdownConfig: {
-        type: FieldType.INPUT,
-      },
-    },
-    {
-      title: "分类",
-      dataIndex: "category",
-      filterDropdownConfig: {
-        type: FieldType.SELECT,
-        dropdownProps: {
-          restful: '/api/categories/',
-          fieldNames: { label: 'name', value: 'id' }
-        }
-      },
-    },
-    {
-      title: "价格",
-      dataIndex: "price",
-      sorter: true,
-      render: (value) => `¥${value}`,
-    },
-    {
-      title: "状态",
-      dataIndex: "status",
-      filters: [
-        { text: "启用", value: "active" },
-        { text: "禁用", value: "inactive" },
-      ],
-    },
-    {
-      title: "备注",
-      dataIndex: "remark",
-      hidden: true, // 默认隐藏，可通过列设置显示
-    },
-  ];
-
-  return (
-    <RestTable
-      restful="/api/products/"
-      columns={columns}
-      tools={{
-        advancedSearch: true,        // 显示高级搜索切换按钮
-        refreshInterval: 30000,      // 30秒自动刷新
-        downloadKey: 'export',       // 启用下载功能，使用export参数
-        settings: 'product-table'    // 使用自定义key存储列设置
-      }}
-      filterFormProps={{
-        fields: [
-          {
-            key: 'name',
-            label: '产品名称',
-            type: FieldType.INPUT,
-            antdFieldProps: {
-              placeholder: '请输入产品名称'
-            }
-          },
-          {
-            key: 'category',
-            label: '分类',
-            type: FieldType.SELECT,
-            antdFieldProps: {
-              restful: '/api/categories/',
-              fieldNames: { label: 'name', value: 'id' }
-            }
-          },
-          {
-            key: 'status',
-            label: '状态',
-            type: FieldType.SELECT,
-            antdFieldProps: {
-              options: [
-                { label: '全部', value: '' },
-                { label: '启用', value: 'active' },
-                { label: '禁用', value: 'inactive' }
-              ]
-            }
-          }
-        ]
-      }}
-    />
-  );
-};
+export default BasicTable;
 ```
 
 **带筛选表单的表格：**
 
 ```jsx
 import React from 'react';
-import { RestTable, FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { RestTable, constants: { FieldType } } = antdRestful;
 
 const TableWithFilter = () => {
   const columns = [
@@ -297,77 +196,46 @@ const TableWithFilter = () => {
     {
       title: "用户名",
       dataIndex: "username",
-      sorter: true,
-      filterDropdownConfig: {
-        type: FieldType.SELECT,
-        dropdownProps: {
-          restful: "api/users/",
-          fieldNames: {
-            label: "nickname",
-            value: "username",
-          },
-        },
-      },
-      filterMultiple: false,
     },
     {
       title: "昵称",
-      dataIndex: "nickname",
-      sorter: true,
+      dataIndex: "firstName",
     },
     {
       title: "性别",
       dataIndex: "gender",
-      filters: [
-        { text: "男", value: "male" },
-        { text: "女", value: "female" },
-      ],
     },
     {
       title: "年龄",
       dataIndex: "age",
-      sorter: true,
-      filterDropdownConfig: {
-        type: FieldType.INPUT,
-      },
     },
   ];
 
   return (
     <RestTable
-      restful="api/users/"
+      restful="https://dummyjson.com/users"
+      parseRowsPath="users"
+      parseTotalPath="total"
+      fieldPage="skip"
+      fieldPageSize="limit"
       columns={columns}
+      baseParams={{
+        limit: 5,
+      }}
+      tools={{
+        settings: "rest-table-filter",
+      }}
       filterFormProps={{
         antdListProps: {
           grid: { gutter: 10, xs: 1, sm: 2, md: 3 }
         },
         fields: [
           {
-            key: 'username',
-            label: '用户名',
+            key: 'q',
+            label: '关键词',
             type: FieldType.INPUT,
             antdFieldProps: {
-              placeholder: '请输入用户名'
-            }
-          },
-          {
-            key: 'gender',
-            label: '性别',
-            type: FieldType.SELECT,
-            antdFieldProps: {
-              options: [
-                { label: '全部', value: '' },
-                { label: '男', value: 'male' },
-                { label: '女', value: 'female' }
-              ]
-            }
-          },
-          {
-            key: 'age_range',
-            label: '年龄范围',
-            type: FieldType.NUMBER_RANGE,
-            antdFieldProps: {
-              placeholder: ['最小年龄', '最大年龄']
+              placeholder: '搜索用户名/姓名/邮箱'
             }
           }
         ]
@@ -375,72 +243,16 @@ const TableWithFilter = () => {
     />
   );
 };
-```
 
-**自定义筛选配置：**
-
-```jsx
-import React from 'react';
-import { RestTable, FieldType } from 'antd-restful';
-
-const CustomFilterTable = () => {
-  const columns = [
-    {
-      title: "产品名称",
-      dataIndex: "name",
-      filterDropdownConfig: {
-        type: FieldType.INPUT,
-        style: { width: 250 }, // 自定义筛选框样式
-        dropdownProps: {
-          placeholder: '输入产品名称搜索',
-          allowClear: true
-        }
-      },
-    },
-    {
-      title: "分类",
-      dataIndex: "category_id",
-      filterDropdownConfig: {
-        type: FieldType.SELECT,
-        dropdownProps: {
-          restful: '/api/categories/',
-          fieldNames: { label: 'name', value: 'id' },
-          placeholder: '选择分类',
-          allowClear: true
-        }
-      },
-    },
-    {
-      title: "价格",
-      dataIndex: "price",
-      sorter: true,
-      render: (value) => `¥${value}`,
-    },
-    {
-      title: "创建时间",
-      dataIndex: "created_at",
-      sorter: true,
-      render: (value) => new Date(value).toLocaleDateString(),
-    },
-  ];
-
-  return (
-    <RestTable
-      restful="/api/products/"
-      columns={columns}
-      baseParams={{
-        ordering: '-created_at' // 默认按创建时间倒序
-      }}
-    />
-  );
-};
+export default TableWithFilter;
 ```
 
 **本地数据表格：**
 
 ```jsx
 import React from 'react';
-import { RestTable } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { RestTable } = antdRestful;
 
 const LocalDataTable = () => {
   const columns = [
@@ -485,13 +297,16 @@ const LocalDataTable = () => {
     />
   );
 };
+
+export default LocalDataTable;
 ```
 
 **高级配置示例：**
 
 ```jsx
 import React, { useRef } from 'react';
-import { RestTable, FieldType } from 'antd-restful';
+import antdRestful from 'antd-restful';
+const { RestTable, constants: { FieldType } } = antdRestful;
 import { Button, message, Space } from 'antd';
 
 const AdvancedTable = () => {
@@ -499,33 +314,26 @@ const AdvancedTable = () => {
 
   const columns = [
     {
-      title: "订单号",
-      dataIndex: "order_no",
+      title: "用户名",
+      dataIndex: "username",
       copyProps: {
         showIcon: true,
-        text: '复制订单号'
+        text: '复制用户名'
       },
     },
     {
-      title: "客户信息",
-      dataIndex: "customer",
-      labelTemplate: "{name} ({phone})", // 使用模板格式化显示
+      title: "公司信息",
+      dataIndex: "company",
+      labelTemplate: "{name} ({title})",
     },
     {
-      title: "金额",
-      dataIndex: "amount",
-      sorter: true,
-      render: (value) => `¥${value.toFixed(2)}`,
+      title: "体重",
+      dataIndex: "weight",
+      render: (value) => `${Number(value ?? 0).toFixed(2)} kg`,
     },
     {
-      title: "状态",
-      dataIndex: "status",
-      filters: [
-        { text: "待付款", value: "pending" },
-        { text: "已付款", value: "paid" },
-        { text: "已发货", value: "shipped" },
-        { text: "已完成", value: "completed" },
-      ],
+      title: "角色",
+      dataIndex: "role",
     },
     {
       title: "操作",
@@ -551,7 +359,7 @@ const AdvancedTable = () => {
   ];
 
   const handleView = (record) => {
-    message.info(`查看订单: ${record.order_no}`);
+    message.info(`查看用户: ${record.username}`);
   };
 
   const handleDelete = (record) => {
@@ -574,8 +382,12 @@ const AdvancedTable = () => {
 
       <RestTable
         ref={tableRef}
-        restful="/api/orders/"
-        urlDetailTemplate="/api/orders/{id}/" // 自定义删除URL模板
+        restful="https://dummyjson.com/users"
+        parseRowsPath="users"
+        parseTotalPath="total"
+        fieldPage="skip"
+        fieldPageSize="limit"
+        urlDetailTemplate="https://dummyjson.com/users/{id}" // 自定义删除URL模板
         columns={columns}
         reqConfig={{
           timeout: 10000, // 10秒超时
@@ -587,10 +399,10 @@ const AdvancedTable = () => {
           advancedSearch: true,
           refreshInterval: 60000, // 1分钟自动刷新
           downloadKey: true,       // 使用默认的_download参数
-          settings: true           // 启用列设置
+          settings: "rest-table-advanced"
         }}
         baseParams={{
-          page_size: 20
+          limit: 5
         }}
         forceParams={{
           // 强制参数，不会被其他参数覆盖
@@ -611,6 +423,8 @@ const AdvancedTable = () => {
     </div>
   );
 };
+
+export default AdvancedTable;
 ```
 
 ### 工具栏功能详解
