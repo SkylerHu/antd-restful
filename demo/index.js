@@ -2,7 +2,7 @@ import React from "react";
 import { ConfigProvider } from "antd";
 import locale from "antd/es/locale/zh_CN";
 import ReactDOM from "react-dom/client";
-import { detectAntdVersion } from "../src/common/dateUtils";
+import { isAntd5Plus } from "../src/common/versionUtil";
 
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
@@ -12,9 +12,7 @@ import "moment/locale/zh-cn";
 
 import App from "./App";
 
-const version = detectAntdVersion();
-
-if (version >= 5) {
+if (isAntd5Plus) {
   dayjs.locale("zh-cn");
 } else {
   moment.locale("zh-cn");

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Checkbox, Space, Tooltip } from "antd";
 import { QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
+import { getSpaceDirectionProps } from "../common/versionUtil";
 import { genColumnKey } from "../common/parser";
 import { isFunction } from "../common/typeTools";
 import { useSettingsStorage } from "../hooks/index";
@@ -22,7 +23,6 @@ export const initFileds = (fields) => {
 
 
 const FieldsSetting = ({ style, className, title, storageKey, value, onChange, children }) => {
-
   const [fields, setFields] = useState(initFileds(value));
 
   const { keys, setKeys, allKeys } = useSettingsStorage(storageKey, fields);
@@ -86,7 +86,7 @@ const FieldsSetting = ({ style, className, title, storageKey, value, onChange, c
       trigger="click"
       color="white"
       title={
-        <Space direction="vertical" style={{ width: 400 }}>
+        <Space {...getSpaceDirectionProps()} style={{ width: 400 }}>
           <div style={{ color: "black" }}>{title || "设置"}</div>
           <Checkbox
             indeterminate={checkIndeterminate}

@@ -81,7 +81,9 @@ describe("LongText", () => {
       expect(screen.getByRole("dialog")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByLabelText("Close"));
+    const closeButton = screen.getByRole("dialog").querySelector(".ant-modal-close");
+    expect(closeButton).toBeInTheDocument();
+    await userEvent.click(closeButton);
     await waitFor(() => {
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });

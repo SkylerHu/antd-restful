@@ -10,7 +10,6 @@ import { useDeepCompareMemoize } from "../hooks";
 const GridForm = forwardRef(
   (props, ref) => {
     const {
-      ref: refProp,
       style,
       className,
       advancedSearch = true,
@@ -25,7 +24,7 @@ const GridForm = forwardRef(
       antdFormProps,
       antdListProps,
     } = props;
-    const resolvedRef = refProp || ref;
+    const resolvedRef = ref;
     const [form] = Form.useForm();
     const initValuesRef = useRef(initialValues);
 
@@ -291,7 +290,6 @@ const GridForm = forwardRef(
   }
 );
 GridForm.propTypes = {
-  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
   style: PropTypes.object,
   className: PropTypes.string,
 

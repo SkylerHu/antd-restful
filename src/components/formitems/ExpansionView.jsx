@@ -4,6 +4,7 @@ import { Alert, Input, Space, Spin } from "antd";
 import braceExpansion from "brace-expansion";
 import { dequal as deepEqual } from "dequal";
 import { READ_ONLY_CLASS } from "../../common/constants";
+import { getSpaceDirectionProps } from "../../common/versionUtil";
 import { commonFormat } from "../../common/parser";
 import { isArray, isBlank, isFunction } from "../../common/typeTools";
 import LongText from "../LongText";
@@ -35,6 +36,7 @@ const ExpansionView = ({
   antdInputProps,
   antdAlertProps,
 }) => {
+  const spaceProps = getSpaceDirectionProps(antdSpaceProps);
   const [makeRequest] = useSafeRequest();
   const reqConfigRef = useRef(reqConfig);
 
@@ -115,10 +117,10 @@ const ExpansionView = ({
 
   return (
     <Space
-      direction="vertical"
       style={{ width: "100%", ...style }}
       className={readOnly ? (className ? `${className} ${READ_ONLY_CLASS}` : READ_ONLY_CLASS) : className}
       {...antdSpaceProps}
+      {...spaceProps}
     >
       {!readOnly ? (
         <Input

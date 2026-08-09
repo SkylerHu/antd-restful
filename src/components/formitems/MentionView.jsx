@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Mentions, Spin } from "antd";
 import { dequal as deepEqual } from "dequal";
 import { READ_ONLY_CLASS } from "../../common/constants";
+import { isAntd6Plus } from "../../common/versionUtil";
 import { commonFormat, findDataByPath } from "../../common/parser";
 import { isBlank, isDict, isFunction } from "../../common/typeTools";
 import { restOptions } from "../../config";
@@ -36,7 +37,6 @@ const MentionView = ({
   const [innerValue, setInnerValue] = useState(value);
   const [loading, setLoading] = useState(false);
   const [innerOptions, setInnerOptions] = useState();
-
   const optKey = useMemo(() => fieldNames?.value || "value", [fieldNames?.value]);
   const optLabel = useMemo(() => fieldNames?.label || "label", [fieldNames?.label]);
 
@@ -121,6 +121,24 @@ const MentionView = ({
       <span style={style} className={className ? `${className} ${READ_ONLY_CLASS}` : READ_ONLY_CLASS}>
         {innerValue}
       </span>
+    );
+  }
+
+  if (isAntd6Plus) {
+    return (
+      <Mentions
+        style={style}
+        className={className}
+        notFoundContent={loading ? <Spin /> : null}
+        {...antdMentionsProps}
+        value={innerValue}
+        onChange={onValueChange}
+        onSearch={onSearch}
+        disabled={disabled}
+        readOnly={readOnly}
+        loading={loading}
+        options={innerOptions}
+      />
     );
   }
 

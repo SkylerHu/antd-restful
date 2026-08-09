@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
 import { DEFAULT_PAGE, FieldType, FilterType } from "../common/constants";
+import { getSpaceDirectionProps, resolveSpaceOrientation } from "../common/versionUtil";
 import {
   apiSorterToTableSorterDict,
   clearEmptyValue,
@@ -131,9 +132,13 @@ export const getColumnSearchProps = (dataIndex, column, inputRef) => {
       if (!searchItem) {
         return undefined;
       }
-      const direction = config.antdSpaceProps?.direction || "vertical";
+      const direction = resolveSpaceOrientation(config.antdSpaceProps);
       const view = (
-        <Space style={{ padding: 8, ...config.style }} {...config.antdSpaceProps} direction={direction}>
+        <Space
+          style={{ padding: 8, ...config.style }}
+          {...config.antdSpaceProps}
+          {...getSpaceDirectionProps(config.antdSpaceProps)}
+        >
           {searchItem}
           <Row gutter={10}>
             {direction === "vertical" ? (
@@ -244,7 +249,6 @@ const REFRESH_COUNTER_KEY = "____refresh";
 const RestTable = forwardRef(
   (props, ref) => {
     const {
-      ref: refProp,
       style,
       className,
 
@@ -278,7 +282,8 @@ const RestTable = forwardRef(
       filterFormProps,
       antdSpaceProps,
     } = props;
-    const resolvedRef = refProp || ref;
+    const spaceProps = getSpaceDirectionProps(antdSpaceProps);
+    const resolvedRef = ref;
     const [makeRequest] = useSafeRequest();
     const reqConfigRef = useRef(reqConfig);
     const memParseOptions = useDeepCompareMemoize(parseOptions);
@@ -800,7 +805,11 @@ const RestTable = forwardRef(
     }, [filterFormProps?.fields, filterState.formFilters]);
 
     return (
-      <Space direction="vertical" {...antdSpaceProps} style={{ width: "100%", ...antdSpaceProps?.style }}>
+      <Space
+        {...antdSpaceProps}
+        {...spaceProps}
+        style={{ width: "100%", ...antdSpaceProps?.style }}
+      >
         {hasHeader && (
           <div style={{ position: "relative" }} className="cls-resttable-header">
             {restful && filterFormProps && (
@@ -1015,7 +1024,6 @@ const RestTable = forwardRef(
 );
 
 RestTable.propTypes = {
-  ref: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })]),
   style: PropTypes.object,
   className: PropTypes.string,
 

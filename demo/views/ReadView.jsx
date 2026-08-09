@@ -1,6 +1,7 @@
 import React from "react";
 import { Space } from "antd";
 import libs from "demo/libs";
+import { getSpaceDirectionProps } from "../../src/common/versionUtil";
 
 const {
   LongText,
@@ -8,7 +9,7 @@ const {
 
 const ReadView = () => {
   return (
-    <Space direction="vertical">
+    <Space {...getSpaceDirectionProps()}>
       <LongText value={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} separator=", " maxLength={2} />
       <LongText value={1} />
       <LongText value={"我是中国人，我爱中国!\t我是中国人！\n我是中国人!"} maxLength={2} />

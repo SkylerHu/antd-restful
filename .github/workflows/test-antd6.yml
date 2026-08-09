@@ -1,0 +1,56 @@
+name: test antd6
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "docs/**"
+      - "demo/**"
+      - "README.md"
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "demo/**"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  test-antd6:
+    runs-on: ubuntu-latest
+    env:
+      ANTD_TEST_VERSION: "6.5.4"
+      ANTD_ICONS_TEST_VERSION: "6.3.2"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: set node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - name: cache node_modules
+        id: node_modules_cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node18-antd6-${{ env.ANTD_TEST_VERSION }}-icons-${{ env.ANTD_ICONS_TEST_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node18-antd6-
+
+      - name: install dependencies
+        if: steps.node_modules_cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: install antd6 and icons6
+        if: steps.node_modules_cache.outputs.cache-hit != 'true'
+        run: npm install --no-save antd@${{ env.ANTD_TEST_VERSION }} @ant-design/icons@${{ env.ANTD_ICONS_TEST_VERSION }}
+
+      - name: remove snapshots directory
+        run: rm -rf tests/__snapshots__
+
+      - name: run tests with antd6
+        env:
+          ANTD_TEST_VERSION: ${{ env.ANTD_TEST_VERSION }}
+        run: npm run test

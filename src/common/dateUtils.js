@@ -2,17 +2,11 @@
  * 根据antd版本自动选择时间库并创建日期对象
  * antd4使用moment，antd5+使用dayjs
  */
-import { version as antdVersion } from "antd";
+import { isAntd5Plus } from "./versionUtil";
 import { isString } from "./typeTools";
 
 let moment = null;
 let dayjs = null;
-
-// 检测antd版本
-export function detectAntdVersion() {
-  const majorVersion = parseInt(antdVersion.split(".")[0]);
-  return majorVersion;
-}
 
 // 懒加载moment
 function getMoment() {
@@ -53,9 +47,7 @@ export function createDate(dateInput, format = null) {
     return null;
   }
 
-  const version = detectAntdVersion();
-
-  if (version >= 5) {
+  if (isAntd5Plus) {
     // antd5+ 使用dayjs
     const dayjsInstance = getDayjs();
     if (!dayjsInstance) {
@@ -102,13 +94,7 @@ export function isValidDate(dateInput, format = null) {
   const date = createDate(dateInput, format);
   if (!date) return false;
 
-  const version = detectAntdVersion();
-
-  if (version >= 5) {
-    return date.isValid();
-  } else {
-    return date.isValid();
-  }
+  return date.isValid();
 }
 
 /**

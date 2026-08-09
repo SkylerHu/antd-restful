@@ -11,7 +11,10 @@ describe("RestTreeSelect", () => {
   const fieldParent = "belong";
   // 打开下拉选择
   function toggleOpen(container) {
-    const selector = container.querySelector(".ant-select-selector");
+    const selector = container.querySelector('[role="combobox"]') || container.querySelector(".ant-select-selector");
+    if (!selector) {
+      throw new Error("unable to find tree-select combobox trigger");
+    }
     fireEvent.mouseDown(selector);
   }
 
