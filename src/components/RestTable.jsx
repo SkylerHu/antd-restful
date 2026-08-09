@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
 import { DEFAULT_PAGE, FieldType, FilterType } from "../common/constants";
-import { isAntd6Plus } from "../common/versionUtil";
+import { getSpaceDirectionProps, resolveSpaceOrientation } from "../common/versionUtil";
 import {
   apiSorterToTableSorterDict,
   clearEmptyValue,
@@ -132,14 +132,12 @@ export const getColumnSearchProps = (dataIndex, column, inputRef) => {
       if (!searchItem) {
         return undefined;
       }
-      const direction = isAntd6Plus
-        ? config.antdSpaceProps?.orientation || config.antdSpaceProps?.direction || "vertical"
-        : config.antdSpaceProps?.direction || config.antdSpaceProps?.orientation || "vertical";
+      const direction = resolveSpaceOrientation(config.antdSpaceProps);
       const view = (
         <Space
           style={{ padding: 8, ...config.style }}
           {...config.antdSpaceProps}
-          {...(isAntd6Plus ? { orientation: direction } : { direction })}
+          {...getSpaceDirectionProps(config.antdSpaceProps)}
         >
           {searchItem}
           <Row gutter={10}>
@@ -284,9 +282,7 @@ const RestTable = forwardRef(
       filterFormProps,
       antdSpaceProps,
     } = props;
-    const spaceOrientation = isAntd6Plus
-      ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "vertical"
-      : antdSpaceProps?.direction || antdSpaceProps?.orientation || "vertical";
+    const spaceProps = getSpaceDirectionProps(antdSpaceProps);
     const resolvedRef = ref;
     const [makeRequest] = useSafeRequest();
     const reqConfigRef = useRef(reqConfig);
@@ -811,7 +807,7 @@ const RestTable = forwardRef(
     return (
       <Space
         {...antdSpaceProps}
-        {...(isAntd6Plus ? { orientation: spaceOrientation } : { direction: spaceOrientation })}
+        {...spaceProps}
         style={{ width: "100%", ...antdSpaceProps?.style }}
       >
         {hasHeader && (

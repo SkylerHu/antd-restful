@@ -8,4 +8,16 @@ export const antdMajorVersion = Number.isNaN(parsedMajorVersion) ? DEFAULT_ANTD_
 export const isAntd6Plus = antdMajorVersion >= 6;
 export const isAntd5Plus = antdMajorVersion >= 5;
 
+export function resolveSpaceOrientation(antdSpaceProps, defaultOrientation = "vertical") {
+  if (isAntd6Plus) {
+    return antdSpaceProps?.orientation || antdSpaceProps?.direction || defaultOrientation;
+  }
+  return antdSpaceProps?.direction || antdSpaceProps?.orientation || defaultOrientation;
+}
+
+export function getSpaceDirectionProps(antdSpaceProps, defaultOrientation = "vertical") {
+  const orientation = resolveSpaceOrientation(antdSpaceProps, defaultOrientation);
+  return isAntd6Plus ? { orientation } : { direction: orientation };
+}
+
 export { antdVersion };

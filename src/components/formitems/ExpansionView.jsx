@@ -4,7 +4,7 @@ import { Alert, Input, Space, Spin } from "antd";
 import braceExpansion from "brace-expansion";
 import { dequal as deepEqual } from "dequal";
 import { READ_ONLY_CLASS } from "../../common/constants";
-import { isAntd6Plus } from "../../common/versionUtil";
+import { getSpaceDirectionProps } from "../../common/versionUtil";
 import { commonFormat } from "../../common/parser";
 import { isArray, isBlank, isFunction } from "../../common/typeTools";
 import LongText from "../LongText";
@@ -36,9 +36,7 @@ const ExpansionView = ({
   antdInputProps,
   antdAlertProps,
 }) => {
-  const spaceOrientation = isAntd6Plus
-    ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "vertical"
-    : antdSpaceProps?.direction || antdSpaceProps?.orientation || "vertical";
+  const spaceProps = getSpaceDirectionProps(antdSpaceProps);
   const [makeRequest] = useSafeRequest();
   const reqConfigRef = useRef(reqConfig);
 
@@ -122,7 +120,7 @@ const ExpansionView = ({
       style={{ width: "100%", ...style }}
       className={readOnly ? (className ? `${className} ${READ_ONLY_CLASS}` : READ_ONLY_CLASS) : className}
       {...antdSpaceProps}
-      {...(isAntd6Plus ? { orientation: spaceOrientation } : { direction: spaceOrientation })}
+      {...spaceProps}
     >
       {!readOnly ? (
         <Input

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, List, Space, Spin } from "antd";
 import { dequal as deepEqual } from "dequal";
 import { DEFAULT_PAGE, FieldType } from "../common/constants";
-import { isAntd6Plus } from "../common/versionUtil";
+import { getSpaceDirectionProps } from "../common/versionUtil";
 import { clearEmptyValue, findDataByPath, genColumnKey, genFields, handleFormValues } from "../common/parser";
 import { isArray, isEmpty, isFunction } from "../common/typeTools";
 import GridForm from "./GridForm";
@@ -44,9 +44,7 @@ const RestList = forwardRef(
       filterFormProps,
       loadMoreProps,
     } = props;
-    const spaceOrientation = isAntd6Plus
-      ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "vertical"
-      : antdSpaceProps?.direction || antdSpaceProps?.orientation || "vertical";
+    const spaceProps = getSpaceDirectionProps(antdSpaceProps);
     const resolvedRef = ref;
     const [makeRequest] = useSafeRequest();
     const reqConfigRef = useRef(reqConfig);
@@ -411,7 +409,7 @@ const RestList = forwardRef(
       <Spin spinning={loading && !loadingMore}>
         <Space
           {...antdSpaceProps}
-          {...(isAntd6Plus ? { orientation: spaceOrientation } : { direction: spaceOrientation })}
+          {...spaceProps}
           style={{ width: "100%", ...antdSpaceProps?.style }}
         >
           {headerView}

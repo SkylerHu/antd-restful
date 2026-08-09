@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Collapse, Space } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { dequal as deepEqual } from "dequal";
-import { isAntd5Plus, isAntd6Plus } from "../../common/versionUtil";
+import { getSpaceDirectionProps, isAntd5Plus } from "../../common/versionUtil";
 import { getShowTitle } from "../../common/parser";
 import { isArray, isDict, isFunction } from "../../common/typeTools";
 import RestTable from "../RestTable";
@@ -25,9 +25,7 @@ const TableSelect = ({
   antdSpaceProps,
   ...restProps
 }) => {
-  const compactOrientation = isAntd6Plus
-    ? antdSpaceProps?.orientation || antdSpaceProps?.direction || "vertical"
-    : antdSpaceProps?.direction || antdSpaceProps?.orientation || "vertical";
+  const compactSpaceProps = getSpaceDirectionProps(antdSpaceProps);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -152,7 +150,7 @@ const TableSelect = ({
     <Space.Compact
       block
       {...antdSpaceProps}
-      {...(isAntd6Plus ? { orientation: compactOrientation } : { direction: compactOrientation })}
+      {...compactSpaceProps}
       style={{ rowGap: 8, ...antdSpaceProps?.style }}
     >
       {isAntd5Plus ? (
