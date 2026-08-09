@@ -7,6 +7,7 @@ exports[`RestTreeSelect should render 1`] = `
   >
     <div
       class="ant-select ant-tree-select ant-select-outlined ant-select-compact-item ant-select-compact-first-item css-dev-only-do-not-override-1kf000u ant-select-single ant-select-allow-clear ant-select-show-arrow ant-select-show-search"
+      style="width: 100%;"
     >
       <div
         class="ant-select-selector"
