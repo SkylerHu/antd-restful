@@ -68,27 +68,27 @@ export default function UserList() {
 ### 组件
 
 - [组件总览](./components/overview.md)
+- [RouteBaseTable](./components/route-base-table.md)
 - [RestTable](./components/rest-table.md)
 - [RestList](./components/rest-list.md)
 - [GridForm](./components/grid-form.md)
-- [RouteBaseTable](./components/route-base-table.md)
-- [CopyView](./components/copy-view.md)
 - [LongText](./components/long-text.md)
+- [CopyView](./components/copy-view.md)
 
 ### 表单项
 
 - [表单项总览](./formitems/overview.md)
 - [RestSelect](./formitems/rest-select.md)
+- [TableSelect](./formitems/table-select.md)
+- [RestAutoComplete](./formitems/rest-auto-complete.md)
+- [RestCascader](./formitems/rest-cascader.md)
+- [RestTreeSelect](./formitems/rest-tree-select.md)
+- [UploadView](./formitems/upload-view.md)
 - [DateStrPicker](./formitems/date-str-picker.md)
 - [RangeStrPicker](./formitems/range-str-picker.md)
 - [ExpansionView](./formitems/expansion-view.md)
 - [NumberRange](./formitems/number-range.md)
-- [TableSelect](./formitems/table-select.md)
-- [UploadView](./formitems/upload-view.md)
 - [CompareEdit](./formitems/compare-edit.md)
-- [RestAutoComplete](./formitems/rest-auto-complete.md)
-- [RestCascader](./formitems/rest-cascader.md)
-- [RestTreeSelect](./formitems/rest-tree-select.md)
 - [MentionView](./formitems/mention-view.md)
 
 ### 工具与 Hooks

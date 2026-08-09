@@ -1,5 +1,6 @@
 ---
 title: DateStrPicker
+order: 2
 ---
 
 ## DateStrPicker

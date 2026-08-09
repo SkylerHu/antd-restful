@@ -1,8 +1,9 @@
 import { defineConfig } from 'dumi';
-const siteIcon = '/icon.svg';
-const faviconIcon = '/favicon.svg';
 const isGithubPages = process.env.GITHUB_PAGES === 'true';
 const ghBase = '/antd-restful/';
+const assetBase = isGithubPages ? ghBase : '/';
+const siteIcon = `${assetBase}icon.svg`;
+const faviconIcon = `${assetBase}favicon.svg`;
 
 export default defineConfig({
   title: 'antd-restful',
@@ -44,12 +45,12 @@ export default defineConfig({
           title: '组件',
           children: [
             '/components/overview',
+            '/components/route-base-table',
             '/components/rest-table',
             '/components/rest-list',
             '/components/grid-form',
-            '/components/route-base-table',
-            '/components/copy-view',
             '/components/long-text',
+            '/components/copy-view',
           ],
         },
       ],
@@ -59,16 +60,16 @@ export default defineConfig({
           children: [
             '/formitems/overview',
             '/formitems/rest-select',
+            '/formitems/table-select',
+            '/formitems/rest-auto-complete',
+            '/formitems/rest-cascader',
+            '/formitems/rest-tree-select',
+            '/formitems/upload-view',
             '/formitems/date-str-picker',
             '/formitems/range-str-picker',
             '/formitems/expansion-view',
             '/formitems/number-range',
-            '/formitems/table-select',
-            '/formitems/upload-view',
             '/formitems/compare-edit',
-            '/formitems/rest-auto-complete',
-            '/formitems/rest-cascader',
-            '/formitems/rest-tree-select',
             '/formitems/mention-view',
           ],
         },

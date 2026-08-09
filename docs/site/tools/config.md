@@ -1,3 +1,8 @@
+---
+title: 配置
+order: 1
+---
+
 # 全局配置 (Global Configuration)
 
 `antd-restful` 提供了一套灵活的全局配置方案，用于对接后端（如 Django REST Framework）的接口字段习惯，以及处理 URL 查询参数的序列化方式。
@@ -40,7 +45,8 @@ export const restOptions = {
 **使用示例：**
 
 ```javascript
-import { setRestOptions } from "antd-restful";
+import antdRestful from "antd-restful";
+const { setRestOptions } = antdRestful;
 
 // 对接非 DRF 风格的后端服务（例如 Java 或 Spring Boot 自定义封装）
 setRestOptions({
@@ -72,7 +78,8 @@ const globalConfig = {
 **使用示例：**
 
 ```javascript
-import { setGlobalConfig } from "antd-restful";
+import antdRestful from "antd-restful";
+const { setGlobalConfig } = antdRestful;
 import Qs from "qs";
 
 // 替换为 qs 库并指定数组以方括号格式传递

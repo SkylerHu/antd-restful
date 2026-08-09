@@ -1,5 +1,6 @@
 ---
 title: RangeStrPicker
+order: 6
 ---
 
 ## RangeStrPicker
@@ -153,7 +154,7 @@ export default () => {
 
 ### 输出格式
 - **有值时**：返回字符串数组 `[startDate, endDate]`
-- **无值时**：返回 `null`
+- **无值时**：返回 `undefined`
 
 ### 注意事项
 1. **字符串格式**：组件专门处理字符串格式的日期范围值

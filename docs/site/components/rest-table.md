@@ -1,5 +1,6 @@
 ---
 title: RestTable
+order: 2
 ---
 
 ## RestTable
@@ -47,10 +48,10 @@ title: RestTable
 | rowKey | 行数据的 key | `string` | `'id'` | 透传 Table `rowKey` | - |
 | columns | 表格列配置 | `array` | - | 覆盖 Table `columns`，内部增强处理 | - |
 | dataSource | 静态数据源，设置后不使用 restful | `array` | - | 覆盖 Table `dataSource`，由内部管理 | - |
-| expandFieldPath | 根据字段判断是否使用展开，不配置字段默认根据columns的配置展示 | `boolean` | - | - | 0.1.9 |
-| expandAntdProps | 展开列使用Descptions展示，配置其props | `objects` | - | 透传 Descriptions 属性 | 0.1.9 |
-| expandedAllRows | 未启用tools时也可以配置展开所有行 | `boolean` | - | - | 0.1.9 |
-| filterFormProps | 筛选表单配置，详见 [GridForm](./GridForm.md) | `object` | - | - | - |
+| expandFieldPath | 根据字段路径判断是否使用展开，不配置字段默认根据 columns 的配置展示 | `string` | - | - | 0.1.9 |
+| expandAntdProps | 展开列使用 Descriptions 展示，配置其 props | `object` | - | 透传 Descriptions 属性 | 0.1.9 |
+| expandedAllRows | 未启用 tools 时也可以配置展开所有行 | `boolean` | - | - | 0.1.9 |
+| filterFormProps | 筛选表单配置，详见 [GridForm](./grid-form.md) | `object` | - | - | - |
 | **Ant Design 原生配置** | | | | | |
 | antdTableProps | Ant Design [Table](https://ant.design/components/table-cn) 组件的属性 | `object` | - | 透传 Table 属性，`loading` / `rowKey` / `columns` / `dataSource` / `pagination` / `onChange` / `expandable` 由内部管理 | - |
 | antdSpaceProps | 外层容器 Ant Design [Space](https://ant.design/components/space-cn) 组件的属性 | `object` | - | 透传 Space 属性 | - |
@@ -59,7 +60,7 @@ title: RestTable
 
 | 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
-| advancedSearch | 是否显示高级搜索切换按钮 | `boolean` | `true` | - | - |
+| advancedSearch | 是否启用搜索字段设置能力，`string` 时作为存储 key | `boolean \| string` | `true` | - | - |
 | refreshInterval | 刷新间隔（毫秒），0为手动刷新，>0为自动刷新，<0为隐藏刷新按钮 | `number` | `0` | - | - |
 | downloadKey | 下载功能的参数名，true时使用'_download'，字符串时使用自定义参数名，false时禁用下载 | `boolean \| string` | `false` | - | - |
 | settings | 列显示设置，true时使用restful作为存储key，字符串时使用自定义key，false时禁用 | `boolean \| string` | `true` | - | - |
@@ -517,11 +518,13 @@ filterFormProps: {
 }
 ```
 
-2. **处理query参数在超大数值下丢失精度问题**
-1）升级 `query-string > 9.1`，支持配置 `parseOptions.types` 指定字段类型
-2）低版本 可以通过 `parseTypes` 配置解决
+2. **处理 query 参数在超大数值下丢失精度问题**
+1）升级 `query-string > 9.1`，支持配置 `parseOptions.types` 指定字段类型  
+2）若使用 `RouteBaseTable`，可通过 `parseTypes` 做兼容映射
 ```js
-<RestTable
+<RouteBaseTable
+  location={location}
+  onSearchChange={(query) => setSearchParams(query)}
   parseOptions={{
     parseNumbers: false,  // 关闭转换成数字
     // types: {  // required query-string > 9.1

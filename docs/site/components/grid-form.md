@@ -1,5 +1,6 @@
 ---
 title: GridForm
+order: 4
 ---
 
 ## GridForm
@@ -35,8 +36,8 @@ title: GridForm
 | onReset | 表单重置回调 | `function(values)` | - | - | - |
 | onValuesChange | 表单值变化回调 | `function(changedValues, allValues)` | - | - | - |
 | **按钮配置** | | | | | |
-| submitTitle | 提交按钮文案 | `node` | `'提交'` | - | - |
-| resetTitle | 重置按钮文案 | `node` | `'重置'` | - | - |
+| submitTitle | 提交按钮文案（高级搜索模式） | `node` | `'提交'` | - | - |
+| resetTitle | 重置按钮文案（高级搜索模式） | `node` | `'重置'` | - | - |
 | **Ant Design 原生配置** | | | | | |
 | antdFormProps | Ant Design [Form](https://ant.design/components/form-cn) 组件的属性 | `object` | - | 透传 Form 属性，`form` / `initialValues` / `onFinish` 由内部管理 | - |
 | antdListProps | Ant Design [List](https://ant.design/components/list-cn) 组件的属性，用于高级搜索模式下的网格布局 | `object` | `{ grid: { gutter: 10, column: 3 } }` | 透传 List 属性，`dataSource` / `renderItem` 由内部管理 | - |
@@ -48,11 +49,11 @@ title: GridForm
 | key | 字段唯一标识，同时作为表单字段的 name | `string` | - | 透传 Form.Item `name` | - |
 | label | 字段标签，未设置时使用 key 值 | `string` | `key` | 透传 Form.Item `label` | - |
 | type | 字段类型，详见下方支持的字段类型 | `string` | `'input'` | - | - |
-| tips | 在配置展示列时的提示信息 | `string` | - | - | - |
+| tip | 在配置展示列时的提示信息 | `string` | - | - | - |
 | hidden | 设置 true 隐藏字段，若显示设置 false 则不可配置隐藏 | `bool` | undefined | - | - |
 | antdFormItemProps | Ant Design Form.Item 组件的属性，如验证规则等 | `object` | - | 透传 Form.Item 属性 | - |
 | antdFieldProps | 对应字段组件的属性 | `object` | - | 透传对应字段组件属性 | - |
-| antdSingleProps | 单项模式下字段组件的特殊属性，会与 antdFieldProps 合并（优先级更高） | `object` | - | - | - |
+| antdSingleProps | 字段组件的特殊属性，会与 antdFieldProps 合并（优先级更高，单项模式更常用） | `object` | - | - | - |
 | render | 自定义渲染函数，返回完整的 Form.Item | `function(item)` | - | - | - |
 
 **支持的字段类型：**
@@ -90,6 +91,7 @@ title: GridForm
 - 用户可通过下拉选择器切换字段
 - 智能激活策略：优先激活有值的字段，否则激活第一个字段
 - 适合简单搜索或移动端场景
+- 单项模式下固定显示“搜索”按钮，不显示重置按钮
 
 ### 使用示例
 

@@ -1,5 +1,6 @@
 ---
 title: RestCascader
+order: 8
 ---
 
 ## RestCascader
@@ -27,10 +28,10 @@ title: RestCascader
 | reqConfig | axios 的配置选项 | `object` | - | - | - |
 | baseParams | 基础请求参数 | `object` | - | - | - |
 | fieldParent | 父级字段名 | `string` | `'parent'` | - | - |
-| parseRowsPath | 解析数据路径 | `string` | `'data.results'` | - | - |
+| parseRowsPath | 解析数据路径 | `string` | `'results'` | - | - |
 | **显示和交互** | | | | | |
 | enableCopy | 是否启用复制功能 | `boolean` | `false` | - | - |
-| separator | 复制时，路径之间的分隔符 | `string` | `' / '` | - | - |
+| separator | 路径展示与复制时使用的分隔符 | `string` | `' / '` | - | - |
 | **原生组件支持** | | | | | |
 | options | 静态数据 | `array` | - | 覆盖 Cascader `options`，远程模式由内部管理 | - |
 | fieldNames | 字段映射配置 | `object` | - | 透传 Cascader `fieldNames` | - |

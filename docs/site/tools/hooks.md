@@ -1,3 +1,8 @@
+---
+title: Hooks
+order: 3
+---
+
 # React Hooks 参考文档
 
 本文档介绍了 antd-restful 库中提供的所有 React Hooks。
@@ -25,12 +30,13 @@ const [value, setValue, removeValue] = useLocalStorage(key, initialValue)
 **特性：**
 - 自动处理 JSON 序列化和反序列化
 - 支持函数式更新（类似 useState）
-- 自动同步 localStorage 变化
+- 在当前组件内同步 localStorage 状态变化
 - 错误处理：解析失败时返回初始值
 
 **使用示例：**
 ```javascript
-import { useLocalStorage } from 'src/hooks';
+import antdRestful from 'antd-restful';
+const { hooks: { useLocalStorage } } = antdRestful;
 
 function MyComponent() {
   const [user, setUser, removeUser] = useLocalStorage('user', { name: 'John' });
@@ -64,7 +70,8 @@ const [value, setValue, removeValue] = useSessionStorage(key, initialValue)
 
 **使用示例：**
 ```javascript
-import { useSessionStorage } from 'src/hooks';
+import antdRestful from 'antd-restful';
+const { hooks: { useSessionStorage } } = antdRestful;
 
 function MyComponent() {
   const [theme, setTheme] = useSessionStorage('theme', 'light');
@@ -107,7 +114,8 @@ const [runInterval, setEnable] = useInterval(callback, delay, immediate)
 
 **使用示例：**
 ```javascript
-import useInterval from 'src/hooks/interval';
+import antdRestful from 'antd-restful';
+const { hooks: { useInterval } } = antdRestful;
 
 function MyComponent() {
   const [count, setCount] = useState(0);
@@ -157,7 +165,8 @@ const [protect] = useProtect()
 
 **使用示例：**
 ```javascript
-import { useProtect } from 'src/hooks';
+import antdRestful from 'antd-restful';
+const { hooks: { useProtect } } = antdRestful;
 
 function MyComponent() {
   const [protect] = useProtect();
@@ -206,7 +215,8 @@ const memoizedValue = useDeepCompareMemoize(value)
 
 **使用示例：**
 ```javascript
-import { useDeepCompareMemoize } from 'src/hooks';
+import antdRestful from 'antd-restful';
+const { hooks: { useDeepCompareMemoize } } = antdRestful;
 
 function MyComponent({ config }) {
   const memoizedConfig = useDeepCompareMemoize(config);
@@ -244,7 +254,8 @@ const [state, setState] = useDictState(initialData)
 
 **使用示例：**
 ```javascript
-import { useDictState } from 'src/hooks';
+import antdRestful from 'antd-restful';
+const { hooks: { useDictState } } = antdRestful;
 
 function MyComponent() {
   const [user, setUser] = useDictState({
@@ -304,7 +315,8 @@ const { allKeys, keys, setKeys } = useSettingsStorage(key, columns)
 
 **使用示例：**
 ```javascript
-import { useSettingsStorage } from 'src/hooks';
+import antdRestful from 'antd-restful';
+const { hooks: { useSettingsStorage } } = antdRestful;
 
 function TableSettings() {
   const columns = [
@@ -350,7 +362,8 @@ const { value, getValue, setValue, removeValue } = mySessionStorage(key, default
 
 **使用示例：**
 ```javascript
-import { myLocalStorage } from 'src/hooks';
+import antdRestful from 'antd-restful';
+const { hooks: { myLocalStorage } } = antdRestful;
 
 const tokenStorage = myLocalStorage('access_token', null);
 

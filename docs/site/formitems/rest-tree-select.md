@@ -1,5 +1,6 @@
 ---
 title: RestTreeSelect
+order: 10
 ---
 
 ## RestTreeSelect
@@ -27,7 +28,7 @@ title: RestTreeSelect
 | baseParams | 基础请求参数 | `object` | - | - | - |
 | labelTemplate | 标签模板 | `string` | - | - | - |
 | fieldParent | 父级字段名 | `string` | `'parent'` | - | - |
-| parseRowsPath | 解析数据路径 | `string` | `'data.results'` | - | - |
+| parseRowsPath | 解析数据路径 | `string` | `'results'` | - | - |
 | **字段映射** | | | | | |
 | fieldNames | 字段映射 | `object` | - | 透传 TreeSelect `fieldNames` | - |
 | treeNodeLabelProp | 树节点标签属性 | `string` | - | 透传 TreeSelect `treeNodeLabelProp` | - |

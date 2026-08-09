@@ -1,3 +1,8 @@
+---
+title: 请求模块
+order: 2
+---
+
 # 请求模块 (apiTools)
 
 本文档介绍 antd-restful 的 HTTP 请求模块，基于 [axios](https://axios-http.com/) 封装，提供统一的请求实例、拦截器机制、错误通知、请求取消与防抖等能力。
@@ -19,7 +24,7 @@ const { apiTools: { reqInterceptor, resInterceptor } } = antdRestful;
 
 ## useSafeRequest
 
-React Hook，提供安全的 HTTP 请求功能，支持请求取消和防抖。组件卸载时自动取消所有未完成的请求。
+React Hook，提供安全的 HTTP 请求功能，支持请求取消和防抖。
 
 **签名：**
 
@@ -38,7 +43,6 @@ const [makeRequest] = useSafeRequest()
 
 **支持的 HTTP 方法：**
 
-- `request(config)` - 使用原始 axios config 发起请求
 - `get(url, config)`
 - `head(url, config)`
 - `options(url, config)`

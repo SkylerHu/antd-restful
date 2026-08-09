@@ -1,5 +1,6 @@
 ---
 title: LongText
+order: 5
 ---
 
 ## LongText
@@ -9,7 +10,7 @@ title: LongText
 - 支持字符串、数字、布尔值、数组、对象等多种数据类型
 - 自动截断超长内容，显示"查看更多"按钮
 - 支持模板格式化显示对象数据
-- 模态框展示完整内容，支持原始数据切换
+- 模态框展示完整内容（对象模板场景支持原始数据切换）
 - 响应式设计，适配不同屏幕尺寸
 - 智能识别是否需要显示展开按钮
 - 支持自定义模态框配置
@@ -28,7 +29,7 @@ title: LongText
 | separator | 数组元素间的分隔符 | `string` | `'\n'` | - | - |
 | labelTemplate | 对象或数组对象的显示模板，支持 `{field}` 格式 | `string` | - | - | - |
 | **Ant Design 原生配置** | | | | | |
-| antdModalProps | Ant Design [Modal](https://ant.design/components/modal-cn) 组件的属性 | `object` | - | 透传 Modal 属性，`open` / `onCancel` / `footer` / `title` 由内部管理 | - |
+| antdModalProps | Ant Design [Modal](https://ant.design/components/modal-cn) 组件的属性 | `object` | - | 透传 Modal 属性，`open` / `onCancel` / `footer` 由内部管理；自定义 `title` 会覆盖内置标题 | - |
 
 ### 使用示例
 

@@ -1,5 +1,6 @@
 ---
 title: MentionView
+order: 4
 ---
 
 ## MentionView
@@ -27,7 +28,7 @@ title: MentionView
 | baseParams | 基础请求参数 | `object` | - | - | - |
 | searchKey | 搜索关键字参数名 | `string` | `'search'` | - | - |
 | searchMinEnter | 最少输入字符数 | `number` | `0` | - | - |
-| parseRowsPath | 解析接口返回数据的路径 | `string` | `'data.results'` | - | - |
+| parseRowsPath | 解析接口返回数据的路径 | `string` | `'results'` | - | - |
 | **扩展配置** | | | | | |
 | fieldNames | 字段名称映射配置 | `object` | - | - | - |
 | labelTemplate | 远程接口返回数据的 label 模板 | `string` | - | - | - |

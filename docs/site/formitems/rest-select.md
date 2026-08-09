@@ -1,5 +1,6 @@
 ---
 title: RestSelect
+order: 9
 ---
 
 ## RestSelect
@@ -30,7 +31,7 @@ title: RestSelect
 | searchKey | 模糊搜索使用的参数名 | `string` | `'search'` | - | - |
 | fieldPageSize | 每页条数的参数名，用于初始化详情请求时动态设置 page_size | `string` | `'page_size'` | - | - |
 | searchMinEnter | 最少输入字符数，为 0 时允许为空时获取远程 options | `number` | `0` | - | - |
-| parseRowsPath | 从接口返回值解析出列表数据的路径 | `string` | `'data.results'` | - | - |
+| parseRowsPath | 从接口返回值解析出列表数据的路径 | `string` | `'results'` | - | - |
 | **显示和交互** | | | | | |
 | enableCopy | 是否启用复制功能 | `boolean` | `false` | - | - |
 | separator | 复制时，值之间的分隔符 | `string` | `','` | - | - |

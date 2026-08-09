@@ -1,5 +1,6 @@
 ---
 title: NumberRange
+order: 5
 ---
 
 ## NumberRange
@@ -37,12 +38,12 @@ title: NumberRange
 
 1. **数组格式**：`[startValue, endValue]`
 2. **字符串格式**：`"startValue,endValue"`
-3. **单个数值**：`startValue`（endValue 为 undefined）
+3. **单个数值**：`startValue`（endValue 为 `defaultEmptyValue`，默认 `null`）
 4. **空值**：`null`、`undefined`、`[]`
 
 ### 输出格式
 - **有值时**：返回 `[startValue, endValue]` 数组格式
-- **无值时**：返回 `undefined`
+- **无值时**：返回 `null`
 
 ### 使用示例
 
@@ -215,7 +216,7 @@ export default () => {
 1. **输入处理**：
    - 数组格式直接使用
    - 字符串格式按逗号分割
-   - 单个数值转为 `[value, undefined]`
+   - 单个数值转为 `[value, defaultEmptyValue]`（默认 `[value, null]`）
    - 空值转为 `[undefined, undefined]`
 
 2. **输出处理**：

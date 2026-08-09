@@ -1,3 +1,8 @@
+---
+title: 校验器
+order: 5
+---
+
 # Validators 验证器
 
 `validators` 提供了一系列自定义验证函数，用于表单验证和数据处理。这些验证器特别适用于 ExpansionView 组件和远程验证场景。
@@ -37,7 +42,7 @@ expansionValidator(value, rule) => Promise
 - `Promise` - 验证结果
   - **成功**: 返回 resolved promise（无返回值）
   - **失败**: 返回 rejected promise 并包含错误信息字符串
-  - **错误信息优先级**: 自定义消息 > 默认错误消息
+  - **错误信息优先级**: `value.error` > `rule.message` > 默认错误消息
 
 ### 配置选项
 
@@ -96,7 +101,7 @@ const rule = {
 
 1. **空值检查**: 如果配置为空或值为空，直接通过验证
 2. **错误检查**: 如果值包含 `error` 属性，返回该错误信息
-3. **长度验证**: 如果配置了 `min`/`max` 且值为数组或字符串，检查长度限制
+3. **长度验证**: 如果配置了 `min`/`max`，检查 `value.output` 的长度限制（`output` 可为数组或字符串）
 4. **错误返回**: 长度超出限制时返回相应的错误信息
 5. **成功返回**: 验证通过时返回 resolved promise
 6. **失败返回**: 验证失败时返回 rejected promise 并包含错误信息
@@ -104,7 +109,8 @@ const rule = {
 ### 完整示例
 
 ```javascript
-import { expansionValidator } from 'src/common/validators';
+import antdRestful from 'antd-restful';
+const { validators: { expansionValidator } } = antdRestful;
 
 // 在表单规则中使用
 const formRules = {
@@ -155,7 +161,7 @@ remoteValidator(value, rule, ctx) => Promise
 - `Promise` - 验证结果
   - **成功**: 返回 resolved promise（无返回值）
   - **失败**: 返回 rejected promise 并包含错误信息字符串
-  - **错误信息优先级**: 服务器返回消息 > 自定义消息 > 默认消息
+- **错误信息优先级**: 服务器返回 `message` > `rule.message` > 默认消息
 
 ### 配置选项
 
@@ -246,7 +252,8 @@ const rule = {
 ### 完整示例
 
 ```javascript
-import { remoteValidator } from 'src/common/validators';
+import antdRestful from 'antd-restful';
+const { validators: { remoteValidator } } = antdRestful;
 
 // 用户名唯一性验证
 const usernameRules = [
@@ -283,7 +290,8 @@ const emailRules = [
 ### ExpansionView 组件验证
 
 ```javascript
-import { expansionValidator } from 'src/common/validators';
+import antdRestful from 'antd-restful';
+const { validators: { expansionValidator } } = antdRestful;
 
 // 在表单规则中使用
 const formRules = {
@@ -303,7 +311,8 @@ const formRules = {
 ### 远程验证
 
 ```javascript
-import { remoteValidator } from 'src/common/validators';
+import antdRestful from 'antd-restful';
+const { validators: { remoteValidator } } = antdRestful;
 
 // 用户名唯一性验证
 const usernameRules = [
@@ -387,44 +396,48 @@ const getDynamicRules = (formValues) => [
 
 ```javascript
 import { Form } from 'antd';
-import { expansionValidator, remoteValidator } from 'src/common/validators';
+import antdRestful from 'antd-restful';
+const { validators: { expansionValidator, remoteValidator } } = antdRestful;
 
 const CustomForm = () => {
   const [form] = Form.useForm();
 
-  const rules = {
-    content: [
-      { required: true, message: '请输入内容' },
-      {
-        validator: (_, value) => expansionValidator(value, {
-          expansionValidator: { min: 10, max: 1000 },
-          message: '内容长度应在10-1000字符之间'
-        })
-      }
-    ],
-    username: [
-      { required: true, message: '请输入用户名' },
-      {
-        validator: (_, value) => remoteValidator(value, {
-          remoteValidator: {
-            restful: '/api/validate/username/',
-            withForm: true
-          },
-          message: '用户名已存在'
-        }, {
-          fieldName: 'username',
-          formValues: form.getFieldsValue()
-        })
-      }
-    ]
-  };
-
   return (
-    <Form form={form} rules={rules}>
-      <Form.Item name="content" label="内容">
+    <Form form={form}>
+      <Form.Item
+        name="content"
+        label="内容"
+        rules={[
+          { required: true, message: '请输入内容' },
+          {
+            validator: (_, value) => expansionValidator(value, {
+              expansionValidator: { min: 10, max: 1000 },
+              message: '内容长度应在10-1000字符之间'
+            }),
+          },
+        ]}
+      >
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name="username" label="用户名">
+      <Form.Item
+        name="username"
+        label="用户名"
+        rules={[
+          { required: true, message: '请输入用户名' },
+          {
+            validator: (_, value) => remoteValidator(value, {
+              remoteValidator: {
+                restful: '/api/validate/username/',
+                withForm: true
+              },
+              message: '用户名已存在'
+            }, {
+              fieldName: 'username',
+              formValues: form.getFieldsValue()
+            }),
+          },
+        ]}
+      >
         <Input />
       </Form.Item>
     </Form>
@@ -438,7 +451,8 @@ const CustomForm = () => {
 
 ```javascript
 import { registerValidateRules } from "@formily/core";
-import { expansionValidator, remoteValidator } from 'src/common/validators';
+import antdRestful from 'antd-restful';
+const { validators: { expansionValidator, remoteValidator } } = antdRestful;
 
 registerValidateRules({
   expansionValidator,
@@ -468,8 +482,7 @@ const rule = {
   remoteValidator: {
     restful: '/api/validate/',
     reqConfig: {
-      timeout: 10000,
-      retry: 3
+      timeout: 10000
     }
   },
   message: '验证服务暂时不可用，请稍后重试'

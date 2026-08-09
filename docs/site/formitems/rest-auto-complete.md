@@ -1,5 +1,6 @@
 ---
 title: RestAutoComplete
+order: 7
 ---
 
 ## RestAutoComplete
@@ -27,7 +28,7 @@ title: RestAutoComplete
 | baseParams | 接口筛选条件 | `object` | - | - | - |
 | searchKey | 搜索关键字参数名 | `string` | `'search'` | - | - |
 | searchMinEnter | 最少输入字符数 | `number` | `1` | - | - |
-| parseRowsPath | 解析接口返回数据的路径 | `string` | `'data.results'` | - | - |
+| parseRowsPath | 解析接口返回数据的路径 | `string` | `'results'` | - | - |
 | **显示和交互** | | | | | |
 | options | 选项列表 | `array` | - | 覆盖 AutoComplete `options`，远程模式由内部管理 | - |
 | fieldNames | 字段名称映射配置（原生组件并不支持如此配置） | `object` | - | - | - |

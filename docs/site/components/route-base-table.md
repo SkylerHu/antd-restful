@@ -1,5 +1,6 @@
 ---
 title: RouteBaseTable
+order: 1
 ---
 
 ## RouteBaseTable
@@ -130,7 +131,7 @@ const UserListWithRangeFields = () => {
     parseTotalPath: "total",
     fieldPage: "skip",
     fieldPageSize: "limit",
-    columns={[
+    columns: [
       {
         title: "年龄",
         dataIndex: "age",
@@ -147,18 +148,18 @@ const UserListWithRangeFields = () => {
           type: FieldType.DATE_RANGE_PICKER,
         },
       },
-    ]}
+    ],
     // 配置 URL 参数类型解析
-    parseOptions={{
+    parseOptions: {
       parseNumbers: false,
       types: {
         age: "number[]",        // 年龄范围转换为数字数组
         age__range: "number[]",        // 年龄范围转换为数字数组
         created_at__range: "string[]", // 创建时间范围转换为字符串数组
       }
-    }}
+    },
     // 配置筛选表单字段
-    filterFormProps={{
+    filterFormProps: {
       advancedSearch: true,
       antdListProps: {
         grid: { gutter: 24, column: 2 },
@@ -175,7 +176,7 @@ const UserListWithRangeFields = () => {
           },
         }
       ],
-    }}
+    }
   };
   // RouteTable 在上一个示例中已声明
   return (
