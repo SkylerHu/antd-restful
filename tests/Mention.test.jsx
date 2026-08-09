@@ -6,20 +6,25 @@ import requests from "src/requests";
 
 describe("MentionView", () => {
   beforeEach(() => {
-    jest.spyOn(console, "error").mockImplementation((message) => {
+    // eslint-disable-next-line no-console
+    const originalError = console.error;
+    jest.spyOn(console, "error").mockImplementation((message, ...args) => {
       // 忽略 Ant Design 的特定警告
       if (
-        message.includes("MenuItem should not leave undefined `key`") ||
-        message.includes("`Mentions.Option` is deprecated. Please use `options` instead.")
+        typeof message === "string" &&
+        (message.includes("MenuItem should not leave undefined `key`") ||
+          message.includes("`Mentions.Option` is deprecated. Please use `options` instead."))
       ) {
         return;
       }
 
       // eslint-disable-next-line no-console
-      console._originalError(message);
+      originalError(message, ...args);
     });
-    // eslint-disable-next-line no-console
-    console._originalError = console.error;
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it("should render", () => {
@@ -62,4 +67,35 @@ describe("MentionView", () => {
       expect(handleChange).toHaveBeenCalledWith("@a");
     });
   });
+
+  it("should return mentions object when inValue is true", async () => {
+    const handleChange = jest.fn();
+    const { container } = render(<MentionView onChange={handleChange} inValue />);
+
+    const input = container.querySelector("textarea");
+    await userEvent.type(input, "@admin");
+
+    await waitFor(() => {
+      const latest = handleChange.mock.calls[handleChange.mock.calls.length - 1][0];
+      expect(latest).toEqual(
+        expect.objectContaining({
+          value: expect.stringContaining("@admin"),
+          mentions: expect.any(Array),
+        })
+      );
+    });
+  });
+
+  it("should not request when disabled or below searchMinEnter", async () => {
+    const fetch = jest.spyOn(requests, "get").mockResolvedValue({ data: { results: [] } });
+    const { container } = render(<MentionView restful="api/users/" disabled searchMinEnter={2} />);
+
+    const input = container.querySelector("textarea");
+    await userEvent.type(input, "a");
+
+    await waitFor(() => {
+      expect(fetch).not.toHaveBeenCalled();
+    });
+  });
+
 });

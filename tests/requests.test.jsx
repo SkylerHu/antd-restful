@@ -1,12 +1,17 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import { notification } from "antd";
 import requests, {
   AbortablePromise,
   formatRequestError,
   getCookie,
   useSafeRequest,
   makeSafeRequest,
+  reqInterceptor,
+  resInterceptor,
 } from "src/requests";
+
+let mockAxiosInstance;
 
 // Mock antd notification
 jest.mock("antd", () => ({
@@ -16,11 +21,11 @@ jest.mock("antd", () => ({
 }));
 
 // Mock axios
-jest.mock("axios", () => ({
-  create: jest.fn(() => ({
+jest.mock("axios", () => {
+  mockAxiosInstance = {
     interceptors: {
-      request: { use: jest.fn() },
-      response: { use: jest.fn() },
+      request: { use: jest.fn((fn) => fn) },
+      response: { use: jest.fn((ok, err) => err) },
     },
     get: jest.fn(),
     post: jest.fn(),
@@ -29,9 +34,12 @@ jest.mock("axios", () => ({
     delete: jest.fn(),
     head: jest.fn(),
     options: jest.fn(),
-  })),
-  isCancel: jest.fn(),
-}));
+  };
+  return {
+    create: jest.fn(() => mockAxiosInstance),
+    isCancel: jest.fn(),
+  };
+});
 
 // Mock document.cookie
 Object.defineProperty(document, "cookie", {
@@ -47,6 +55,7 @@ describe("requests module", () => {
     jest.clearAllMocks();
     // 抑制控制台错误
     jest.spyOn(console, "error").mockImplementation(() => {});
+    document.querySelector.mockReturnValue(null);
   });
 
   describe("formatRequestError", () => {
@@ -149,18 +158,77 @@ describe("requests module", () => {
     });
 
     it("should handle CSRF token in request interceptor", () => {
-      // Mock document.querySelector to return a CSRF token
       document.querySelector.mockReturnValue({ value: "csrf-from-dom" });
+      const nextConfig = reqInterceptor({
+        method: "post",
+        headers: { existing: "x" },
+      });
 
-      // This would test the request interceptor logic
-      // In a real test, you'd need to trigger the interceptor
+      expect(nextConfig.headers).toEqual(
+        expect.objectContaining({
+          existing: "x",
+          "X-CSRFToken": "csrf-from-dom",
+        })
+      );
     });
 
     it("should handle CSRF token from cookie when not in DOM", () => {
       document.querySelector.mockReturnValue(null);
+      const nextConfig = reqInterceptor({
+        method: "delete",
+        headers: {},
+      });
 
-      // This would test the fallback to cookie CSRF token
-      // In a real test, you'd need to trigger the interceptor
+      expect(nextConfig.headers["X-CSRFToken"]).toBe("test-token");
+    });
+
+    it("should keep request unchanged for non-write methods", () => {
+      const nextConfig = reqInterceptor({
+        method: "get",
+        headers: { foo: "bar" },
+      });
+
+      expect(nextConfig.headers).toEqual({ foo: "bar" });
+    });
+
+    it("should notify response error with dedup key for 403", async () => {
+      const error = {
+        name: "AxiosError",
+        response: { status: "403", data: { detail: "forbidden" } },
+        config: { method: "get", url: "/api/secure" },
+        message: "forbidden",
+      };
+
+      await expect(resInterceptor(error)).rejects.toBe(error);
+      expect(notification.error).toHaveBeenCalledWith(
+        expect.objectContaining({
+          key: "403",
+          message: "HttpError(403)",
+        })
+      );
+    });
+
+    it("should skip notification when disableNotiError is true", async () => {
+      const error = {
+        name: "AxiosError",
+        response: { status: 500, data: { detail: "bad" } },
+        config: { method: "get", url: "/api/fail", disableNotiError: true },
+        message: "bad",
+      };
+
+      await expect(resInterceptor(error)).rejects.toBe(error);
+      expect(notification.error).not.toHaveBeenCalled();
+    });
+
+    it("should skip notification for canceled errors", async () => {
+      const error = {
+        name: "CanceledError",
+        config: { method: "get", url: "/api/fail" },
+        message: "cancel",
+      };
+
+      await expect(resInterceptor(error)).rejects.toBe(error);
+      expect(notification.error).not.toHaveBeenCalled();
     });
 
   });
@@ -307,6 +375,61 @@ describe("requests module", () => {
       });
 
       await expect(promise).rejects.toThrow("immediate error");
+    });
+  });
+
+  describe("makeSafeRequest methods", () => {
+    it("should call all wrapped http methods with signal config", async () => {
+      mockAxiosInstance.get.mockResolvedValue({ data: "get" });
+      mockAxiosInstance.head.mockResolvedValue({ data: "head" });
+      mockAxiosInstance.options.mockResolvedValue({ data: "options" });
+      mockAxiosInstance.post.mockResolvedValue({ data: "post" });
+      mockAxiosInstance.patch.mockResolvedValue({ data: "patch" });
+      mockAxiosInstance.put.mockResolvedValue({ data: "put" });
+      mockAxiosInstance.delete.mockResolvedValue({ data: "delete" });
+
+      const makeRequest = makeSafeRequest();
+
+      await makeRequest({ key: 9 }).get("/get", { params: { p: 1 } });
+      await makeRequest().head("/head");
+      await makeRequest().options("/options");
+      await makeRequest().post("/post", { a: 1 }, { timeout: 1 });
+      await makeRequest().patch("/patch", { b: 2 });
+      await makeRequest().put("/put", { c: 3 });
+      await makeRequest().delete("/delete", { id: 1 }, { headers: { x: "y" } });
+
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith(
+        "/get",
+        expect.objectContaining({ params: { p: 1 }, signal: expect.any(AbortSignal) })
+      );
+      expect(mockAxiosInstance.head).toHaveBeenCalledWith(
+        "/head",
+        expect.objectContaining({ signal: expect.any(AbortSignal) })
+      );
+      expect(mockAxiosInstance.options).toHaveBeenCalledWith(
+        "/options",
+        expect.objectContaining({ signal: expect.any(AbortSignal) })
+      );
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith(
+        "/post",
+        { a: 1 },
+        expect.objectContaining({ timeout: 1, signal: expect.any(AbortSignal) })
+      );
+      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(
+        "/patch",
+        { b: 2 },
+        expect.objectContaining({ signal: expect.any(AbortSignal) })
+      );
+      expect(mockAxiosInstance.put).toHaveBeenCalledWith(
+        "/put",
+        { c: 3 },
+        expect.objectContaining({ signal: expect.any(AbortSignal) })
+      );
+      expect(mockAxiosInstance.delete).toHaveBeenCalledWith(
+        "/delete",
+        { id: 1 },
+        expect.objectContaining({ headers: { x: "y" }, signal: expect.any(AbortSignal) })
+      );
     });
   });
 

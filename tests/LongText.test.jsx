@@ -54,4 +54,36 @@ describe("LongText", () => {
       expect(screen.queryByRole("dialog")).toBeInTheDocument();
     });
   });
+
+  it("should toggle origin view icon for object with labelTemplate", async () => {
+    render(
+      <LongText
+        value={{ id: 1, username: "admin", nickname: "管理员" }}
+        labelTemplate="{nickname}({username})"
+      />
+    );
+
+    const openButton = screen.getByRole("button");
+    await userEvent.click(openButton);
+    await waitFor(() => {
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+    });
+
+    const toggleButton = screen.getAllByRole("button")[1];
+    await userEvent.click(toggleButton);
+    expect(screen.getByText(/"username": "admin"/)).toBeInTheDocument();
+  });
+
+  it("should close modal when cancel is clicked", async () => {
+    render(<LongText value="long text for modal" maxLength={2} />);
+    await userEvent.click(screen.getByRole("button"));
+    await waitFor(() => {
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByLabelText("Close"));
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+  });
 });

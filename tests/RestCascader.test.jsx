@@ -24,7 +24,6 @@ describe("RestCascader", () => {
     toggleOpen(container);
     expect(queryByTitle("安徽")).toBeInTheDocument();
     expect(container).toMatchSnapshot();
-
   });
 
   it("should render in readOnly mode", () => {
