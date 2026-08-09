@@ -56,20 +56,19 @@ const {
 const antdRestful = require("antd-restful").default;
 ```
 
-最常见的用法——在组件中发起安全的 HTTP 请求：
+最常见的用法——直接在 `RestTable` 中配置 `restful`：
 ```jsx
 import antdRestful from "antd-restful";
-const { apiTools: { useSafeRequest } } = antdRestful;
+const { RestTable } = antdRestful;
 
 function UserList() {
-  const [makeRequest] = useSafeRequest();
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    makeRequest().get('/api/users').then((resp) => setUsers(resp.data));
-  }, []);
-
-  return <RestTable dataSource={users} columns={[{ title: '名称', dataIndex: 'name' }]} />;
+  return (
+    <RestTable
+      restful="/api/users/"
+      columns={[{ title: "名称", dataIndex: "name" }]}
+      rowKey="id"
+    />
+  );
 }
 ```
 
