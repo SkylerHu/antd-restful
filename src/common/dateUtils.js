@@ -8,11 +8,6 @@ import { isString } from "./typeTools";
 let moment = null;
 let dayjs = null;
 
-// 检测antd版本
-export function detectAntdVersion() {
-  return antdMajorVersion;
-}
-
 // 懒加载moment
 function getMoment() {
   if (moment === null) {
@@ -52,7 +47,7 @@ export function createDate(dateInput, format = null) {
     return null;
   }
 
-  const version = detectAntdVersion();
+  const version = antdMajorVersion;
 
   if (version >= 5) {
     // antd5+ 使用dayjs
@@ -101,13 +96,7 @@ export function isValidDate(dateInput, format = null) {
   const date = createDate(dateInput, format);
   if (!date) return false;
 
-  const version = detectAntdVersion();
-
-  if (version >= 5) {
-    return date.isValid();
-  } else {
-    return date.isValid();
-  }
+  return date.isValid();
 }
 
 /**

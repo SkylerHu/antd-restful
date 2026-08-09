@@ -25,7 +25,7 @@
 
 ### Fixed
 
-- `dateUtils.detectAntdVersion` 改为复用统一版本解析逻辑，避免版本字符串分散解析带来的不一致风险。
+- `dateUtils` 直接移除 `detectAntdVersion` 导出，统一由 `versionUtil.antdMajorVersion` 提供版本判断，避免重复 API 与版本来源分散。
 
 ### Tests
 
