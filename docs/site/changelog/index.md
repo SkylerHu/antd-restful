@@ -2,6 +2,14 @@
 
 本文件记录该项目的所有重要变更。
 
+## [1.0.3](https://github.com/skylerhu/antd-restful/compare/v1.0.2...v1.0.3) - 2026-08-10
+
+### Changed
+
+- `RestList` 优化 `grid.column` 整除校验逻辑：增加 `filtersInited` 前置判断避免 filters 未初始化时误检；延迟 1 秒执行避免初始化阶段干扰；日志级别从 `console.error` 改为 `console.warn`，提示信息改为英文输出。
+
+---
+
 ## [1.0.2](https://github.com/skylerhu/antd-restful/compare/v1.0.1...v1.0.2) - 2026-08-09
 
 ### Added

@@ -450,8 +450,8 @@ describe("RestList", () => {
   });
 
   describe("grid + page_size 校验测试", () => {
-    it("should log console.error when page_size is not multiple of grid.column", async () => {
-      const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    it("should log console.warn when page_size is not multiple of grid.column", async () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
 
       mockMakeRequest.mockReturnValue({
         get: jest.fn().mockResolvedValue({
@@ -469,12 +469,12 @@ describe("RestList", () => {
       );
 
       await waitFor(() => {
-        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("page_size=3 必须是 grid.column=2 的倍数"));
-      });
+        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("page_size=3 is not a multiple of grid.column=2"));
+      }, { timeout: 3000 });
     });
 
-    it("should include restful in the error message", async () => {
-      const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    it("should include restful in the warn message", async () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
 
       mockMakeRequest.mockReturnValue({
         get: jest.fn().mockResolvedValue({
@@ -493,11 +493,11 @@ describe("RestList", () => {
 
       await waitFor(() => {
         expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('restful="/api/items/"'));
-      });
+      }, { timeout: 3000 });
     });
 
-    it("should not log error when page_size is valid multiple", async () => {
-      const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    it("should not log warn when page_size is valid multiple", async () => {
+      const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
 
       mockMakeRequest.mockReturnValue({
         get: jest.fn().mockResolvedValue({
