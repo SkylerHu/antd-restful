@@ -33,6 +33,20 @@ npm install dayjs
 npm install moment
 ```
 
+如果你的项目使用 Node 12 等低版本环境，可安装 `0.x` 兼容版本：
+
+```bash
+npm install antd-restful@compat
+# 或指定具体版本
+npm install antd-restful@0.5.0
+```
+
+兼容版本的导入方式略有不同：
+
+```js
+import * as antdRestful from "antd-restful";
+```
+
 ## 快速开始
 
 ```jsx | pure

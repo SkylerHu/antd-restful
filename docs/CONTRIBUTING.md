@@ -8,10 +8,17 @@
 常用命令：
 - 安装依赖 `npm install .`
 - 本地联调（mock + demo）`npm run start`
-- 组件库打包（father，输出 ESM + CJS）`npm run build`
-- 旧版 webpack 打包（已废弃，不用于发版）`npm run build:webpack`
 - 测试用例 `npm run test`
-- 发版 `npm publish`
+
+构建和发版通过 Makefile 执行（自动切换到 Node 18）：
+
+| 命令 | 说明 |
+|---|---|
+| `make build` | 构建主版本（father ESM + CJS → `dist/`） |
+| `make build-compat` | 构建兼容版本（webpack UMD → `compat/dist/`） |
+| `make publish` | 构建 + 发布主版本（latest 标签） |
+| `make publish-compat` | 构建 + 发布兼容版本（compat 标签） |
+| `make clean` | 清理所有构建产物 |
 
 ## 使用 yalc 本地联调
 
@@ -49,11 +56,23 @@ father 构建行为说明：
 - 该模式不走 terser 压缩改名流程，因此不会因为压缩导致类名/方法名被混淆。
 
 发版流程：
-1. `npm run build`
-2. `npm publish`
+```bash
+make publish
+```
 
-废弃说明：
-- `npm run build:webpack` 为历史兼容脚本，产物入口与当前包入口定义不一致。
-- `build:webpack` 的旧入口文件为 `dist/index.js`（webpack 产物）。
-- 当前 `package.json` 入口为 `main=dist/cjs/index.js`、`module=dist/esm/index.js`，对应 father 产物。
-- 若使用 `build:webpack` 会生成不同结构的旧产物，不应作为 npm 发版产物，后续计划移除该脚本。
+## 发布兼容版本（0.x）
+
+`0.x` 版本线用于发布 Node 12 / npm 6 兼容版本，供无法升级 Node 的老项目使用。兼容版本从 `0.5.0` 开始。
+
+兼容版本的 `package.json` 独立存放在 `compat/` 目录，通过 webpack 将所有依赖（含 `query-string`）打包为单文件 `compat/dist/index.js`，确保产物零外部依赖、语法兼容 Node 12。
+
+```bash
+make publish-compat
+```
+
+消费方通过 `npm install antd-restful@compat` 安装兼容版本。
+
+> **注意**：
+> - `0.x` 与主线版本（`1.x`）功能可能不完全一致，仅回移必要的 bugfix。
+> - `query-string` 保持 `9.x` 即可，webpack 构建时会自动将其打包并转译为兼容语法。
+> - 发布前请确认 `compat/package.json` 中的 `version` 字段已更新。
