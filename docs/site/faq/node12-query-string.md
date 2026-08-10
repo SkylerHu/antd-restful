@@ -20,7 +20,7 @@ url: getUrlWithoutQuery(url_ ?? ''),
 
 在使用方项目中通过包管理器覆盖依赖，强制 `antd-restful` 使用 `query-string@7.x`：
 
-### npm
+### npm（>= 8.3.0）
 
 ```json
 {
@@ -31,6 +31,38 @@ url: getUrlWithoutQuery(url_ ?? ''),
   }
 }
 ```
+
+### npm 6 / 7（借助 npm-force-resolutions）
+
+`overrides` 从 npm 8.3.0（随 Node.js 16 发布）才开始支持。如果你使用 Node 12（默认 npm 6），可以通过 [npm-force-resolutions](https://www.npmjs.com/package/npm-force-resolutions) 实现类似效果：
+
+1. 安装工具并配置 `package.json`：
+
+```json
+{
+  "resolutions": {
+    "query-string": "^7.1.3"
+  },
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions"
+  }
+}
+```
+
+2. 执行 `npm install`，`preinstall` 钩子会自动将 `package-lock.json` 中对应版本改写。
+
+> **⚠ 注意**：`npm-force-resolutions` 需要读取 `package-lock.json`。如果你刚删除了 `package-lock.json`，直接运行 `npm install` 会先触发 `preinstall` 钩子，此时文件尚不存在，将抛出：
+>
+> ```
+> ENOENT: no such file or directory, open './package-lock.json'
+> ```
+>
+> **解决办法**：先单独生成锁文件，再执行完整安装：
+>
+> ```bash
+> npm install --ignore-scripts   # 跳过钩子，仅生成 package-lock.json
+> npm install                    # 此时 preinstall 钩子可正常运行
+> ```
 
 ### pnpm
 
