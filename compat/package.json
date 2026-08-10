@@ -1,0 +1,39 @@
+{
+  "name": "antd-restful",
+  "version": "0.5.0",
+  "author": "SkylerHu",
+  "private": false,
+  "description": "Configuration-driven RESTful data components for Ant Design",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=12"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@ant-design/icons": ">=4",
+    "antd": ">=4.24",
+    "axios": ">=1.0.0",
+    "dayjs": ">=1.11.0",
+    "moment": ">=2.29.0",
+    "react": ">=16",
+    "react-dom": ">=16"
+  },
+  "peerDependenciesMeta": {
+    "dayjs": {
+      "optional": true
+    },
+    "moment": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "antd",
+    "restful",
+    "resttable",
+    "restselect"
+  ]
+}

@@ -4,14 +4,15 @@ const TerserPlugin = require("terser-webpack-plugin"); // eslint-disable-line
 
 const PATHS = {
   src: path.join(__dirname, "src"),
-  build: path.join(__dirname, "dist"),
+  build: path.join(__dirname, "compat", "dist"),
   // srcStatic: path.join(__dirname, "src", "static"),
   // buildStatic: path.join(__dirname, "dist", "static"),
 };
 
 const config = {
   mode: "production",
-  devtool: "source-map",
+  // devtool: "source-map",
+  devtool: false,
   entry: path.join(PATHS.src, "index.js"),
   output: {
     path: PATHS.build,
