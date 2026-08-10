@@ -121,7 +121,7 @@ const RestList = forwardRef(
         const column = grid?.column;
         if (column && column > 0 && pageSize % column !== 0) {
           console.warn( // eslint-disable-line no-console
-            `[RestList] restful="${restful}" list layout may be misaligned because page_size=${pageSize} is not a multiple of grid.column=${column}.`
+            `[RestList] restful="${restful}" page_size=${pageSize} 必须是 grid.column=${column} 的倍数，当前不满足会导致列表布局不对齐。`
           );
         }
       }, 1000);

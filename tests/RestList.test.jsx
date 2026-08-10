@@ -469,7 +469,7 @@ describe("RestList", () => {
       );
 
       await waitFor(() => {
-        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("page_size=3 is not a multiple of grid.column=2"));
+        expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("page_size=3 必须是 grid.column=2 的倍数"));
       }, { timeout: 3000 });
     });
 

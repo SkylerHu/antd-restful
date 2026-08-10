@@ -6,7 +6,7 @@
 
 ### Changed
 
-- `RestList` 优化 `grid.column` 整除校验逻辑：增加 `filtersInited` 前置判断避免 filters 未初始化时误检；延迟 1 秒执行避免初始化阶段干扰；日志级别从 `console.error` 改为 `console.warn`，提示信息改为英文输出。
+- `RestList` 优化 `grid.column` 整除校验逻辑：增加 `filtersInited` 前置判断避免 filters 未初始化时误检；延迟 1 秒执行避免初始化阶段干扰；日志级别从 `console.error` 改为 `console.warn`。
 
 ---
 
