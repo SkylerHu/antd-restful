@@ -5,8 +5,8 @@ order: 0
 
 # 组件总览
 
-| 组件 | 说明 |
-|------|------|
+| <div style="width: 18ch;">组件 (Component)</div> | 说明 |
+| --- | --- |
 | [RouteBaseTable](./route-base-table.md) | `RestTable`/`RestList` 的路由联动封装，通过 `viewType` 切换表格/列表视图，将筛选参数同步到 URL 并自动推断参数解析类型 |
 | [RestTable](./rest-table.md) | 基于 Table 的 RESTful 封装，支持远程数据加载、多种表头筛选类型（输入/选择/数字范围/日期范围）、排序、工具栏（高级搜索/自动刷新/下载/列设置）及展开行 |
 | [RestList](./rest-list.md) | 基于 List 的 RESTful 封装，支持 `loadMore`（加载更多）与 `pagination`（分页器）两种模式、筛选表单及 Grid 卡片布局 |

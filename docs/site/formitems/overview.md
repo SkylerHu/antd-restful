@@ -5,8 +5,8 @@ order: 0
 
 # 表单项总览
 
-| 组件 | 说明 |
-|------|------|
+| <div style="width: 20ch;">组件 (Component)</div> | 说明 |
+| --- | --- |
 | [RestSelect](./rest-select.md) | 基于 Select 的远程选择器，支持搜索防抖、数据缓存、多选、复制功能、`labelTemplate` 模板及只读模式 |
 | [TableSelect](./table-select.md) | 基于 `RestTable` 的表格选择器，支持多行选择、折叠面板展示已选数据、取消选择及聚合统计 |
 | [RestAutoComplete](./rest-auto-complete.md) | 基于 AutoComplete 的远程搜索自动补全，支持防抖、最小搜索字符数、自定义 `fieldNames` 映射及 `labelTemplate` |

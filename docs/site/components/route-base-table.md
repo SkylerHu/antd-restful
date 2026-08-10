@@ -1,7 +1,7 @@
 ---
-
-## title: RouteBaseTable
+title: RouteBaseTable
 order: 1
+---
 
 ## RouteBaseTable
 
@@ -21,7 +21,7 @@ order: 1
 ### 参数说明
 
 
-| 参数             | 说明                                | 类型                 | 默认值       | antd 覆盖说明 | 版本  |
+| <div style="width: 21ch;">参数 (Property)</div> | 说明                                | 类型                 | 默认值       | antd 覆盖说明 | 版本  |
 | -------------- | --------------------------------- | ------------------ | --------- | --------- | --- |
 | location       | 路由 location 对象，包含当前 URL 信息        | `object`           | -         | -         | -   |
 | onSearchChange | 搜索参数变化回调，用于更新路由                   | `function(search)` | -         | -         | -   |
@@ -32,7 +32,7 @@ order: 1
 **restProps 中的关键参数：**
 
 
-| 参数              | 说明                                                                            | 类型                  | 默认值 | antd 覆盖说明 | 版本     |
+| <div style="width: 21ch;">参数 (Property)</div> | 说明                                                                            | 类型                  | 默认值 | antd 覆盖说明 | 版本     |
 | --------------- | ----------------------------------------------------------------------------- | ------------------- | --- | --------- | ------ |
 | baseParams      | 基础请求参数，与 URL 参数相同时会被过滤                                                        | `object`            | -   | -         | -      |
 | onFiltersChange | 筛选条件变化回调                                                                      | `function(filters)` | -   | -         | -      |

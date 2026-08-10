@@ -19,7 +19,7 @@ order: 2
 - 展开行支持：支持配置展开行以 Descriptions 形式展示详细信息
 
 ### 参数说明
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | **通用属性** | | | | | |
 | style | 自定义样式 | `object` | - | 透传 Table `style` | - |
@@ -58,7 +58,7 @@ order: 2
 
 **tools 配置项：**
 
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | advancedSearch | 是否启用搜索字段设置能力，`string` 时作为存储 key | `boolean \| string` | `true` | - | - |
 | refreshInterval | 刷新间隔（毫秒），0为手动刷新，>0为自动刷新，<0为隐藏刷新按钮 | `number` | `0` | - | - |
@@ -68,7 +68,7 @@ order: 2
 
 **columns 配置项：**
 
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | title | 列标题 | `string` | - | 透传 Column `title` | - |
 | dataIndex | 列数据在数据项中对应的路径 | `string` | - | 透传 Column `dataIndex` | - |
@@ -90,7 +90,7 @@ order: 2
 
 **filterDropdownConfig 配置项：**
 
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | type | 筛选类型 | `'input' \| 'select' \| 'number' \| 'number-range' \| 'date-range-picker'` | - | - | - |
 | style | 筛选下拉框的自定义样式 | `object` | - | - | - |
@@ -519,7 +519,7 @@ filterFormProps: {
 ```
 
 2. **处理 query 参数在超大数值下丢失精度问题**
-1）升级 `query-string > 9.1`，支持配置 `parseOptions.types` 指定字段类型  
+1）升级 `query-string > 9.1`，支持配置 `parseOptions.types` 指定字段类型
 2）若使用 `RouteBaseTable`，可通过 `parseTypes` 做兼容映射
 ```js
 <RouteBaseTable

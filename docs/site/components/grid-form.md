@@ -21,7 +21,7 @@ order: 4
 
 ### 参数说明
 
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 23ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | **通用属性** | | | | | |
 | style | 自定义样式 | `object` | - | 透传 Form `style` | - |
@@ -44,7 +44,7 @@ order: 4
 
 **fields 配置项：**
 
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 23ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | key | 字段唯一标识，同时作为表单字段的 name | `string` | - | 透传 Form.Item `name` | - |
 | label | 字段标签，未设置时使用 key 值 | `string` | `key` | 透传 Form.Item `label` | - |

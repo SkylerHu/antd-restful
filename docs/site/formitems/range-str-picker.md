@@ -14,7 +14,7 @@ order: 8
 - 自动处理字符串与 dayjs 对象的转换
 
 ### 参数说明
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 18ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | **通用属性** | | | | | |
 | style | 自定义样式 | `object` | - | 透传 RangePicker `style` | - |

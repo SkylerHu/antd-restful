@@ -15,7 +15,7 @@ order: 3
 - 支持搜索最小字符数限制
 
 ### 参数说明
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 20ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | **通用属性** | | | | | |
 | style | 自定义样式 | `object` | - | 透传 AutoComplete `style` | - |
