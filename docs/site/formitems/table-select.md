@@ -15,7 +15,7 @@ order: 2
 - 完全继承 RestTable 的所有功能
 
 ### 参数说明
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 19ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | **通用属性** | | | | | |
 | value | 值仅支持对象数组格式 | `array<object>` | - | - | - |

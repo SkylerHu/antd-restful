@@ -15,7 +15,7 @@ order: 11
 - 基于 Ant Design Space 和 Tag 组件实现
 
 ### 参数说明
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 18ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | - | - | - | - | - | - |
 | **通用属性** | | | | | |
 | children | 子组件，用于编辑当前值 | `ReactNode` | - | - | - |

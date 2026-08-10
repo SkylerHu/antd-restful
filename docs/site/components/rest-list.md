@@ -19,7 +19,7 @@ order: 3
 ### 参数说明
 
 
-| 参数 | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 22ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
 | --- | --- | --- | --- | --- | --- |
 | **通用属性** | | | | | |
 | style | 自定义样式 | `object` | - | 透传 List `style` | - |
@@ -59,7 +59,7 @@ order: 3
 **loadMoreProps 配置项：**
 
 
-| 参数 | 说明 | 类型 | 默认值 |
+| <div style="width: 22ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | style | 自定义加载更多区域的容器样式，会与默认样式合并 | `object` | `{ textAlign: 'center', marginTop: 12, marginBottom: 12 }` |
 | text | 自定义按钮文案 | `string` | `'加载更多'` |
@@ -69,7 +69,7 @@ order: 3
 **grid 配置项：**
 
 
-| 参数     | 说明              | 类型       | 默认值 |
+| <div style="width: 22ch;">参数 (Property)</div> | 说明              | 类型       | 默认值 |
 | ------ | --------------- | -------- | --- |
 | gutter | 栅格间距            | `number` | -   |
 | column | 列数              | `number` | -   |
