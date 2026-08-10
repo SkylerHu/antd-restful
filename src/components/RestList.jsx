@@ -114,16 +114,19 @@ const RestList = forwardRef(
     const filtersInited = useMemo(() => innerFilters[fieldPage] && innerFilters[fieldPageSize], [innerFilters, fieldPage, fieldPageSize]);
 
     useEffect(() => {
-      if (!pageSize) {
+      if (!pageSize || !filtersInited) {
         return;
       }
-      const column = grid?.column;
-      if (column && column > 0 && pageSize % column !== 0) {
-        console.error( // eslint-disable-line no-console
-          `[RestList] restful="${restful}" page_size=${pageSize} 必须是 grid.column=${column} 的倍数，当前不满足，会导致列表布局不对齐。`
-        );
-      }
-    }, [grid?.column, pageSize, restful]);
+      const timer = setTimeout(() => {
+        const column = grid?.column;
+        if (column && column > 0 && pageSize % column !== 0) {
+          console.warn( // eslint-disable-line no-console
+            `[RestList] restful="${restful}" page_size=${pageSize} 必须是 grid.column=${column} 的倍数，当前不满足会导致列表布局不对齐。`
+          );
+        }
+      }, 1000);
+      return () => clearTimeout(timer);
+    }, [grid?.column, pageSize, restful, filtersInited]);
 
     useEffect(() => {
       const oldV = formFiltersRef.current;

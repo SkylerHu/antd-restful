@@ -1,5 +1,21 @@
 # Changelog (0.x)
 
+## 0.5.0 - 2026-08-10
+
+### Added
+
+- 首个兼容发布版本，通过 webpack 将所有依赖打包为 UMD 单文件（`compat/dist/index.js`），确保在 Node 12 / npm 6 环境下可直接使用。
+- 独立的 `compat/package.json`，声明 `peerDependencies`（react、antd、axios 等）与 `peerDependenciesMeta`（dayjs、moment 可选）。
+- 消费方通过 `npm install antd-restful@compat` 或 `npm install antd-restful@0.5.0` 安装。
+- 导入方式：`import * as antdRestful from "antd-restful"`。
+
+### Notes
+
+- 功能与主线版本 `1.0.3` 保持一致。
+- 后续 `0.x` 版本仅回移必要的 bugfix。
+
+---
+
 ## 0.4.0
 
 ### Added
