@@ -45,6 +45,8 @@ order: 1
 
 ### 使用示例
 
+封装一个通用的路由表格组件，支持 ref 转发和视图切换
+
 ```jsx | pure
 import React, { forwardRef } from 'react';
 import PropTypes from "prop-types";
@@ -76,8 +78,14 @@ RouteTable.displayName = 'RouteTable';
 RouteTable.propTypes = {
   viewType: PropTypes.oneOf(ViewType.map((o) => o.value)),
 };
+```
 
-// 使用封装的组件
+使用封装的组件
+
+```jsx | pure
+import React from 'react';
+import RouteTable from './RouteTable'
+
 const UserList = () => {
   return (
     <RouteTable
@@ -119,8 +127,9 @@ const UserList = () => {
 
 ```jsx | pure
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router';
 import antdRestful from 'antd-restful';
+import RouteTable from './RouteTable'
+
 const { constants: { FieldType } } = antdRestful;
 
 const UserListWithRangeFields = () => {
