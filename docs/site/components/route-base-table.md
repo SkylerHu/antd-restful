@@ -4,11 +4,9 @@ order: 1
 ---
 
 ## RouteBaseTable
-
 基于 RestTable 组件实现的路由联动表格，支持将表格的筛选参数同步到 URL 查询字符串中，实现页面刷新后保持筛选状态。
 
 **功能特性：**
-
 - 路由联动：表格筛选参数自动同步到 URL 查询字符串
 - 状态保持：页面刷新后自动恢复之前的筛选状态
 - 参数过滤：自动过滤与默认参数相同的参数，避免冗余的 URL 参数
@@ -19,30 +17,24 @@ order: 1
 - 回调支持：支持筛选变化和搜索变化的自定义回调
 
 ### 参数说明
-
-
-| <div style="width: 21ch;">参数 (Property)</div> | 说明                                | 类型                 | 默认值       | antd 覆盖说明 | 版本  |
-| -------------- | --------------------------------- | ------------------ | --------- | --------- | --- |
-| location       | 路由 location 对象，包含当前 URL 信息        | `object`           | -         | -         | -   |
-| onSearchChange | 搜索参数变化回调，用于更新路由                   | `function(search)` | -         | -         | -   |
-| viewType       | 视图类型，支持 `'table'` 和 `'list'` 两种模式 | `string`           | `'table'` | -         | -   |
-| restProps      | 传递给 RestTable/RestList 的所有属性      | `object`           | -         | -         | -   |
-
+| <div style="width: 21ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| - | - | - | - | - | - |
+| location | 路由 location 对象，包含当前 URL 信息 | `object` | - | - | - |
+| onSearchChange | 搜索参数变化回调，用于更新路由 | `function(search)` | - | - | - |
+| viewType | 视图类型，支持 `'table'` 和 `'list'` 两种模式 | `string` | `'table'` | - | - |
+| restProps | 传递给 RestTable/RestList 的所有属性 | `object` | - | - | - |
 
 **restProps 中的关键参数：**
-
-
-| <div style="width: 21ch;">参数 (Property)</div> | 说明                                                                            | 类型                  | 默认值 | antd 覆盖说明 | 版本     |
-| --------------- | ----------------------------------------------------------------------------- | ------------------- | --- | --------- | ------ |
-| baseParams      | 基础请求参数，与 URL 参数相同时会被过滤                                                        | `object`            | -   | -         | -      |
-| onFiltersChange | 筛选条件变化回调                                                                      | `function(filters)` | -   | -         | -      |
-| parseOptions    | 解析query参数的选项, [query-string](https://www.npmjs.com/package/query-string) 的配置项 | `object`            | -   | -         | 0.1.14 |
-| parseTypes      | （已废弃）指定字段解析类型，用于解决低版本 query-string 中超大数值丢失精度问题                                | `object`            | -   | -         | -      |
-| 其他参数            | 所有 RestTable/RestList 支持的参数                                                   | -                   | -   | -         | -      |
+| <div style="width: 21ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| - | - | - | - | - | - |
+| baseParams | 基础请求参数，与 URL 参数相同时会被过滤 | `object` | - | - | - |
+| onFiltersChange | 筛选条件变化回调 | `function(filters)` | - | - | - |
+| parseOptions | 解析query参数的选项, [query-string](https://www.npmjs.com/package/query-string) 的配置项 | `object` | - | - | 0.1.14 |
+| parseTypes | （已废弃）指定字段解析类型，用于解决低版本 query-string 中超大数值丢失精度问题 | `object` | - | - | - |
+| 其他参数 | 所有 RestTable/RestList 支持的参数 | - | - | - | - |
 
 
 **parseOptions.types 的特殊说明**
-
 - 在 `0.2.0` 版本开始，升级了 `query-string@9` ，支持 `parseOptions.types` 配置指定key值的解析类型
 - 会根据配置的 `columns` 和 `filterFormProps.fields` 初始化默认的 `types`，可详见 `parser.guessQueryTypes` 函数的实现
   - `FiledType.INPUT` 默认解析成 `string`
@@ -84,15 +76,8 @@ RouteTable.displayName = 'RouteTable';
 RouteTable.propTypes = {
   viewType: PropTypes.oneOf(ViewType.map((o) => o.value)),
 };
-```
 
-#### 使用封装的组件
-
-```jsx | pure
-import React from 'react';
-import antdRestful from 'antd-restful';
-import RouteTable from './RouteTable'
-
+// 使用封装的组件
 const UserList = () => {
   return (
     <RouteTable
@@ -134,9 +119,9 @@ const UserList = () => {
 
 ```jsx | pure
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import antdRestful from 'antd-restful';
 const { constants: { FieldType } } = antdRestful;
-import RouteTable from './RouteTable'
 
 const UserListWithRangeFields = () => {
 
@@ -203,28 +188,29 @@ const UserListWithRangeFields = () => {
 ### 关键特性说明
 
 #### 路由联动机制
-
 - **URL 参数同步**：范围字段的值会自动同步到 URL 查询参数中
 - **状态保持**：页面刷新后自动恢复之前的范围筛选状态
 - **链接分享**：支持分享带范围筛选条件的链接
 
+
 ### 注意事项
 
 1. **路由兼容性**：由于 react-router v5 和 v6 的 API 差异，组件需要手动传入 `location` 对象和 `onSearchChange` 回调函数。
+
 2. **参数过滤**：组件会自动过滤与 `baseParams` 中相同的参数，避免在 URL 中显示冗余参数。
+
 3. **深度比较**：使用 `dequal` 库进行深度比较，确保参数变化的准确性。
+
 4. **初始化等待**：组件会等待从 URL 解析参数完成后再渲染，避免闪烁。
+
 5. **回调函数**：`onSearchChange` 回调会接收到完整的查询字符串（包含 `?` 前缀），需要根据实际路由库的 API 进行相应处理。
 
 ### 与 RestTable 的区别
 
-
-| 特性       | RestTable | RouteBaseTable |
-| -------- | --------- | -------------- |
-| 路由联动     | ❌         | ✅              |
-| 状态保持     | ❌         | ✅              |
-| URL 参数同步 | ❌         | ✅              |
-| 使用复杂度    | 简单        | 需要路由配置         |
-| 适用场景     | 独立表格      | 需要状态保持的表格      |
-
-
+| 特性 | RestTable | RouteBaseTable |
+| - | - | - |
+| 路由联动 | ❌ | ✅ |
+| 状态保持 | ❌ | ✅ |
+| URL 参数同步 | ❌ | ✅ |
+| 使用复杂度 | 简单 | 需要路由配置 |
+| 适用场景 | 独立表格 | 需要状态保持的表格 |
