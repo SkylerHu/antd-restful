@@ -57,7 +57,6 @@ const { RouteBaseTable, constants } = antdRestful;
 
 const { ViewType } = constants;
 
-// 封装一个通用的路由表格组件，支持 ref 转发和视图切换
 const RouteTable = forwardRef(({ viewType = ViewType.TABLE, ...restProps }, ref) => {
   const location = useLocation();
   const navigate = useNavigate();

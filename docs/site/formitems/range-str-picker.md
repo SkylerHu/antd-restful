@@ -36,49 +36,73 @@ order: 8
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { RangeStrPicker } } = antdRestful;
 
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
+
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [dateRange, setDateRange] = useState([]);
   const [timeRange, setTimeRange] = useState([]);
   const [datetimeRange, setDatetimeRange] = useState([]);
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <div>场景1：日期范围</div>
-      <RangeStrPicker
-        style={{ width: 380 }}
-        value={dateRange}
-        onChange={setDateRange}
-        format="YYYY-MM-DD"
-        placeholder={['开始日期', '结束日期']}
-      />
-      <div>当前日期范围：{JSON.stringify(dateRange || [])}</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <div>场景2：时间范围</div>
-      <RangeStrPicker
-        style={{ width: 380 }}
-        value={timeRange}
-        onChange={setTimeRange}
-        isTime
-        format="HH:mm:ss"
-        placeholder={['开始时间', '结束时间']}
-      />
-      <div>当前时间范围：{JSON.stringify(timeRange || [])}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：日期范围</Divider>
+        <Form.Item label="日期范围" style={{ marginBottom: 8 }}>
+          <RangeStrPicker
+            style={{ width: 380 }}
+            value={dateRange}
+            onChange={setDateRange}
+            readOnly={readOnly}
+            disabled={disabled}
+            format="YYYY-MM-DD"
+            placeholder={['开始日期', '结束日期']}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(dateRange)}</div>
+        </Form.Item>
 
-      <div>场景3：日期时间范围</div>
-      <RangeStrPicker
-        style={{ width: 380 }}
-        value={datetimeRange}
-        onChange={setDatetimeRange}
-        format="YYYY-MM-DD HH:mm:ss"
-        antdRangePickerProps={{ showTime: true }}
-      />
-      <div>当前日期时间范围：{JSON.stringify(datetimeRange || [])}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：时间范围</Divider>
+        <Form.Item label="时间范围" style={{ marginBottom: 8 }}>
+          <RangeStrPicker
+            style={{ width: 380 }}
+            value={timeRange}
+            onChange={setTimeRange}
+            readOnly={readOnly}
+            disabled={disabled}
+            isTime
+            format="HH:mm:ss"
+            placeholder={['开始时间', '结束时间']}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(timeRange)}</div>
+        </Form.Item>
 
-      <div>场景4：只读模式</div>
-      <RangeStrPicker style={{ width: 380 }} value={['2023-01-01', '2023-12-31']} format="YYYY-MM-DD" readOnly />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：日期时间范围</Divider>
+        <Form.Item label="日期时间" style={{ marginBottom: 8 }}>
+          <RangeStrPicker
+            style={{ width: 380 }}
+            value={datetimeRange}
+            onChange={setDatetimeRange}
+            readOnly={readOnly}
+            disabled={disabled}
+            format="YYYY-MM-DD HH:mm:ss"
+            antdRangePickerProps={{ showTime: true }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(datetimeRange)}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
@@ -114,7 +138,7 @@ export default () => {
         onChange={(nextValue) => setValue(normalize(nextValue))}
         format="YYYY-MM-DD"
       />
-      <div>当前字符串值：{value || '-'}</div>
+      <div>表单value值：{value}</div>
     </div>
   );
 };
@@ -146,7 +170,7 @@ export default () => {
         defaultValue={defaultRange}
         defaultEmptyValue=""
       />
-      <div>当前范围值：{JSON.stringify(displayValue)}</div>
+      <div>表单value值：{JSON.stringify(displayValue)}</div>
     </div>
   );
 };

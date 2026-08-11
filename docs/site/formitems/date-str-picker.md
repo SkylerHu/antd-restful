@@ -35,29 +35,56 @@ order: 7
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { DateStrPicker } } = antdRestful;
 
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
+
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [datetime, setDatetime] = useState('');
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <DateStrPicker style={{ width: 320 }} value={date} onChange={setDate} format="YYYY-MM-DD" placeholder="请选择日期" />
-      <div>当前日期值：{date || '-'}</div>
-      <DateStrPicker style={{ width: 320 }} value={time} onChange={setTime} picker="time" format="HH:mm:ss" placeholder="请选择时间" />
-      <div>当前时间值：{time || '-'}</div>
-      <DateStrPicker
-        style={{ width: 320 }}
-        value={datetime}
-        onChange={setDatetime}
-        format="YYYY-MM-DD HH:mm:ss"
-        antdPickerProps={{ showTime: true }}
-      />
-      <div>当前日期时间值：{datetime || '-'}</div>
-      <DateStrPicker style={{ width: 320 }} value="2023-12-25" format="YYYY-MM-DD" readOnly />
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
+
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：日期选择</Divider>
+        <Form.Item label="日期" style={{ marginBottom: 8 }}>
+          <DateStrPicker style={{ width: 320 }} value={date} onChange={setDate} readOnly={readOnly} disabled={disabled} format="YYYY-MM-DD" placeholder="请选择日期" />
+          <div style={valueStyle}>表单value值：{date}</div>
+        </Form.Item>
+
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：时间选择</Divider>
+        <Form.Item label="时间" style={{ marginBottom: 8 }}>
+          <DateStrPicker style={{ width: 320 }} value={time} onChange={setTime} readOnly={readOnly} disabled={disabled} picker="time" format="HH:mm:ss" placeholder="请选择时间" />
+          <div style={valueStyle}>表单value值：{time}</div>
+        </Form.Item>
+
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：日期时间选择</Divider>
+        <Form.Item label="日期时间" style={{ marginBottom: 8 }}>
+          <DateStrPicker
+            style={{ width: 320 }}
+            value={datetime}
+            onChange={setDatetime}
+            readOnly={readOnly}
+            disabled={disabled}
+            format="YYYY-MM-DD HH:mm:ss"
+            antdPickerProps={{ showTime: true }}
+          />
+          <div style={valueStyle}>表单value值：{datetime}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

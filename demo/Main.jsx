@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { Tabs } from "antd";
 import { useNavigate, useParams } from "react-router";
 import ReadView from "./views/ReadView";
-import DynamicForm from "./views/StaticForm";
+import StaticForm from "./views/StaticForm";
 import TableDemo from "./views/TableDemo";
 import ListDemo from "./views/ListDemo";
 import { isAntd5Plus } from "../src/common/versionUtil";
@@ -16,7 +16,7 @@ export default function Main() {
     {
       key: "form",
       label: "StaticForm",
-      children: <DynamicForm />,
+      children: <StaticForm />,
     },
     {
       key: "read",

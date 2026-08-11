@@ -60,8 +60,11 @@ order: 5
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { RestTreeSelect } } = antdRestful;
+
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
 
 const treeData = [
   {
@@ -82,42 +85,53 @@ const treeData = [
 ];
 
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [singleValue, setSingleValue] = useState();
   const [multipleValue, setMultipleValue] = useState([]);
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
-      <div style={{ width: 320 }}>
-        <RestTreeSelect
-          style={{ width: 320 }}
-          treeData={treeData}
-          fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
-          value={singleValue}
-          onChange={setSingleValue}
-          antdTreeSelectProps={{ placeholder: '请选择单个节点', style: { width: '100%' } }}
-        />
-      </div>
-      <div>当前单选值：{String(singleValue ?? '')}</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <RestTreeSelect
-        style={{ width: 320 }}
-        treeData={treeData}
-        fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
-        value={multipleValue}
-        onChange={setMultipleValue}
-        antdTreeSelectProps={{ multiple: true, treeCheckable: true, placeholder: '请选择多个节点' }}
-        enableCopy
-      />
-      <div>当前多选值：{JSON.stringify(multipleValue || [])}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：单选模式</Divider>
+        <Form.Item label="选择值" style={{ marginBottom: 8 }}>
+          <RestTreeSelect
+            style={{ width: 320 }}
+            treeData={treeData}
+            fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
+            value={singleValue}
+            onChange={setSingleValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdTreeSelectProps={{ placeholder: '请选择单个节点', style: { width: '100%' } }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(singleValue ?? null)}</div>
+        </Form.Item>
 
-      <RestTreeSelect
-        style={{ width: 320 }}
-        value={[11, 21]}
-        treeData={treeData}
-        fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
-        readOnly
-        enableCopy
-      />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：多选模式 + 复制</Divider>
+        <Form.Item label="多选值" style={{ marginBottom: 8 }}>
+          <RestTreeSelect
+            style={{ width: 320 }}
+            treeData={treeData}
+            fieldNames={{ value: 'id', label: 'firstName', children: 'children' }}
+            value={multipleValue}
+            onChange={setMultipleValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdTreeSelectProps={{ multiple: true, treeCheckable: true, placeholder: '请选择多个节点' }}
+            enableCopy
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(multipleValue)}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

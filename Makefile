@@ -2,7 +2,7 @@ SHELL := /bin/bash
 .PHONY: build build-compat publish publish-compat clean clean-main clean-compat
 
 # nvm 是 shell 函数，需要先 source nvm.sh 才能使用
-NVM_USE := . "$$NVM_DIR/nvm.sh" && nvm use 18
+NVM_USE := . "$$NVM_DIR/nvm.sh" && nvm use
 
 # 构建主版本（ESM + CJS），使用 father bundless 转译，产物输出到 dist/
 build: clean-main

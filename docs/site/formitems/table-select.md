@@ -50,8 +50,11 @@ order: 2
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { TableSelect } } = antdRestful;
+
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
 
 const columns = [
   { title: 'ID', dataIndex: 'id', key: 'id', width: 80 },
@@ -60,27 +63,41 @@ const columns = [
 ];
 
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [selectedRows, setSelectedRows] = useState([]);
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <TableSelect
-        restful="https://dummyjson.com/users"
-        parseRowsPath="users"
-        parseTotalPath="total"
-        fieldPage="skip"
-        fieldPageSize="limit"
-        baseParams={{ limit: 8 }}
-        value={selectedRows}
-        onChange={setSelectedRows}
-        columns={columns}
-        rowKey="id"
-        antdTableProps={{ size: 'small' }}
-      />
-      <div>当前选中行数：{selectedRows.length}</div>
-      <pre style={{ maxHeight: 160, overflow: 'auto', margin: 0 }}>
-        {JSON.stringify(selectedRows, null, 2)}
-      </pre>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
+
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：表格多选</Divider>
+        <Form.Item label="选中数据" style={{ marginBottom: 8 }}>
+          <TableSelect
+            restful="https://dummyjson.com/users"
+            parseRowsPath="users"
+            parseTotalPath="total"
+            fieldPage="skip"
+            fieldPageSize="limit"
+            baseParams={{ limit: 8 }}
+            value={selectedRows}
+            onChange={setSelectedRows}
+            columns={columns}
+            rowKey="id"
+            readOnly={readOnly}
+            disabled={disabled}
+            antdTableProps={{ size: 'small' }}
+          />
+          <div style={valueStyle}>表单value值：已选 {selectedRows.length} 条</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

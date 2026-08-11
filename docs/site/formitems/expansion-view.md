@@ -48,57 +48,74 @@ order: 9
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { ExpansionView } } = antdRestful;
 
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
+
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [basicValue, setBasicValue] = useState();
   const [templateValue, setTemplateValue] = useState();
   const [remoteValue, setRemoteValue] = useState();
 
-  const readOnlyValue = {
-    input: '{a,b,c}',
-    output: ['a', 'b', 'c'],
-    error: null,
-  };
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
 
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <div>场景1：基础 brace-expansion 扩展</div>
-      <ExpansionView
-        value={basicValue}
-        onChange={setBasicValue}
-        enableBraceExpansion
-        antdInputProps={{ placeholder: '输入 {a,b,c} 进行扩展', style: { width: 380 } }}
-      />
-      <div>基础扩展输出：{JSON.stringify(basicValue?.output ?? null)}</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <div>场景2：模板化输出</div>
-      <ExpansionView
-        value={templateValue}
-        onChange={setTemplateValue}
-        enableBraceExpansion
-        valueTemplate="processed_{value}_result"
-        baseParams={{ prefix: 'custom' }}
-        antdInputProps={{ placeholder: '输入后按模板输出', style: { width: 380 } }}
-      />
-      <div>模板输出：{JSON.stringify(templateValue?.output ?? null)}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础 brace-expansion 扩展</Divider>
+        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+          <ExpansionView
+            value={basicValue}
+            onChange={setBasicValue}
+            enableBraceExpansion
+            readOnly={readOnly}
+            disabled={disabled}
+            antdInputProps={{ placeholder: '输入 {a,b,c} 进行扩展', style: { width: 380 } }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(basicValue ?? null)}</div>
+        </Form.Item>
 
-      <div>场景3：远程校验（输入至少 3 个字符）</div>
-      <ExpansionView
-        value={remoteValue}
-        onChange={setRemoteValue}
-        restful="/api/validate"
-        inputKey="content"
-        inputMinEnter={3}
-        baseParams={{ type: 'validation' }}
-        antdInputProps={{ placeholder: '输入至少 3 个字符触发远程验证', style: { width: 380 } }}
-      />
-      <div>远程返回：{JSON.stringify(remoteValue?.output ?? null)}</div>
-      <div>远程错误：{remoteValue?.error || '-'}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：模板化输出</Divider>
+        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+          <ExpansionView
+            value={templateValue}
+            onChange={setTemplateValue}
+            enableBraceExpansion
+            valueTemplate="processed_{value}_result"
+            baseParams={{ prefix: 'custom' }}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdInputProps={{ placeholder: '输入后按模板输出', style: { width: 380 } }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(templateValue ?? null)}</div>
+        </Form.Item>
 
-      <div>场景4：只读模式</div>
-      <ExpansionView value={readOnlyValue} readOnly />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：远程校验（输入至少 3 个字符）</Divider>
+        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+          <ExpansionView
+            value={remoteValue}
+            onChange={setRemoteValue}
+            restful="/api/validate"
+            inputKey="content"
+            inputMinEnter={3}
+            baseParams={{ type: 'validation' }}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdInputProps={{ placeholder: '输入至少 3 个字符触发远程验证', style: { width: 380 } }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(remoteValue ?? null)}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

@@ -43,44 +43,67 @@ order: 12
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { MentionView } } = antdRestful;
 
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
+
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [basicValue, setBasicValue] = useState('');
   const [inValueData, setInValueData] = useState({ value: '', mentions: [] });
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
-      <MentionView
-        style={{ width: 360 }}
-        restful="https://dummyjson.com/users/search"
-        parseRowsPath="users"
-        value={basicValue}
-        onChange={setBasicValue}
-        searchKey="q"
-        fieldNames={{ value: 'username', label: 'firstName' }}
-        labelTemplate="{firstName} (@{username})"
-        antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 提及用户' }}
-      />
-      <div>当前输入值：{basicValue || '-'}</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <MentionView
-        style={{ width: 360 }}
-        restful="https://dummyjson.com/users/search"
-        parseRowsPath="users"
-        value={inValueData.value}
-        onChange={setInValueData}
-        inValue
-        searchKey="q"
-        searchMinEnter={1}
-        fieldNames={{ value: 'username', label: 'firstName' }}
-        labelTemplate="{firstName} (@{username})"
-        antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 查看 mentions 结构' }}
-      />
-      <div>当前 mentions：{JSON.stringify(inValueData.mentions || [])}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础 @ 提及</Divider>
+        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+          <MentionView
+            style={{ width: 360 }}
+            restful="https://dummyjson.com/users/search"
+            parseRowsPath="users"
+            value={basicValue}
+            onChange={setBasicValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            searchKey="q"
+            fieldNames={{ value: 'username', label: 'firstName' }}
+            labelTemplate="{firstName} (@{username})"
+            antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 提及用户' }}
+          />
+          <div style={valueStyle}>表单value值：{basicValue}</div>
+        </Form.Item>
 
-      <MentionView style={{ width: 360 }} value="Hello @张三, 请查看这个任务" readOnly />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：inValue 模式（含 mentions 结构）</Divider>
+        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+          <MentionView
+            style={{ width: 360 }}
+            restful="https://dummyjson.com/users/search"
+            parseRowsPath="users"
+            value={inValueData.value}
+            onChange={setInValueData}
+            readOnly={readOnly}
+            disabled={disabled}
+            inValue
+            searchKey="q"
+            searchMinEnter={1}
+            fieldNames={{ value: 'username', label: 'firstName' }}
+            labelTemplate="{firstName} (@{username})"
+            antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 查看 mentions 结构' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(inValueData)}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

@@ -49,66 +49,91 @@ order: 10
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { NumberRange } } = antdRestful;
 
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
+
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [basicRange, setBasicRange] = useState();
   const [priceRange, setPriceRange] = useState([100, 1000]);
   const [ageRange, setAgeRange] = useState();
   const [stepRange, setStepRange] = useState();
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <div>场景1：基础数值范围</div>
-      <NumberRange
-        value={basicRange}
-        onChange={setBasicRange}
-        antdStartProps={{ placeholder: '最小值' }}
-        antdEndProps={{ placeholder: '最大值' }}
-      />
-      <div>基础范围：{JSON.stringify(basicRange ?? null)}</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <div>场景2：价格区间（货币格式）</div>
-      <NumberRange
-        value={priceRange}
-        onChange={setPriceRange}
-        antdInputProps={{
-          min: 0,
-          precision: 2,
-          formatter: (value) => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-          parser: (value) => value.replace(/¥\s?|(,*)/g, ''),
-        }}
-        antdStartProps={{ placeholder: '最低价格' }}
-        antdEndProps={{ placeholder: '最高价格' }}
-      />
-      <div>价格区间：{JSON.stringify(priceRange ?? null)}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础数值范围</Divider>
+        <Form.Item label="数值范围" style={{ marginBottom: 8 }}>
+          <NumberRange
+            value={basicRange}
+            onChange={setBasicRange}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdStartProps={{ placeholder: '最小值' }}
+            antdEndProps={{ placeholder: '最大值' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(basicRange ?? null)}</div>
+        </Form.Item>
 
-      <div>场景3：年龄区间（整数限制）</div>
-      <NumberRange
-        value={ageRange}
-        onChange={setAgeRange}
-        antdInputProps={{ min: 0, max: 120, precision: 0 }}
-        antdStartProps={{ placeholder: '最小年龄' }}
-        antdEndProps={{ placeholder: '最大年龄' }}
-      />
-      <div>年龄区间：{JSON.stringify(ageRange ?? null)}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：价格区间（货币格式）</Divider>
+        <Form.Item label="价格范围" style={{ marginBottom: 8 }}>
+          <NumberRange
+            value={priceRange}
+            onChange={setPriceRange}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdInputProps={{
+              min: 0,
+              precision: 2,
+              formatter: (value) => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+              parser: (value) => value.replace(/¥\s?|(,*)/g, ''),
+            }}
+            antdStartProps={{ placeholder: '最低价格' }}
+            antdEndProps={{ placeholder: '最高价格' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(priceRange)}</div>
+        </Form.Item>
 
-      <div>场景4：步长输入</div>
-      <NumberRange
-        value={stepRange}
-        onChange={setStepRange}
-        antdInputProps={{ step: 10, min: 0, max: 1000 }}
-        antdStartProps={{ placeholder: '起始值' }}
-        antdEndProps={{ placeholder: '结束值' }}
-      />
-      <div>步长区间：{JSON.stringify(stepRange ?? null)}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：年龄区间（整数限制）</Divider>
+        <Form.Item label="年龄范围" style={{ marginBottom: 8 }}>
+          <NumberRange
+            value={ageRange}
+            onChange={setAgeRange}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdInputProps={{ min: 0, max: 120, precision: 0 }}
+            antdStartProps={{ placeholder: '最小年龄' }}
+            antdEndProps={{ placeholder: '最大年龄' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(ageRange ?? null)}</div>
+        </Form.Item>
 
-      <div>场景5：只读模式</div>
-      <NumberRange value={[18, 65]} readOnly labelTemplate="年龄范围：{0} - {1} 岁" />
-
-      <div>场景6：禁用状态</div>
-      <NumberRange value={[10, 100]} disabled />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景4：步长输入</Divider>
+        <Form.Item label="数值范围" style={{ marginBottom: 8 }}>
+          <NumberRange
+            value={stepRange}
+            onChange={setStepRange}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdInputProps={{ step: 10, min: 0, max: 1000 }}
+            antdStartProps={{ placeholder: '起始值' }}
+            antdEndProps={{ placeholder: '结束值' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(stepRange ?? null)}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
