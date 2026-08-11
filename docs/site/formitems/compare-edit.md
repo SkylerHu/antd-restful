@@ -68,6 +68,8 @@ CompareEdit 内部会自动从 onChange 的参数中提取纯净的 value 值，
 1. **注入子组件时用什么属性名传值**（如 `value` 或 `checked`）
 2. **从 onChange 事件中取哪个字段**（如 `event.target.value` 或 `event.target.checked`）
 
+> 注意：`valuePropName` 只配置在 CompareEdit 上，`Form.Item` 保持默认（`valuePropName="value"`）。因为 CompareEdit 本身始终通过 `value` prop 接收表单值，再由它内部根据 `valuePropName` 决定传什么属性给子组件。
+
 | 子组件 | 是否需要配置 | 说明 |
 | --- | --- | --- |
 | Input / Select / DatePicker 等 | 不需要 | 默认 `valuePropName="value"` 即可 |
@@ -141,13 +143,13 @@ export default () => {
         </Form.Item>
 
         <Divider orientation="left" style={{ margin: '8px 0' }}>Checkbox / Switch / Radio</Divider>
-        <Form.Item label="Checkbox (checked)" name="checked" valuePropName="checked" style={{ marginBottom: 8 }}>
+        <Form.Item label="Checkbox (checked)" name="checked" style={{ marginBottom: 8 }}>
           <CompareEdit historyValue={false} valuePropName="checked" readOnly={readOnly} disabled={disabled}>
             <Checkbox>启用功能</Checkbox>
           </CompareEdit>
         </Form.Item>
 
-        <Form.Item label="Switch (switched)" name="switched" valuePropName="checked" style={{ marginBottom: 8 }}>
+        <Form.Item label="Switch (switched)" name="switched" style={{ marginBottom: 8 }}>
           <CompareEdit historyValue={false} valuePropName="checked" readOnly={readOnly} disabled={disabled}>
             <Switch />
           </CompareEdit>
@@ -172,7 +174,7 @@ export default () => {
 
 ### 注意事项
 1. **children 组件**：必须传入一个可编辑的组件作为子元素，该组件需要支持 `value`（或 `checked`）和 `onChange` 属性
-2. **valuePropName 配置**：对于 Checkbox（单个）、Switch、Radio（单个），必须设置 `valuePropName="checked"`，否则组件无法正确接收值。同时在 `Form.Item` 上也需设置 `valuePropName="checked"`
+2. **valuePropName 配置**：对于 Checkbox（单个）、Switch、Radio（单个），在 **CompareEdit** 上设置 `valuePropName="checked"`。注意 `Form.Item` 上**不要**设置 `valuePropName="checked"`，因为 CompareEdit 始终通过 `value` 属性接收表单值
 3. **Radio.Group / Checkbox.Group**：使用 `value` 属性（默认），无需额外配置 `valuePropName`
 4. **数据类型一致性**：历史值与当前值的数据类型必须一致才能进行有效对比
 5. **options 配置**：当值为基础类型时，需要提供 options 数组来格式化显示标签
