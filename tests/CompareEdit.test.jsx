@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { Checkbox, Input, Switch } from "antd";
+import { Checkbox, Input, Radio, Switch } from "antd";
 import RestSelect from "src/components/formitems/RestSelect";
 import CompareEdit from "src/components/formitems/CompareEdit";
 
@@ -226,6 +226,32 @@ describe("CompareEdit", () => {
       const input = screen.getByTestId("input");
       fireEvent.change(input, { target: { value: "hello" } });
       expect(onChange).toHaveBeenCalledWith("custom:hello");
+    });
+
+    it("should pass checked prop to Switch when valuePropName is checked", () => {
+      const { container } = render(
+        <CompareEdit historyValue={false} value={true} valuePropName="checked">
+          <Switch />
+        </CompareEdit>
+      );
+
+      const switchEl = container.querySelector(".ant-switch");
+      expect(switchEl).toHaveClass("ant-switch-checked");
+    });
+
+    it("should extract e.target.value from Radio.Group onChange", () => {
+      const onChange = jest.fn();
+      render(
+        <CompareEdit historyValue="a" value="a" onChange={onChange}>
+          <Radio.Group>
+            <Radio value="a">A</Radio>
+            <Radio value="b">B</Radio>
+          </Radio.Group>
+        </CompareEdit>
+      );
+
+      fireEvent.click(screen.getByRole("radio", { name: "B" }));
+      expect(onChange).toHaveBeenCalledWith("b");
     });
   });
 });

@@ -17,13 +17,16 @@ const DEFAULT_VALUE_PROP_NAME = "value";
 function defaultGetValueFromEvent(valuePropName, ...args) {
   const event = args[0];
   if (event && event.target && typeof event.target === "object") {
+    // Checkbox 单个: 通过 DOM type=checkbox 自动推断，提取 event.target.checked
     if (valuePropName === DEFAULT_VALUE_PROP_NAME && event.target.type === "checkbox") {
       return event.target.checked;
     }
+    // Input/TextArea → e.target.value; Checkbox(valuePropName=checked) → e.target.checked; Radio.Group → e.target.value
     if (valuePropName in event.target) {
       return event.target[valuePropName];
     }
   }
+  // Switch/Select/DatePicker/Checkbox.Group 等: 第一参数即为值，非 event 对象
   return event;
 }
 
@@ -167,7 +170,7 @@ const CompareEdit = ({
       {!readOnly && (
         <div style={{ marginBottom: 10 }}>
           {React.cloneElement(children, {
-            value,
+            [valuePropName]: value,
             disabled,
             onChange: (...args) => {
               const val = isFunction(getValueFromEvent)
