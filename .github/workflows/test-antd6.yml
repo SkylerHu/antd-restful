@@ -8,13 +8,19 @@ on:
       - "docs/**"
       - "demo/**"
       - "public/**"
-      - "README.md"
+      - "compat/**"
+      - "*.md"
+      - "Makefile"
+      - ".github/workflows/deploy-docs.yml"
   pull_request:
     paths-ignore:
       - "docs/**"
       - "demo/**"
       - "public/**"
-      - "README.md"
+      - "compat/**"
+      - "*.md"
+      - "Makefile"
+      - ".github/workflows/deploy-docs.yml"
   workflow_dispatch:
 
 jobs:
