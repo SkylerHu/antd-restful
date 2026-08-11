@@ -1,5 +1,6 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { Checkbox, Input, Switch } from "antd";
 import RestSelect from "src/components/formitems/RestSelect";
 import CompareEdit from "src/components/formitems/CompareEdit";
 
@@ -50,6 +51,20 @@ describe("CompareEdit", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "trigger-change" }));
     expect(onChange).toHaveBeenCalledWith("new", "extra");
+  });
+
+  it("should forward onChange to child's original onChange handler", () => {
+    const parentOnChange = jest.fn();
+    const childOnChange = jest.fn();
+    render(
+      <CompareEdit historyValue="old" value="old" onChange={parentOnChange}>
+        <TriggerChild onChange={childOnChange} />
+      </CompareEdit>
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "trigger-change" }));
+    expect(parentOnChange).toHaveBeenCalledWith("new", "extra");
+    expect(childOnChange).toHaveBeenCalledWith("new", "extra");
   });
 
   it("should show type mismatch message when old/new value types differ", async () => {
@@ -120,6 +135,97 @@ describe("CompareEdit", () => {
     await waitFor(() => {
       expect(screen.getByText("Old Name")).toBeInTheDocument();
       expect(screen.getByText("New Name")).toBeInTheDocument();
+    });
+  });
+
+  describe("onChange value extraction (getValueFromEvent)", () => {
+    it("should extract e.target.value from Input onChange", () => {
+      const onChange = jest.fn();
+      render(
+        <CompareEdit historyValue="old" value="old" onChange={onChange}>
+          <Input data-testid="input" />
+        </CompareEdit>
+      );
+
+      const input = screen.getByTestId("input");
+      fireEvent.change(input, { target: { value: "new-text" } });
+      expect(onChange).toHaveBeenCalledWith("new-text");
+    });
+
+    it("should extract checked from Switch onChange (direct value)", () => {
+      const onChange = jest.fn();
+      render(
+        <CompareEdit historyValue={false} value={false} onChange={onChange}>
+          <Switch data-testid="switch" />
+        </CompareEdit>
+      );
+
+      fireEvent.click(screen.getByRole("switch"));
+      expect(onChange).toHaveBeenCalled();
+      expect(onChange.mock.calls[0][0]).toBe(true);
+    });
+
+    it("should extract e.target.checked from single Checkbox onChange", () => {
+      const onChange = jest.fn();
+      render(
+        <CompareEdit historyValue={false} value={false} onChange={onChange} valuePropName="checked">
+          <Checkbox data-testid="checkbox">Check me</Checkbox>
+        </CompareEdit>
+      );
+
+      fireEvent.click(screen.getByRole("checkbox"));
+      expect(onChange).toHaveBeenCalledWith(true);
+    });
+
+    it("should auto-infer checked for Checkbox without explicit fieldValue", () => {
+      const onChange = jest.fn();
+      render(
+        <CompareEdit historyValue={false} value={false} onChange={onChange}>
+          <Checkbox data-testid="checkbox">Auto infer</Checkbox>
+        </CompareEdit>
+      );
+
+      fireEvent.click(screen.getByRole("checkbox"));
+      expect(onChange).toHaveBeenCalledWith(true);
+    });
+
+    it("should pass value directly for Checkbox.Group onChange", () => {
+      const onChange = jest.fn();
+      render(
+        <CompareEdit historyValue={["a"]} value={["a"]} onChange={onChange}>
+          <Checkbox.Group
+            options={[
+              { label: "A", value: "a" },
+              { label: "B", value: "b" },
+            ]}
+          />
+        </CompareEdit>
+      );
+
+      const checkboxB = screen.getByRole("checkbox", { name: "B" });
+      fireEvent.click(checkboxB);
+      expect(onChange).toHaveBeenCalledWith(
+        expect.arrayContaining(["a", "b"])
+      );
+    });
+
+    it("should use custom getValueFromEvent when provided", () => {
+      const onChange = jest.fn();
+      const customExtractor = (e) => `custom:${e.target.value}`;
+      render(
+        <CompareEdit
+          historyValue="old"
+          value="old"
+          onChange={onChange}
+          getValueFromEvent={customExtractor}
+        >
+          <Input data-testid="input" />
+        </CompareEdit>
+      );
+
+      const input = screen.getByTestId("input");
+      fireEvent.change(input, { target: { value: "hello" } });
+      expect(onChange).toHaveBeenCalledWith("custom:hello");
     });
   });
 });
