@@ -119,69 +119,92 @@ order: 6
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { UploadView } } = antdRestful;
+
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
 
 export default () => {
   // 演示地址：这里故意使用不可达接口，示例仅用于展示 UploadView JSX 用法。
   const demoUploadUrl = 'https://example.invalid/api/upload';
+  const [mode, setMode] = useState('edit');
   const [basicFiles, setBasicFiles] = useState([]);
   const [draggerFiles, setDraggerFiles] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [responseFiles, setResponseFiles] = useState([]);
 
-  const files = [
-    { uid: '1', url: '/files/document.pdf', name: 'document.pdf' },
-    { uid: '2', url: '/files/image.jpg', name: 'image.jpg' },
-  ];
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
 
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <div>场景说明：以下 uploadUrl 为不可达演示地址，仅用于展示 UploadView 用法。</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <div>场景1：基础上传（限制数量和大小）</div>
-      <UploadView
-        uploadUrl={demoUploadUrl}
-        value={basicFiles}
-        onChange={setBasicFiles}
-        maxCount={3}
-        maxSize={10 * 1024 * 1024}
-      />
-      <div>基础上传文件数：{Array.isArray(basicFiles) ? basicFiles.length : basicFiles ? 1 : 0}</div>
+      <div style={valueStyle}>说明：以下 uploadUrl 为不可达演示地址，仅用于展示 UploadView 用法。</div>
 
-      <div>场景2：拖拽上传</div>
-      <UploadView
-        uploadUrl={demoUploadUrl}
-        value={draggerFiles}
-        onChange={setDraggerFiles}
-        enableDragger
-        maxCount={5}
-        listType="text"
-      />
-      <div>拖拽上传文件数：{Array.isArray(draggerFiles) ? draggerFiles.length : draggerFiles ? 1 : 0}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础上传（限制数量和大小）</Divider>
+        <Form.Item label="上传文件" style={{ marginBottom: 8 }}>
+          <UploadView
+            uploadUrl={demoUploadUrl}
+            value={basicFiles}
+            onChange={setBasicFiles}
+            maxCount={3}
+            maxSize={10 * 1024 * 1024}
+            readOnly={readOnly}
+            disabled={disabled}
+          />
+          <div style={valueStyle}>表单value值：{basicFiles.length} 个文件</div>
+        </Form.Item>
 
-      <div>场景3：图片卡片上传</div>
-      <UploadView
-        uploadUrl={demoUploadUrl}
-        value={imageFiles}
-        onChange={setImageFiles}
-        listType="picture-card"
-        maxCount={6}
-        baseParams={{ type: 'image' }}
-      />
-      <div>图片上传文件数：{Array.isArray(imageFiles) ? imageFiles.length : imageFiles ? 1 : 0}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：拖拽上传</Divider>
+        <Form.Item label="上传文件" style={{ marginBottom: 8 }}>
+          <UploadView
+            uploadUrl={demoUploadUrl}
+            value={draggerFiles}
+            onChange={setDraggerFiles}
+            enableDragger
+            maxCount={5}
+            listType="text"
+            readOnly={readOnly}
+            disabled={disabled}
+          />
+          <div style={valueStyle}>表单value值：{draggerFiles.length} 个文件</div>
+        </Form.Item>
 
-      <div>场景4：保留服务端响应</div>
-      <UploadView
-        uploadUrl={demoUploadUrl}
-        value={responseFiles}
-        onChange={setResponseFiles}
-        preserveResponse
-      />
-      <div>保留响应示例值：{JSON.stringify(responseFiles ?? null)}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：图片卡片上传</Divider>
+        <Form.Item label="上传图片" style={{ marginBottom: 8 }}>
+          <UploadView
+            uploadUrl={demoUploadUrl}
+            value={imageFiles}
+            onChange={setImageFiles}
+            listType="picture-card"
+            maxCount={6}
+            baseParams={{ type: 'image' }}
+            readOnly={readOnly}
+            disabled={disabled}
+          />
+          <div style={valueStyle}>表单value值：{imageFiles.length} 个文件</div>
+        </Form.Item>
 
-      <div>场景5：只读模式</div>
-      <UploadView value={files} readOnly listType="picture" />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景4：保留服务端响应</Divider>
+        <Form.Item label="上传文件" style={{ marginBottom: 8 }}>
+          <UploadView
+            uploadUrl={demoUploadUrl}
+            value={responseFiles}
+            onChange={setResponseFiles}
+            preserveResponse
+            readOnly={readOnly}
+            disabled={disabled}
+          />
+          <div style={valueStyle}>表单value值：{responseFiles.length} 个文件</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

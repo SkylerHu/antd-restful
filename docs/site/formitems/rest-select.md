@@ -51,8 +51,11 @@ order: 1
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { RestSelect } } = antdRestful;
+
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
 
 const options = [
   { value: 1, label: '选项1' },
@@ -61,37 +64,52 @@ const options = [
 ];
 
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [singleValue, setSingleValue] = useState(1);
   const [multipleValue, setMultipleValue] = useState([1, 2]);
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <RestSelect
-        options={options}
-        value={singleValue}
-        onChange={setSingleValue}
-        antdSelectProps={{ style: { width: 320 } }}
-      />
-      <div>当前单选值：{String(singleValue ?? '')}</div>
-      <RestSelect
-        options={options}
-        mode="multiple"
-        value={multipleValue}
-        onChange={setMultipleValue}
-        enableCopy
-        style={{ width: 320 }}
-        antdSpaceProps={{ block: false }}
-        antdSelectProps={{ style: { width: 280 } }}
-      />
-      <div>当前多选值：{JSON.stringify(multipleValue)}</div>
-      <RestSelect
-        style={{ width: 320 }}
-        options={options}
-        mode="multiple"
-        value={[1, 2]}
-        readOnly
-        enableCopy
-      />
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
+
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：单选模式</Divider>
+        <Form.Item label="选择值" style={{ marginBottom: 8 }}>
+          <RestSelect
+            options={options}
+            value={singleValue}
+            onChange={setSingleValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdSelectProps={{ style: { width: 320 } }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(singleValue)}</div>
+        </Form.Item>
+
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：多选模式 + 复制</Divider>
+        <Form.Item label="多选值" style={{ marginBottom: 8 }}>
+          <RestSelect
+            options={options}
+            mode="multiple"
+            value={multipleValue}
+            onChange={setMultipleValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            enableCopy
+            style={{ width: 320 }}
+            antdSpaceProps={{ block: false }}
+            antdSelectProps={{ style: { width: 280 } }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(multipleValue)}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
@@ -120,7 +138,7 @@ export default () => {
         value={value}
         onChange={setValue}
       />
-      <div>当前选中值：{String(value ?? '')}</div>
+      <div>表单value值：{String(value ?? '')}</div>
     </div>
   );
 };
@@ -152,7 +170,7 @@ export default () => {
         fieldNames={{ value: 'id', label: 'title' }}
         labelTemplate="{title} - ¥{price}"
       />
-      <div>当前选中值：{String(value ?? '')}</div>
+      <div>表单value值：{String(value ?? '')}</div>
     </div>
   );
 };

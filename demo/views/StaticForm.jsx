@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Modal, Radio } from "antd";
+import { Modal, Radio, Input } from "antd";
 import libs from "demo/libs";
 import Enum from "js-enumerate";
 
@@ -65,7 +65,6 @@ export default function StaticForm() {
         ...editProps,
       },
     },
-
     {
       key: "users",
       label: "多选",
@@ -87,6 +86,16 @@ export default function StaticForm() {
             restful="api/users/"
             fieldNames={{ label: "nickname", value: "username" }}
           />
+        </CompareEdit>
+      ),
+    },
+    {
+      key: "compare",
+      label: "比较编辑",
+      type: FieldType.SELECT,
+      render: () => (
+        <CompareEdit historyValue="some value" emptyLabel="无数据">
+          <Input style={{ width: 320 }} placeholder="清空可查看空值标签效果" />
         </CompareEdit>
       ),
     },
@@ -300,8 +309,8 @@ export default function StaticForm() {
   ];
 
   // 方便调试单个组件
-  // const showFields = [];
-  const showFields = ["table"];
+  const showFields = [];
+  // const showFields = ["table"];
 
   return (
     <div>

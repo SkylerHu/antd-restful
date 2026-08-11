@@ -60,15 +60,22 @@ order: 4
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { RestCascader } } = antdRestful;
 
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
+
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [basicValue, setBasicValue] = useState();
   const [multiValue, setMultiValue] = useState([]);
   const [staticValue, setStaticValue] = useState();
   const [separatorValue, setSeparatorValue] = useState();
   const [fieldNamesValue, setFieldNamesValue] = useState();
+
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
 
   const options = [
     {
@@ -126,67 +133,86 @@ export default () => {
     })),
   }));
 
-  const readonlyOptions = [
-    {
-      value: 'tech',
-      label: '技术部',
-      children: [
-        { value: 'frontend', label: '前端组' },
-        { value: 'backend', label: '后端组' },
-      ],
-    },
-  ];
-
   return (
-    <div style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
-      <div>场景1：基础级联（静态可渲染）</div>
-      <RestCascader
-        style={{ width: 320 }}
-        options={options}
-        value={basicValue}
-        onChange={setBasicValue}
-        antdCascaderProps={{ placeholder: '请选择城市路径' }}
-      />
-      <div>当前基础值：{JSON.stringify(basicValue ?? null)}</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <div>场景2：多选模式 + 复制</div>
-      <RestCascader
-        style={{ width: 320 }}
-        options={options}
-        value={multiValue}
-        onChange={setMultiValue}
-        enableCopy
-        antdCascaderProps={{ multiple: true, placeholder: '请选择多个城市路径' }}
-      />
-      <div>当前多选值：{JSON.stringify(multiValue ?? null)}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础级联（静态可渲染）</Divider>
+        <Form.Item label="选择路径" style={{ marginBottom: 8 }}>
+          <RestCascader
+            style={{ width: 320 }}
+            options={options}
+            value={basicValue}
+            onChange={setBasicValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdCascaderProps={{ placeholder: '请选择城市路径' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(basicValue ?? null)}</div>
+        </Form.Item>
 
-      <div>场景3：静态数据</div>
-      <RestCascader style={{ width: 320 }} options={options} value={staticValue} onChange={setStaticValue} />
-      <div>当前静态值：{JSON.stringify(staticValue ?? null)}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：多选模式 + 复制</Divider>
+        <Form.Item label="多选路径" style={{ marginBottom: 8 }}>
+          <RestCascader
+            style={{ width: 320 }}
+            options={options}
+            value={multiValue}
+            onChange={setMultiValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            enableCopy
+            antdCascaderProps={{ multiple: true, placeholder: '请选择多个城市路径' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(multiValue)}</div>
+        </Form.Item>
 
-      <div>场景4：只读模式</div>
-      <RestCascader options={readonlyOptions} value={['tech', 'frontend']} readOnly enableCopy />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：静态数据</Divider>
+        <Form.Item label="选择路径" style={{ marginBottom: 8 }}>
+          <RestCascader
+            style={{ width: 320 }}
+            options={options}
+            value={staticValue}
+            onChange={setStaticValue}
+            readOnly={readOnly}
+            disabled={disabled}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(staticValue ?? null)}</div>
+        </Form.Item>
 
-      <div>场景5：自定义分隔符</div>
-      <RestCascader
-        style={{ width: 320 }}
-        options={options}
-        value={separatorValue}
-        onChange={setSeparatorValue}
-        separator=" > "
-      />
-      <div>当前分隔符场景值：{JSON.stringify(separatorValue ?? null)}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景4：自定义分隔符</Divider>
+        <Form.Item label="选择路径" style={{ marginBottom: 8 }}>
+          <RestCascader
+            style={{ width: 320 }}
+            options={options}
+            value={separatorValue}
+            onChange={setSeparatorValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            separator=" > "
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(separatorValue ?? null)}</div>
+        </Form.Item>
 
-      <div>场景6：fieldNames + labelTemplate 风格展示</div>
-      <RestCascader
-        style={{ width: 320 }}
-        options={templatedOptions}
-        value={fieldNamesValue}
-        onChange={setFieldNamesValue}
-        fieldNames={{ value: 'id', label: 'displayName', children: 'nodes' }}
-        antdCascaderProps={{ placeholder: '请选择组织路径（模板标签）' }}
-      />
-      <div>当前 fieldNames 场景值：{JSON.stringify(fieldNamesValue ?? null)}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景5：fieldNames + labelTemplate 风格展示</Divider>
+        <Form.Item label="组织路径" style={{ marginBottom: 8 }}>
+          <RestCascader
+            style={{ width: 320 }}
+            options={templatedOptions}
+            value={fieldNamesValue}
+            onChange={setFieldNamesValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            fieldNames={{ value: 'id', label: 'displayName', children: 'nodes' }}
+            antdCascaderProps={{ placeholder: '请选择组织路径（模板标签）' }}
+          />
+          <div style={valueStyle}>表单value值：{JSON.stringify(fieldNamesValue ?? null)}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
@@ -227,7 +253,7 @@ export default () => {
           children: 'items'
         }}
       />
-      <div>当前值：{JSON.stringify(value ?? null)}</div>
+      <div>表单value值：{JSON.stringify(value ?? null)}</div>
     </div>
   );
 };
@@ -269,7 +295,7 @@ export default () => {
         }}
         enableCopy
       />
-      <div>当前值：{JSON.stringify(value ?? null)}</div>
+      <div>表单value值：{JSON.stringify(value ?? null)}</div>
     </div>
   );
 };

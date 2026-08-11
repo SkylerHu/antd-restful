@@ -57,8 +57,11 @@ order: 3
 
 ```jsx
 import React, { useState } from 'react';
+import { Divider, Form, Radio } from 'antd';
 import antdRestful from 'antd-restful';
 const { formitems: { RestAutoComplete } } = antdRestful;
+
+const valueStyle = { color: '#999', fontSize: 12, marginTop: 2 };
 
 const staticOptions = [
   { value: 'option1', label: '选项1' },
@@ -67,41 +70,54 @@ const staticOptions = [
 ];
 
 export default () => {
+  const [mode, setMode] = useState('edit');
   const [remoteValue, setRemoteValue] = useState('');
   const [staticValue, setStaticValue] = useState('');
 
+  const readOnly = mode === 'readOnly';
+  const disabled = mode === 'disabled';
+
   return (
-    <div style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
-      <div>场景1：远程搜索</div>
-      <RestAutoComplete
-        style={{ width: 320 }}
-        restful="https://dummyjson.com/users/search"
-        parseRowsPath="users"
-        value={remoteValue}
-        onChange={setRemoteValue}
-        fieldNames={{ value: 'firstName', label: 'firstName' }}
-        labelTemplate="{firstName} (@{username})"
-        searchKey="q"
-        antdAutoCompleteProps={{ style: { width: 320 }, placeholder: '输入用户名搜索' }}
-      />
-      <div>当前远程搜索值：{remoteValue || '-'}</div>
+    <div>
+      <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="edit">编辑</Radio.Button>
+        <Radio.Button value="readOnly">只读</Radio.Button>
+        <Radio.Button value="disabled">禁用</Radio.Button>
+      </Radio.Group>
 
-      <div>场景2：静态选项</div>
-      <RestAutoComplete
-        style={{ width: 320 }}
-        options={staticOptions}
-        value={staticValue}
-        onChange={setStaticValue}
-        antdAutoCompleteProps={{ style: { width: 320 } }}
-      />
-      <div>当前静态值：{staticValue || '-'}</div>
+      <Form layout="horizontal" labelCol={{ flex: '100px' }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：远程搜索</Divider>
+        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+          <RestAutoComplete
+            style={{ width: 320 }}
+            restful="https://dummyjson.com/users/search"
+            parseRowsPath="users"
+            value={remoteValue}
+            onChange={setRemoteValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            fieldNames={{ value: 'firstName', label: 'firstName' }}
+            labelTemplate="{firstName} (@{username})"
+            searchKey="q"
+            antdAutoCompleteProps={{ style: { width: 320 }, placeholder: '输入用户名搜索' }}
+          />
+          <div style={valueStyle}>表单value值：{remoteValue}</div>
+        </Form.Item>
 
-      <div>场景3：只读模式</div>
-      <RestAutoComplete
-        style={{ width: 320 }}
-        value="示例值"
-        readOnly
-      />
+        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：静态选项</Divider>
+        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+          <RestAutoComplete
+            style={{ width: 320 }}
+            options={staticOptions}
+            value={staticValue}
+            onChange={setStaticValue}
+            readOnly={readOnly}
+            disabled={disabled}
+            antdAutoCompleteProps={{ style: { width: 320 } }}
+          />
+          <div style={valueStyle}>表单value值：{staticValue}</div>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
@@ -132,7 +148,7 @@ export default () => {
         labelTemplate="{firstName} (@{username})"
         antdAutoCompleteProps={{ style: { width: 320 } }}
       />
-      <div>当前选中值：{value || '-'}</div>
+      <div>表单value值：{value}</div>
     </div>
   );
 };
@@ -158,7 +174,7 @@ export default () => {
         fieldNames={{ value: 'id', label: 'firstName' }}
         antdAutoCompleteProps={{ style: { width: 320 } }}
       />
-      <div>当前选中值：{value || '-'}</div>
+      <div>表单value值：{value}</div>
     </div>
   );
 };
