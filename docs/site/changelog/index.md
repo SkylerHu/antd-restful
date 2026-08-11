@@ -2,6 +2,25 @@
 
 本文件记录该项目的所有重要变更。
 
+## [1.0.4](https://github.com/skylerhu/antd-restful/compare/v1.0.3...v1.0.4) - 2026-08-11
+
+### Added
+
+- `CompareEdit` 新增 `getValueFromEvent` 和 `valuePropName` 属性，自动兼容 antd 原生组件 `onChange` 回调差异（如 `Input` 的 `e.target.value`、`Checkbox` 的 `e.target.checked`），对齐 `Form.Item` 的值提取逻辑。
+- `CompareEdit` 自动转发子组件原始 `onChange` 回调，避免子组件内部逻辑丢失。
+
+### Docs
+
+- `docs/site/formitems/` 所有组件文档增加编辑/只读/禁用交互切换按钮，Demo 使用 `Form.Item` 水平布局展示。
+- `overview.md` 新增所有表单项综合示例，配置远程数据源（`dummyjson.com`），支持提交（Modal 展示 JSON）和重置操作。
+- `compare-edit.md` 补充 `onChange` 兼容说明与完整 Demo。
+
+### Tests
+
+- 新增 `CompareEdit` 在 `Input`、`Switch`、`Checkbox`、`Checkbox.Group` 及自定义 `getValueFromEvent` 场景的单元测试。
+
+---
+
 ## [1.0.3](https://github.com/skylerhu/antd-restful/compare/v1.0.2...v1.0.3) - 2026-08-10
 
 ### Changed

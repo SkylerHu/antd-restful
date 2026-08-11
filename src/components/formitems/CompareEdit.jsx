@@ -12,6 +12,24 @@ import CopyView from "../CopyView";
 const oldTagProps = { color: "error", style: { textDecoration: "line-through" } };
 const newTagProps = { color: "success" };
 
+const DEFAULT_VALUE_PROP_NAME = "value";
+
+function defaultGetValueFromEvent(valuePropName, ...args) {
+  const event = args[0];
+  if (event && event.target && typeof event.target === "object") {
+    // Checkbox 单个: 通过 DOM type=checkbox 自动推断，提取 event.target.checked
+    if (valuePropName === DEFAULT_VALUE_PROP_NAME && event.target.type === "checkbox") {
+      return event.target.checked;
+    }
+    // Input/TextArea → e.target.value; Checkbox(valuePropName=checked) → e.target.checked; Radio.Group → e.target.value
+    if (valuePropName in event.target) {
+      return event.target[valuePropName];
+    }
+  }
+  // Switch/Select/DatePicker/Checkbox.Group 等: 第一参数即为值，非 event 对象
+  return event;
+}
+
 const CompareEdit = ({
   children,
   style,
@@ -30,6 +48,8 @@ const CompareEdit = ({
   disabled = false,
   readOnly = false,
   antdSpaceProps,
+  getValueFromEvent,
+  valuePropName = DEFAULT_VALUE_PROP_NAME,
 }) => {
   const compactSpaceProps = getSpaceDirectionProps(antdSpaceProps);
   const [innerValue, setInnerValue] = useState(value);
@@ -150,12 +170,18 @@ const CompareEdit = ({
       {!readOnly && (
         <div style={{ marginBottom: 10 }}>
           {React.cloneElement(children, {
-            value,
+            [valuePropName]: value,
             disabled,
-            onChange: (val, ...args) => {
+            onChange: (...args) => {
+              const val = isFunction(getValueFromEvent)
+                ? getValueFromEvent(...args)
+                : defaultGetValueFromEvent(valuePropName, ...args);
               setInnerValue((oldV) => (deepEqual(oldV, val) ? oldV : val));
               if (isFunction(onChange)) {
-                onChange(val, ...args);
+                onChange(val, ...args.slice(1));
+              }
+              if (isFunction(children.props.onChange)) {
+                children.props.onChange(...args);
               }
             },
           })}
@@ -197,6 +223,10 @@ CompareEdit.propTypes = {
   readOnly: PropTypes.bool,
   // Antd 组件原生属性
   antdSpaceProps: PropTypes.object,
+  // 自定义从 onChange 事件中提取 value 的方式，兼容 Input 等传 event 的组件
+  getValueFromEvent: PropTypes.func,
+  // 子组件值的属性名，用于从 event.target 中提取值；默认 "value"，Checkbox 场景自动检测
+  valuePropName: PropTypes.string,
 };
 
 export default CompareEdit;
