@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/antd-restful)](https://www.npmjs.com/package/antd-restful)
 [![GitHub Actions Workflow Status](https://github.com/skylerhu/antd-restful/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/skylerhu/antd-restful)
-[![Codecov](https://img.shields.io/codecov/c/github/skylerhu/antd-restful?branch=master)](https://github.com/skylerhu/antd-restful)
+[![Codecov](https://img.shields.io/codecov/c/github/skylerhu/antd-restful?branch=master)](https://app.codecov.io/github/skylerhu/antd-restful)
 [![GitHub License](https://img.shields.io/github/license/skylerhu/antd-restful)](https://github.com/skylerhu/antd-restful)
 [![CodeSandbox](https://img.shields.io/badge/CodeSandbox-Open%20in%20Sandbox-blue?style=flat&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/skylerhu/antd-restful)
 
