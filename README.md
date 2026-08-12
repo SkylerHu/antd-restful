@@ -5,10 +5,13 @@
 [![NPM Version](https://img.shields.io/npm/v/antd-restful)](https://www.npmjs.com/package/antd-restful)
 [![NPM Downloads](https://img.shields.io/npm/dm/antd-restful)](https://www.npmjs.com/package/antd-restful)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/antd-restful)](https://bundlephobia.com/package/antd-restful)
+[![Node Version](https://img.shields.io/node/v/antd-restful)](https://www.npmjs.com/package/antd-restful)
 [![Test](https://github.com/skylerhu/antd-restful/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/skylerhu/antd-restful/actions/workflows/test.yml)
 [![Test antd6](https://github.com/skylerhu/antd-restful/actions/workflows/test-antd6.yml/badge.svg?branch=master)](https://github.com/skylerhu/antd-restful/actions/workflows/test-antd6.yml)
 [![Codecov](https://codecov.io/gh/skylerhu/antd-restful/graph/badge.svg?token=BTKSLG8KL2)](https://codecov.io/gh/skylerhu/antd-restful)
+[![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![License](https://img.shields.io/github/license/skylerhu/antd-restful)](https://github.com/skylerhu/antd-restful/blob/master/LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-online-blue?logo=github)](https://skylerhu.github.io/antd-restful/)
 [![CodeSandbox](https://img.shields.io/badge/CodeSandbox-Open%20in%20Sandbox-blue?style=flat&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/skylerhu/antd-restful)
 
 ---
