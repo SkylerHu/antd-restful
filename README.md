@@ -111,6 +111,21 @@ setRestOptions({
 });
 ```
 
+`setRestOptions` 默认值对照 Django REST framework (DRF) 的默认行为：
+
+| 配置项 | 默认值 | 说明 |
+|---|---|---|
+| `fieldPage` | `"page"` | 分页请求参数：当前页码字段 |
+| `fieldPageSize` | `"page_size"` | 分页请求参数：每页数量字段 |
+| `searchKey` | `"search"` | 列表检索的搜索关键字字段 |
+| `fieldOrdering` | `"ordering"` | 排序字段 |
+| `parseRowsPath` | `"results"` | 接口返回列表数据所在的对象路径（DRF 默认 `{ count, results }`) |
+| `parseTotalPath` | `"count"` | 接口返回总条数所在的对象路径 |
+| `separator` | `","` | 数组元素多选时的连接符 |
+| `defaultPageSize` | `20` | 默认的分页大小 |
+| `rowKey` | `"id"` | 列表/表格的默认主键字段 |
+| `fieldParent` | `"parent"` | 树形或级联结构默认的父节点字段 |
+
 ## Components
 
 | Component | Description |
