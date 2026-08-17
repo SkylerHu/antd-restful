@@ -1,23 +1,23 @@
 # Changelog
 
-本文件记录该项目的所有重要变更。
+This file documents all notable changes to this project.
 
 ## [1.0.4](https://github.com/skylerhu/antd-restful/compare/v1.0.3...v1.0.4) - 2026-08-11
 
 ### Added
 
-- `CompareEdit` 新增 `getValueFromEvent` 和 `valuePropName` 属性，自动兼容 antd 原生组件 `onChange` 回调差异（如 `Input` 的 `e.target.value`、`Checkbox` 的 `e.target.checked`），对齐 `Form.Item` 的值提取逻辑。
-- `CompareEdit` 自动转发子组件原始 `onChange` 回调，避免子组件内部逻辑丢失。
+- `CompareEdit` added `getValueFromEvent` and `valuePropName` props to automatically handle antd native component `onChange` callback differences (e.g. `Input`'s `e.target.value`, `Checkbox`'s `e.target.checked`), aligning with `Form.Item` value extraction logic.
+- `CompareEdit` automatically forwards the child component's original `onChange` callback to avoid losing internal child logic.
 
 ### Docs
 
-- `docs/site/formitems/` 所有组件文档增加编辑/只读/禁用交互切换按钮，Demo 使用 `Form.Item` 水平布局展示。
-- `overview.md` 新增所有表单项综合示例，配置远程数据源（`dummyjson.com`），支持提交（Modal 展示 JSON）和重置操作。
-- `compare-edit.md` 补充 `onChange` 兼容说明与完整 Demo。
+- All component docs under `docs/site/formitems/` now include edit/read-only/disabled interaction toggle buttons; demos use `Form.Item` horizontal layout.
+- `overview.md` added a comprehensive form item example with remote data source (`dummyjson.com`), supporting submit (Modal displays JSON) and reset actions.
+- `compare-edit.md` added `onChange` compatibility notes and a complete demo.
 
 ### Tests
 
-- 新增 `CompareEdit` 在 `Input`、`Switch`、`Checkbox`、`Checkbox.Group` 及自定义 `getValueFromEvent` 场景的单元测试。
+- Added unit tests for `CompareEdit` with `Input`, `Switch`, `Checkbox`, `Checkbox.Group`, and custom `getValueFromEvent` scenarios.
 
 ---
 
@@ -25,7 +25,7 @@
 
 ### Changed
 
-- `RestList` 优化 `grid.column` 整除校验逻辑：增加 `filtersInited` 前置判断避免 filters 未初始化时误检；延迟 1 秒执行避免初始化阶段干扰；日志级别从 `console.error` 改为 `console.warn`。
+- `RestList` improved `grid.column` divisibility validation: added `filtersInited` guard to avoid false checks before filters initialize; delayed execution by 1 second to avoid interference during initialization; changed log level from `console.error` to `console.warn`.
 
 ---
 
@@ -33,23 +33,23 @@
 
 ### Added
 
-- `src/config.js` 新增全局文案配置 `textOptions`，并提供 `setTextOptions` 用于统一设置组件按钮与空数据提示文案。
+- `src/config.js` added global text config `textOptions` and `setTextOptions` for unified component button and empty-data message text.
 
 ### Changed
 
-- `GridForm` 的默认按钮文案改为读取 `textOptions`（`btnSubmitTitle`、`btnResetTitle`），单项模式提交按钮也改为复用该配置。
-- `MentionView`、`RestAutoComplete`、`RestTreeSelect` 的 `notFoundContent` 默认文案统一读取 `textOptions.notFoundContent`。
-- `RestTreeSelect` 在 `enableCopy=true` 场景下补充 `TreeSelect` 的默认宽度 `style={{ width: "100%" }}`，避免未传样式时控件宽度不稳定。
-- 包入口 `src/entry.js` 新增导出 `textOptions` 与 `setTextOptions`，便于业务侧统一配置。
+- `GridForm` default button text now reads from `textOptions` (`btnSubmitTitle`, `btnResetTitle`); single-item mode submit button also reuses this config.
+- `MentionView`, `RestAutoComplete`, and `RestTreeSelect` default `notFoundContent` text now uniformly reads from `textOptions.notFoundContent`.
+- `RestTreeSelect` with `enableCopy=true` now applies default `TreeSelect` width `style={{ width: "100%" }}` to avoid unstable control width when no style is passed.
+- Package entry `src/entry.js` now exports `textOptions` and `setTextOptions` for unified business-side configuration.
 
 ### Docs
 
-- 更新 `tools/config` 与 `components/grid-form` 文档，补充 `textOptions`、`setTextOptions` 以及按钮文案默认值来源说明。
+- Updated `tools/config` and `components/grid-form` docs with `textOptions`, `setTextOptions`, and default button text source notes.
 
 ### Tests
 
-- `tests/config.test.jsx` 新增 `textOptions` 默认值与 `setTextOptions` 更新行为测试。
-- `tests/GridForm.test.jsx` 新增默认按钮文案读取 `textOptions`、单项模式按钮文案读取 `textOptions` 的测试用例。
+- `tests/config.test.jsx` added tests for `textOptions` defaults and `setTextOptions` update behavior.
+- `tests/GridForm.test.jsx` added tests for default button text and single-item mode button text reading from `textOptions`.
 
 ---
 
@@ -57,26 +57,26 @@
 
 ### Added
 
-- 新增 `src/common/versionUtil.js`，统一导出 `antd` 主版本判断能力（`antdMajorVersion`、`isAntd5Plus`、`isAntd6Plus`）。
-- 新增 `test-utils/testVersion.js`，用于测试环境按 `ANTD_TEST_VERSION` 注入版本行为。
-- 新增 `.github/workflows/test-antd6.yml`，在 CI 中安装 `antd@6` 与 `@ant-design/icons@6` 并执行完整测试。
+- Added `src/common/versionUtil.js`, exporting unified antd major version detection (`antdMajorVersion`, `isAntd5Plus`, `isAntd6Plus`).
+- Added `test-utils/testVersion.js` for injecting version behavior in tests via `ANTD_TEST_VERSION`.
+- Added `.github/workflows/test-antd6.yml` to install `antd@6` and `@ant-design/icons@6` in CI and run the full test suite.
 
 ### Changed
 
-- `README.md` 补充兼容范围说明：支持 `antd >= 4.24`，并明确 antd5/antd6 测试覆盖。
-- 多个组件（如 `RestTable`、`RestList`、`FieldsSetting`、`CompareEdit`、`ExpansionView`、`TableSelect`、`UploadView`）统一兼容 `Space` 在 antd6 的 `orientation` 参数，同时向下兼容旧版 `direction`。
-- `MentionView` 在 antd6 分支启用 `loading` + `options` 方案，避免旧 API 差异导致行为不一致。
-- demo 侧适配 antd API 变化：`Tabs` 根据版本切换 `destroyOnHidden`/`destroyInactiveTabPane`，并统一使用版本工具判断时间库与页面能力。
-- `GridForm`、`RestTable`、`RestList`、`RouteBaseTable` 清理 `props.ref` 兜底分支，仅保留 `forwardRef` 路径以避免无效 ref 声明。
+- `README.md` added compatibility notes: supports `antd >= 4.24`, with explicit antd5/antd6 test coverage.
+- Multiple components (`RestTable`, `RestList`, `FieldsSetting`, `CompareEdit`, `ExpansionView`, `TableSelect`, `UploadView`) now uniformly support antd6 `Space` `orientation` while remaining backward compatible with legacy `direction`.
+- `MentionView` antd6 branch uses `loading` + `options` to avoid inconsistent behavior from legacy API differences.
+- Demo side adapted to antd API changes: `Tabs` switches between `destroyOnHidden`/`destroyInactiveTabPane` by version, and version utils are used uniformly for date library and page capability checks.
+- `GridForm`, `RestTable`, `RestList`, `RouteBaseTable` removed `props.ref` fallback branches, keeping only the `forwardRef` path to avoid invalid ref declarations.
 
 ### Fixed
 
-- `dateUtils` 直接移除 `detectAntdVersion` 导出，统一由 `versionUtil.antdMajorVersion` 提供版本判断，避免重复 API 与版本来源分散。
+- `dateUtils` removed direct `detectAntdVersion` export; version detection is now unified via `versionUtil.antdMajorVersion` to avoid duplicate APIs and scattered version sources.
 
 ### Tests
 
-- `setupTests.js` 增加 `ResizeObserver`、`MessageChannel`、`scrollIntoView` 等运行时补丁，并在非 antd5 场景跳过 snapshot 断言，降低跨版本测试噪声。
-- 多个测试文件更新 `antd` mock 版本注入逻辑，确保在 antd5/antd6 下分支行为可重复验证。
+- `setupTests.js` added runtime patches for `ResizeObserver`, `MessageChannel`, `scrollIntoView`, etc., and skips snapshot assertions in non-antd5 scenarios to reduce cross-version test noise.
+- Multiple test files updated antd mock version injection to ensure repeatable branch behavior under antd5/antd6.
 
 ---
 
@@ -84,22 +84,22 @@
 
 ### Added
 
-- `RouteBaseTable`、`RestTable`、`RestList`、`GridForm` 增加 `props.ref` 与 `forwardRef` 的合并处理（`resolvedRef`），并补充 `ref` 的 `propTypes` 声明。
-- 新增 `.fatherrc.ts`，用于 father 构建配置。
-- 新增 `docs/FAQ.md`，记录 Node 12 环境下 `query-string` 语法报错的处理方案。
+- `RouteBaseTable`, `RestTable`, `RestList`, `GridForm` added merged handling for `props.ref` and `forwardRef` (`resolvedRef`), plus `ref` `propTypes` declarations.
+- Added `.fatherrc.ts` for father build configuration.
+- Added `docs/FAQ.md` documenting the Node 12 `query-string` syntax error workaround.
 
 ### Changed
 
-- 构建脚本由 webpack 切换为 `father build`。
-- 包入口调整为 `main=dist/cjs/index.js`、`module=dist/esm/index.js`，并新增 `exports`（`import`/`require`）映射 ESM/CJS 产物。
-- `jsconfig.json` 更新为 `target/module = es2020`，并补充 `@/*`、`src/*`、`demo/*` 路径映射。
-- 依赖声明调整：`peerDependencies` 放宽到 `react/react-dom >=16`、`axios >=1.0.0`，并加入 `dayjs`/`moment`。
-- 多个 `dependencies` 从宽泛版本范围（如 `^x`）改为明确版本范围。
-- `src` 下多处模块导入由 `src/...` 别名改为相对路径导入，适配当前构建与产物结构。
-- `README.md` 的 changelog 链接切换到 `docs/CHANGELOG-1.x.md`，并补充 ESM/CommonJS 使用说明、可选日期库说明与 FAQ 入口。
-- `docs/CONTRIBUTING.md` 增加 `yalc` 本地联调流程与 father 发版说明。
+- Build script switched from webpack to `father build`.
+- Package entry adjusted to `main=dist/cjs/index.js`, `module=dist/esm/index.js`, with new `exports` (`import`/`require`) mapping ESM/CJS outputs.
+- `jsconfig.json` updated to `target/module = es2020` with `@/*`, `src/*`, `demo/*` path mappings.
+- Dependency declarations adjusted: `peerDependencies` relaxed to `react/react-dom >=16`, `axios >=1.0.0`, with `dayjs`/`moment` added.
+- Multiple `dependencies` changed from broad version ranges (e.g. `^x`) to explicit version ranges.
+- Many `src` module imports changed from `src/...` aliases to relative paths to match current build and output structure.
+- `README.md` changelog link switched to `docs/CHANGELOG-1.x.md`, with ESM/CommonJS usage notes, optional date library notes, and FAQ entry.
+- `docs/CONTRIBUTING.md` added `yalc` local integration workflow and father release notes.
 
 
 ---
 
-查看 0.x 历史日志：[0.x 版本日志](./v0-x.md)
+See 0.x historical changelog: [0.x Changelog](./v0-x.md)

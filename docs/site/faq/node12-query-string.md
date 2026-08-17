@@ -1,6 +1,6 @@
-# Node 12 环境编译时报 `query-string` 语法错误怎么办？
+# How to fix `query-string` syntax errors when compiling in Node 12?
 
-典型报错示例：
+Typical error example:
 
 ```javascript
 Failed to compile.
@@ -11,16 +11,16 @@ Module parse failed: Unexpected token
 url: getUrlWithoutQuery(url_ ?? ''),
 ```
 
-## 原因
+## Cause
 
-- 当前安装到的 `query-string` 版本包含较新的语法（如 `??` / `?.`）。
-- Node 12 或旧构建链路对该语法支持不完整，导致编译阶段报错。
+- The installed `query-string` version includes newer syntax (such as `??` / `?.`).
+- Node 12 or older build pipelines do not fully support this syntax, causing compile-time errors.
 
-## 解决方案（推荐）
+## Solution (Recommended)
 
-在使用方项目中通过包管理器覆盖依赖，强制 `antd-restful` 使用 `query-string@7.x`：
+Override the dependency in your consumer project via your package manager to force `antd-restful` to use `query-string@7.x`:
 
-### npm（>= 8.3.0）
+### npm (>= 8.3.0)
 
 ```json
 {
@@ -32,11 +32,11 @@ url: getUrlWithoutQuery(url_ ?? ''),
 }
 ```
 
-### npm 6 / 7（借助 npm-force-resolutions）
+### npm 6 / 7 (via npm-force-resolutions)
 
-`overrides` 从 npm 8.3.0（随 Node.js 16 发布）才开始支持。如果你使用 Node 12（默认 npm 6），可以通过 [npm-force-resolutions](https://www.npmjs.com/package/npm-force-resolutions) 实现类似效果：
+`overrides` is supported starting from npm 8.3.0 (shipped with Node.js 16). If you use Node 12 (default npm 6), you can achieve a similar effect via [npm-force-resolutions](https://www.npmjs.com/package/npm-force-resolutions):
 
-1. 安装工具并配置 `package.json`：
+1. Install the tool and configure `package.json`:
 
 ```json
 {
@@ -49,19 +49,19 @@ url: getUrlWithoutQuery(url_ ?? ''),
 }
 ```
 
-2. 执行 `npm install`，`preinstall` 钩子会自动将 `package-lock.json` 中对应版本改写。
+2. Run `npm install`; the `preinstall` hook will automatically rewrite the corresponding version in `package-lock.json`.
 
-> **⚠ 注意**：`npm-force-resolutions` 需要读取 `package-lock.json`。如果你刚删除了 `package-lock.json`，直接运行 `npm install` 会先触发 `preinstall` 钩子，此时文件尚不存在，将抛出：
+> **⚠ Note**: `npm-force-resolutions` requires reading `package-lock.json`. If you just deleted `package-lock.json` and run `npm install` directly, the `preinstall` hook runs first while the file does not yet exist, and will throw:
 >
 > ```
 > ENOENT: no such file or directory, open './package-lock.json'
 > ```
 >
-> **解决办法**：先单独生成锁文件，再执行完整安装：
+> **Workaround**: Generate the lock file first, then run a full install:
 >
 > ```bash
-> npm install --ignore-scripts   # 跳过钩子，仅生成 package-lock.json
-> npm install                    # 此时 preinstall 钩子可正常运行
+> npm install --ignore-scripts   # Skip hooks, only generate package-lock.json
+> npm install                    # preinstall hook can now run normally
 > ```
 
 ### pnpm
@@ -86,13 +86,13 @@ url: getUrlWithoutQuery(url_ ?? ''),
 }
 ```
 
-配置后重新安装依赖，并通过 `npm ls query-string`（或 `pnpm why query-string` / `yarn why query-string`）确认生效版本。
+After configuring, reinstall dependencies and confirm the effective version via `npm ls query-string` (or `pnpm why query-string` / `yarn why query-string`).
 
-> 注意：如果之前已经安装过 `query-string@9.x`，需要删除 `node_modules` 和锁文件后重新安装，覆盖规则才会稳定生效。
+> Note: If `query-string@9.x` was previously installed, delete `node_modules` and the lock file and reinstall for the override to take effect reliably.
 
-## 备选方案
+## Alternative
 
-若你必须使用 `query-string@9`，请确保满足以下至少一项：
+If you must use `query-string@9`, ensure at least one of the following:
 
-- 升级运行环境到 Node 18+。
-- 在消费项目构建配置中将 `query-string` 纳入 Babel 转译范围（例如 webpack 中对白名单包做转译）。
+- Upgrade the runtime to Node 18+.
+- Include `query-string` in the Babel transpilation scope in your consumer project's build config (e.g. transpile whitelisted packages in webpack).

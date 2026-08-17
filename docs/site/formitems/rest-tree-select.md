@@ -4,59 +4,59 @@ order: 5
 ---
 
 ## RestTreeSelect
-基于 Ant Design TreeSelect 组件扩展的远程树形选择器，支持远程数据懒加载、树形结构展示、复制等功能。
+A remote tree select built on Ant Design TreeSelect, supporting remote lazy loading, tree display, copy, and more.
 
-**功能特性：**
-- 支持远程数据懒加载
-- 支持树形结构数据展示
-- 支持单选和多选模式
-- 支持复制功能
-- 支持只读模式展示
-- 支持自定义字段名映射
+**Features:**
+- Remote lazy loading
+- Tree structure display
+- Single and multi-select modes
+- Copy support
+- Read-only display
+- Custom field name mapping
 
-### 参数说明
-| <div style="width: 21ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### Props
+| <div style="width: 21ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | 透传 TreeSelect `style` | - |
-| className | 自定义类名 | `string` | - | 透传 TreeSelect `className` | - |
-| value | 当前选中的值 | `any` | - | 透传 TreeSelect `value` | - |
-| onChange | 值变化时的回调函数 | `function(value, nodes)` | - | 覆盖 TreeSelect `onChange`，增加 nodes 参数 | - |
-| **远程数据相关** | | | | | |
-| restful | 远程接口地址 | `string` | - | - | - |
-| reqConfig | axios 的配置选项 | `object` | - | - | - |
-| baseParams | 基础请求参数 | `object` | - | - | - |
-| labelTemplate | 标签模板 | `string` | - | - | - |
-| fieldParent | 父级字段名 | `string` | `'parent'` | - | - |
-| parseRowsPath | 解析数据路径 | `string` | `'results'` | - | - |
-| **字段映射** | | | | | |
-| fieldNames | 字段映射 | `object` | - | 透传 TreeSelect `fieldNames` | - |
-| treeNodeLabelProp | 树节点标签属性 | `string` | - | 透传 TreeSelect `treeNodeLabelProp` | - |
-| **状态控制** | | | | | |
-| enableCopy | 是否启用复制功能 | `boolean` | `false` | - | - |
-| separator | 多选时复制值之间的分隔符 | `string` | `','` | - | - |
-| disabled | 是否禁用 | `boolean` | `false` | 透传 TreeSelect `disabled` | - |
-| readOnly | 是否只读模式 | `boolean` | `false` | - | - |
-| treeData | 静态树形数据 | `array` | - | 覆盖 TreeSelect `treeData`，远程模式由内部管理 | - |
-| **Ant Design 原生配置** | | | | | |
-| antdTreeSelectProps | Ant Design [TreeSelect](https://ant.design/components/tree-select-cn) 组件属性 | `object` | - | 透传 TreeSelect 属性，`value` / `onChange` / `treeData` / `loadData` 由内部管理 | - |
-| antdSpaceProps | Ant Design [Space](https://ant.design/components/space-cn) 组件属性 | `object` | - | 透传 Space 属性 | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | Pass-through TreeSelect `style` | - |
+| className | Custom class name | `string` | - | Pass-through TreeSelect `className` | - |
+| value | Currently selected value | `any` | - | Pass-through TreeSelect `value` | - |
+| onChange | Callback when value changes | `function(value, nodes)` | - | Overrides TreeSelect `onChange`, adds nodes parameter | - |
+| **Remote Data** | | | | | |
+| restful | Remote API URL | `string` | - | - | - |
+| reqConfig | axios config options | `object` | - | - | - |
+| baseParams | Base request parameters | `object` | - | - | - |
+| labelTemplate | Label template | `string` | - | - | - |
+| fieldParent | Parent field name | `string` | `'parent'` | - | - |
+| parseRowsPath | Path to parse data | `string` | `'results'` | - | - |
+| **Field Mapping** | | | | | |
+| fieldNames | Field mapping | `object` | - | Pass-through TreeSelect `fieldNames` | - |
+| treeNodeLabelProp | Tree node label property | `string` | - | Pass-through TreeSelect `treeNodeLabelProp` | - |
+| **State Control** | | | | | |
+| enableCopy | Whether to enable copy | `boolean` | `false` | - | - |
+| separator | Separator between values when copying in multi-select | `string` | `','` | - | - |
+| disabled | Whether disabled | `boolean` | `false` | Pass-through TreeSelect `disabled` | - |
+| readOnly | Whether read-only mode | `boolean` | `false` | - | - |
+| treeData | Static tree data | `array` | - | Overrides TreeSelect `treeData`; managed internally in remote mode | - |
+| **Ant Design Native Config** | | | | | |
+| antdTreeSelectProps | Native props for Ant Design [TreeSelect](https://ant.design/components/tree-select) | `object` | - | Pass-through TreeSelect props; `value` / `onChange` / `treeData` / `loadData` managed internally | - |
+| antdSpaceProps | Native props for Ant Design [Space](https://ant.design/components/space) | `object` | - | Pass-through Space props | - |
 
-### 字段映射配置 (fieldNames)
+### Field Mapping Config (fieldNames)
 ```javascript
 {
-  value: 'key',      // 选项值字段名
-  label: 'name',     // 选项标签字段名
-  children: 'children' // 子级字段名
+  value: 'key',      // Option value field name
+  label: 'name',     // Option label field name
+  children: 'children' // Child field name
 }
 ```
 
-### 回调函数参数说明
-`onChange` 回调函数接收两个参数：
-- `value`: 当前选中的值
-- `nodes`: 当前选中的节点对象数组
+### Callback Parameters
+`onChange` callback receives two parameters:
+- `value`: Currently selected value
+- `nodes`: Array of currently selected node objects
 
-### 使用示例
+### Usage Examples
 
 ```jsx
 import React, { useState } from 'react';
@@ -95,14 +95,14 @@ export default () => {
   return (
     <div>
       <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
-        <Radio.Button value="edit">编辑</Radio.Button>
-        <Radio.Button value="readOnly">只读</Radio.Button>
-        <Radio.Button value="disabled">禁用</Radio.Button>
+        <Radio.Button value="edit">Edit</Radio.Button>
+        <Radio.Button value="readOnly">Read-only</Radio.Button>
+        <Radio.Button value="disabled">Disabled</Radio.Button>
       </Radio.Group>
 
       <Form layout="horizontal" labelCol={{ flex: '100px' }}>
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：单选模式</Divider>
-        <Form.Item label="选择值" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 1: Single Select</Divider>
+        <Form.Item label="Selected value" style={{ marginBottom: 8 }}>
           <RestTreeSelect
             style={{ width: 320 }}
             treeData={treeData}
@@ -111,13 +111,13 @@ export default () => {
             onChange={setSingleValue}
             readOnly={readOnly}
             disabled={disabled}
-            antdTreeSelectProps={{ placeholder: '请选择单个节点', style: { width: '100%' } }}
+            antdTreeSelectProps={{ placeholder: 'Select a single node', style: { width: '100%' } }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(singleValue ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(singleValue ?? null)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：多选模式 + 复制</Divider>
-        <Form.Item label="多选值" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 2: Multi Select + Copy</Divider>
+        <Form.Item label="Multi value" style={{ marginBottom: 8 }}>
           <RestTreeSelect
             style={{ width: 320 }}
             treeData={treeData}
@@ -126,10 +126,10 @@ export default () => {
             onChange={setMultipleValue}
             readOnly={readOnly}
             disabled={disabled}
-            antdTreeSelectProps={{ multiple: true, treeCheckable: true, placeholder: '请选择多个节点' }}
+            antdTreeSelectProps={{ multiple: true, treeCheckable: true, placeholder: 'Select multiple nodes' }}
             enableCopy
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(multipleValue)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(multipleValue)}</div>
         </Form.Item>
       </Form>
     </div>
@@ -137,9 +137,9 @@ export default () => {
 };
 ```
 
-### API 数据格式示例
+### API Data Format Example
 
-RestTreeSelect 期望的 API 响应数据格式如下：
+Expected API response format for RestTreeSelect:
 
 ```json
 {
@@ -159,14 +159,14 @@ RestTreeSelect 期望的 API 响应数据格式如下：
 }
 ```
 
-其中：
-- 示例使用 `parseRowsPath="users"` 解析列表数据
-- 通过 `fieldNames` 将 `id` / `firstName` 映射到 value / label
-- 若需要严格树形结构，建议使用具备 parent/children 关系的数据源
+Where:
+- Example uses `parseRowsPath="users"` to parse list data
+- `fieldNames` maps `id` / `firstName` to value / label
+- For strict tree structure, use a data source with parent/children relationships
 
-### 注意事项
-1. **字段映射**：通过 `fieldNames` 配置数据字段映射
-2. **父子关系**：`fieldParent` 指定父级字段名，用于建立树形关系
-3. **懒加载**：只有展开节点时才会加载子节点数据
-4. **复制功能**：启用后可复制选中的值
-5. **只读模式**：以标签形式展示选中的值
+### Notes
+1. **Field mapping**: Configure via `fieldNames`
+2. **Parent-child relationship**: `fieldParent` specifies parent field for tree structure
+3. **Lazy loading**: Child data loaded only on expand
+4. **Copy**: When enabled, copies selected values
+5. **Read-only mode**: Displays selected values as tags

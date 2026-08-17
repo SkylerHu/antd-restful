@@ -1,15 +1,15 @@
 ---
-title: 组件总览
+title: Components Overview
 order: 0
 ---
 
-# 组件总览
+# Components Overview
 
-| <div style="width: 18ch;">组件 (Component)</div> | 说明 |
+| <div style="width: 18ch;">Component</div> | Description |
 | --- | --- |
-| [RouteBaseTable](./route-base-table.md) | `RestTable`/`RestList` 的路由联动封装，通过 `viewType` 切换表格/列表视图，将筛选参数同步到 URL 并自动推断参数解析类型 |
-| [RestTable](./rest-table.md) | 基于 Table 的 RESTful 封装，支持远程数据加载、多种表头筛选类型（输入/选择/数字范围/日期范围）、排序、工具栏（高级搜索/自动刷新/下载/列设置）及展开行 |
-| [RestList](./rest-list.md) | 基于 List 的 RESTful 封装，支持 `loadMore`（加载更多）与 `pagination`（分页器）两种模式、筛选表单及 Grid 卡片布局 |
-| [GridForm](./grid-form.md) | 响应式栅格表单，支持 12 种字段类型、高级搜索/单项模式切换、自定义按钮文案、智能表单项激活策略及占位字段自动补充 |
-| [LongText](./long-text.md) | 长文本截断展示，支持数组/对象/字符串等多种数据类型、模板格式化、弹窗查看完整内容及原始数据切换 |
-| [CopyView](./copy-view.md) | 一键复制组件，支持字符串、数组、对象等多种数据类型，支持文本截断显示、自定义分隔符及隐藏值模式 |
+| [RouteBaseTable](./route-base-table.md) | Route-sync wrapper for `RestTable`/`RestList`; switches between table/list views via `viewType`, syncs filter params to the URL, and auto-infers parameter parse types |
+| [RestTable](./rest-table.md) | RESTful wrapper around Table; supports remote data loading, multiple header filter types (input/select/number range/date range), sorting, toolbar (advanced search/auto refresh/download/column settings), and expandable rows |
+| [RestList](./rest-list.md) | RESTful wrapper around List; supports `loadMore` and `pagination` modes, filter forms, and grid card layout |
+| [GridForm](./grid-form.md) | Responsive grid form with 12 field types, advanced search/single-field mode switching, custom button labels, smart field activation strategy, and automatic placeholder fields |
+| [LongText](./long-text.md) | Long text truncation display; supports arrays/objects/strings and other data types, template formatting, modal for full content, and raw data toggle |
+| [CopyView](./copy-view.md) | One-click copy component; supports strings, arrays, objects, and other data types, with text truncation, custom separators, and hidden-value mode |

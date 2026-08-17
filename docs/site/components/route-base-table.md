@@ -4,48 +4,49 @@ order: 1
 ---
 
 ## RouteBaseTable
-基于 RestTable 组件实现的路由联动表格，支持将表格的筛选参数同步到 URL 查询字符串中，实现页面刷新后保持筛选状态。
+A route-synced table built on the RestTable component. It syncs table filter parameters to the URL query string so filter state persists after page refresh.
 
-**功能特性：**
-- 路由联动：表格筛选参数自动同步到 URL 查询字符串
-- 状态保持：页面刷新后自动恢复之前的筛选状态
-- 参数过滤：自动过滤与默认参数相同的参数，避免冗余的 URL 参数
-- 多视图支持：通过 viewType 支持 table 和 list 两种视图模式
-- 兼容性：兼容 react-router v5 和 v6 版本
-- 深度比较：使用深度比较确保参数变化的准确性
-- 智能类型推断：根据 columns 和 filterFormProps 自动推断 URL 参数解析类型
-- 回调支持：支持筛选变化和搜索变化的自定义回调
+**Features:**
+- Route sync: table filter parameters are automatically synced to the URL query string
+- State persistence: previous filter state is restored automatically after page refresh
+- Parameter filtering: parameters identical to default params are filtered out to avoid redundant URL params
+- Multi-view support: supports both `table` and `list` view modes via `viewType`
+- Compatibility: compatible with react-router v5 and v6
+- Deep comparison: uses deep comparison to ensure accurate parameter change detection
+- Smart type inference: automatically infers URL parameter parse types from `columns` and `filterFormProps`
+- Callback support: supports custom callbacks for filter and search changes
 
-### 参数说明
-| <div style="width: 21ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### API
+
+| <div style="width: 21ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| location | 路由 location 对象，包含当前 URL 信息 | `object` | - | - | - |
-| onSearchChange | 搜索参数变化回调，用于更新路由 | `function(search)` | - | - | - |
-| viewType | 视图类型，支持 `'table'` 和 `'list'` 两种模式 | `string` | `'table'` | - | - |
-| restProps | 传递给 RestTable/RestList 的所有属性 | `object` | - | - | - |
+| location | Route location object containing current URL info | `object` | - | - | - |
+| onSearchChange | Callback when search params change, used to update the route | `function(search)` | - | - | - |
+| viewType | View type; supports `'table'` and `'list'` modes | `string` | `'table'` | - | - |
+| restProps | All props passed to RestTable/RestList | `object` | - | - | - |
 
-**restProps 中的关键参数：**
-| <div style="width: 21ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+**Key parameters in restProps:**
+| <div style="width: 21ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| baseParams | 基础请求参数，与 URL 参数相同时会被过滤 | `object` | - | - | - |
-| onFiltersChange | 筛选条件变化回调 | `function(filters)` | - | - | - |
-| parseOptions | 解析query参数的选项, [query-string](https://www.npmjs.com/package/query-string) 的配置项 | `object` | - | - | 0.1.14 |
-| parseTypes | （已废弃）指定字段解析类型，用于解决低版本 query-string 中超大数值丢失精度问题 | `object` | - | - | - |
-| 其他参数 | 所有 RestTable/RestList 支持的参数 | - | - | - | - |
+| baseParams | Base request parameters; filtered when identical to URL params | `object` | - | - | - |
+| onFiltersChange | Callback when filter conditions change | `function(filters)` | - | - | - |
+| parseOptions | Options for parsing query params; [query-string](https://www.npmjs.com/package/query-string) configuration | `object` | - | - | 0.1.14 |
+| parseTypes | (Deprecated) Specifies field parse types to fix precision loss for very large numbers in older query-string versions | `object` | - | - | - |
+| Other params | All parameters supported by RestTable/RestList | - | - | - | - |
 
 
-**parseOptions.types 的特殊说明**
-- 在 `0.2.0` 版本开始，升级了 `query-string@9` ，支持 `parseOptions.types` 配置指定key值的解析类型
-- 会根据配置的 `columns` 和 `filterFormProps.fields` 初始化默认的 `types`，可详见 `parser.guessQueryTypes` 函数的实现
-  - `FiledType.INPUT` 默认解析成 `string`
-  - `FieldType.SELECT` 默认解析成数组
-  - `FieldType.CHECKBOX`, `FieldType.NUMBER_RANGE`, `FieldType.DATE_RANGE_PICKER` 默认解析成数组
-  - 若是展示和列 columns 配置了 `filters` 也默认解析成数组
-  - 数组都统一配置的 `number[]`，若是字符串也会正确处理
+**Special notes on parseOptions.types**
+- Starting from version `0.2.0`, `query-string@9` was upgraded to support `parseOptions.types` for specifying parse types per key
+- Default `types` are initialized from configured `columns` and `filterFormProps.fields`; see the `parser.guessQueryTypes` implementation for details
+  - `FiledType.INPUT` defaults to `string`
+  - `FieldType.SELECT` defaults to array
+  - `FieldType.CHECKBOX`, `FieldType.NUMBER_RANGE`, `FieldType.DATE_RANGE_PICKER` default to array
+  - Columns with `filters` configured also default to array
+  - All arrays use `number[]`; string values are also handled correctly
 
-### 使用示例
+### Examples
 
-封装一个通用的路由表格组件，支持 ref 转发和视图切换
+Wrap a reusable route-synced table component with ref forwarding and view switching
 
 ```jsx | pure
 import React, { forwardRef } from 'react';
@@ -79,7 +80,7 @@ RouteTable.propTypes = {
 };
 ```
 
-使用封装的组件
+Using the wrapped component
 
 ```jsx | pure
 import React from 'react';
@@ -100,12 +101,12 @@ const UserList = () => {
           width: 80,
         },
         {
-          title: "用户名",
+          title: "Username",
           dataIndex: "username",
           sorter: true,
         },
         {
-          title: "姓名",
+          title: "Name",
           dataIndex: "firstName",
           sorter: true,
         },
@@ -122,7 +123,7 @@ const UserList = () => {
 };
 ```
 
-#### 同时使用 filterFormProps?.fields 和 parseOptions.types
+#### Using filterFormProps?.fields and parseOptions.types together
 
 ```jsx | pure
 import React from 'react';
@@ -141,7 +142,7 @@ const UserListWithRangeFields = () => {
     fieldPageSize: "limit",
     columns: [
       {
-        title: "年龄",
+        title: "Age",
         dataIndex: "age",
         sorter: true,
         filterDropdownConfig: {
@@ -149,7 +150,7 @@ const UserListWithRangeFields = () => {
         },
       },
       {
-        title: "创建时间",
+        title: "Created At",
         dataIndex: "created_at",
         sorter: true,
         filterDropdownConfig: {
@@ -157,16 +158,16 @@ const UserListWithRangeFields = () => {
         },
       },
     ],
-    // 配置 URL 参数类型解析
+    // Configure URL parameter type parsing
     parseOptions: {
       parseNumbers: false,
       types: {
-        age: "number[]",        // 年龄范围转换为数字数组
-        age__range: "number[]",        // 年龄范围转换为数字数组
-        created_at__range: "string[]", // 创建时间范围转换为字符串数组
+        age: "number[]",        // Age range converted to number array
+        age__range: "number[]",        // Age range converted to number array
+        created_at__range: "string[]", // Created-at range converted to string array
       }
     },
-    // 配置筛选表单字段
+    // Configure filter form fields
     filterFormProps: {
       advancedSearch: true,
       antdListProps: {
@@ -175,10 +176,10 @@ const UserListWithRangeFields = () => {
       fields: [
         {
           key: "age__range",
-          label: "年龄范围",
+          label: "Age Range",
           type: FieldType.NUMBER_RANGE,
           antdFieldProps: {
-            placeholder: ["最小年龄", "最大年龄"],
+            placeholder: ["Min Age", "Max Age"],
             min: 0,
             max: 120,
           },
@@ -186,39 +187,39 @@ const UserListWithRangeFields = () => {
       ],
     }
   };
-  // RouteTable 在上一个示例中已声明
+  // RouteTable was declared in the previous example
   return (
     <RouteTable { ...restProps } />
   );
 };
 ```
 
-### 关键特性说明
+### Key Feature Details
 
-#### 路由联动机制
-- **URL 参数同步**：范围字段的值会自动同步到 URL 查询参数中
-- **状态保持**：页面刷新后自动恢复之前的范围筛选状态
-- **链接分享**：支持分享带范围筛选条件的链接
+#### Route Sync Mechanism
+- **URL parameter sync**: range field values are automatically synced to URL query parameters
+- **State persistence**: previous range filter state is restored automatically after page refresh
+- **Link sharing**: supports sharing links with range filter conditions
 
 
-### 注意事项
+### Notes
 
-1. **路由兼容性**：由于 react-router v5 和 v6 的 API 差异，组件需要手动传入 `location` 对象和 `onSearchChange` 回调函数。
+1. **Route compatibility**: Due to API differences between react-router v5 and v6, you must manually pass the `location` object and `onSearchChange` callback.
 
-2. **参数过滤**：组件会自动过滤与 `baseParams` 中相同的参数，避免在 URL 中显示冗余参数。
+2. **Parameter filtering**: The component automatically filters parameters identical to those in `baseParams` to avoid redundant URL params.
 
-3. **深度比较**：使用 `dequal` 库进行深度比较，确保参数变化的准确性。
+3. **Deep comparison**: Uses the `dequal` library for deep comparison to ensure accurate parameter change detection.
 
-4. **初始化等待**：组件会等待从 URL 解析参数完成后再渲染，避免闪烁。
+4. **Initialization wait**: The component waits until URL parameters are parsed before rendering to avoid flicker.
 
-5. **回调函数**：`onSearchChange` 回调会接收到完整的查询字符串（包含 `?` 前缀），需要根据实际路由库的 API 进行相应处理。
+5. **Callback function**: The `onSearchChange` callback receives the full query string (including the `?` prefix); handle it according to your router library's API.
 
-### 与 RestTable 的区别
+### Differences from RestTable
 
-| 特性 | RestTable | RouteBaseTable |
+| Feature | RestTable | RouteBaseTable |
 | - | - | - |
-| 路由联动 | ❌ | ✅ |
-| 状态保持 | ❌ | ✅ |
-| URL 参数同步 | ❌ | ✅ |
-| 使用复杂度 | 简单 | 需要路由配置 |
-| 适用场景 | 独立表格 | 需要状态保持的表格 |
+| Route sync | ❌ | ✅ |
+| State persistence | ❌ | ✅ |
+| URL parameter sync | ❌ | ✅ |
+| Complexity | Simple | Requires route configuration |
+| Use case | Standalone table | Tables that need state persistence |

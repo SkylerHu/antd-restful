@@ -4,116 +4,117 @@ order: 2
 ---
 
 ## RestTable
-基于 Ant Design Table 组件实现了远程加载数据。
+Remote data loading built on the Ant Design Table component.
 
-**功能特性：**
-- 远程数据加载：基于 Ant Design Table 组件实现，支持从 RESTful API 接口加载数据
-- 静态数据支持：除了远程加载，也支持直接传入静态数据源
-- 模板支持：支持 {field} 格式的标签模板
-- 多种筛选类型：支持输入框、下拉选择、数字输入、数字范围、日期范围等筛选方式
-- 灵活配置：高度可配置的列定义和表格行为
-- 工具栏功能：内置高级搜索、刷新、下载、列显示设置等工具
-- 智能筛选：支持表头筛选和表单筛选，自动处理参数合并
-- 本地存储：支持列显示设置的本地存储
-- 自动刷新：支持间隔自动刷新数据
-- 展开行支持：支持配置展开行以 Descriptions 形式展示详细信息
+**Features:**
+- Remote data loading: built on Ant Design Table, loads data from RESTful API endpoints
+- Static data support: besides remote loading, also accepts a static data source directly
+- Template support: supports `{field}` label templates
+- Multiple filter types: input, select, number input, number range, date range, and more
+- Flexible configuration: highly configurable column definitions and table behavior
+- Toolbar features: built-in advanced search, refresh, download, column visibility settings, and more
+- Smart filtering: supports header filters and form filters with automatic parameter merging
+- Local storage: supports persisting column visibility settings locally
+- Auto refresh: supports interval-based automatic data refresh
+- Expandable rows: supports expandable rows displaying details via Descriptions
 
-### 参数说明
-| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### API
+
+| <div style="width: 24ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | 透传 Table `style` | - |
-| className | 自定义类名 | `string` | - | 透传 Table `className` | - |
-| **远程数据相关** | | | | | |
-| restful | RESTful API 接口地址，支持相对地址（如 `/api/users`）和绝对地址（如 `https://dummyjson.com/users`） | `string` | - | - | - |
-| reqConfig | 请求配置，axios请求的额外配置 | `object` | - | - | - |
-| parseOptions | 解析query参数的选项, [query-string](https://www.npmjs.com/package/query-string) 的配置项 | `object` | - | - | 0.1.14 |
-| urlDetailTemplate | 删除操作的自定义 URL 模板 | `string` | - | - | - |
-| baseParams | 基础请求参数 | `object` | - | - | - |
-| routeParams | 路由参数 | `object` | - | - | - |
-| forceParams | 强制参数，会覆盖路由参数和表单参数 | `object` | - | - | - |
-| fieldPage | 分页字段名 | `string` | `'page'` | - | - |
-| fieldPageSize | 每页条数字段名 | `string` | `'page_size'` | - | - |
-| defaultPageSize | 默认页数 | `number` | `20` | - | - |
-| fieldOrdering | 排序字段名 | `string` | `'ordering'` | - | - |
-| parseRowsPath | 解析数据行的路径 | `string` | `'results'` | - | - |
-| parseTotalPath | 解析总数的路径 | `string` | `'count'` | - | - |
-| showHeaderTags | 是否显示表格header上的筛选条件 | `boolean` | `false` | - | 0.1.5 |
-| **显示和交互** | | | | | |
-| isActive | 是否激活，为 false 时不更新数据 | `boolean` | `true` | - | - |
-| tools | 工具栏配置 | `object \| boolean` | `true` | - | - |
-| extraTools | 其他操作工具 | `node` | - | - | 0.1.9 |
-| onFiltersChange | 筛选条件变化回调 | `function(filters)` | - | - | - |
-| onDataSourceChange | 数据源变化回调 | `function(dataSource)` | - | - | - |
-| rowKey | 行数据的 key | `string` | `'id'` | 透传 Table `rowKey` | - |
-| columns | 表格列配置 | `array` | - | 覆盖 Table `columns`，内部增强处理 | - |
-| dataSource | 静态数据源，设置后不使用 restful | `array` | - | 覆盖 Table `dataSource`，由内部管理 | - |
-| expandFieldPath | 根据字段路径判断是否使用展开，不配置字段默认根据 columns 的配置展示 | `string` | - | - | 0.1.9 |
-| expandAntdProps | 展开列使用 Descriptions 展示，配置其 props | `object` | - | 透传 Descriptions 属性 | 0.1.9 |
-| expandedAllRows | 未启用 tools 时也可以配置展开所有行 | `boolean` | - | - | 0.1.9 |
-| filterFormProps | 筛选表单配置，详见 [GridForm](./grid-form.md) | `object` | - | - | - |
-| **Ant Design 原生配置** | | | | | |
-| antdTableProps | Ant Design [Table](https://ant.design/components/table-cn) 组件的属性 | `object` | - | 透传 Table 属性，`loading` / `rowKey` / `columns` / `dataSource` / `pagination` / `onChange` / `expandable` 由内部管理 | - |
-| antdSpaceProps | 外层容器 Ant Design [Space](https://ant.design/components/space-cn) 组件的属性 | `object` | - | 透传 Space 属性 | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | Pass-through Table `style` | - |
+| className | Custom class name | `string` | - | Pass-through Table `className` | - |
+| **Remote Data** | | | | | |
+| restful | RESTful API endpoint; supports relative paths (e.g. `/api/users`) and absolute URLs (e.g. `https://dummyjson.com/users`) | `string` | - | - | - |
+| reqConfig | Request configuration; extra axios request options | `object` | - | - | - |
+| parseOptions | Options for parsing query params; [query-string](https://www.npmjs.com/package/query-string) configuration | `object` | - | - | 0.1.14 |
+| urlDetailTemplate | Custom URL template for delete operations | `string` | - | - | - |
+| baseParams | Base request parameters | `object` | - | - | - |
+| routeParams | Route parameters | `object` | - | - | - |
+| forceParams | Forced parameters that override route and form parameters | `object` | - | - | - |
+| fieldPage | Pagination field name | `string` | `'page'` | - | - |
+| fieldPageSize | Page size field name | `string` | `'page_size'` | - | - |
+| defaultPageSize | Default page size | `number` | `20` | - | - |
+| fieldOrdering | Sort field name | `string` | `'ordering'` | - | - |
+| parseRowsPath | Path to parse data rows | `string` | `'results'` | - | - |
+| parseTotalPath | Path to parse total count | `string` | `'count'` | - | - |
+| showHeaderTags | Whether to show filter conditions on the table header | `boolean` | `false` | - | 0.1.5 |
+| **Display & Interaction** | | | | | |
+| isActive | Whether active; does not update data when `false` | `boolean` | `true` | - | - |
+| tools | Toolbar configuration | `object \| boolean` | `true` | - | - |
+| extraTools | Additional toolbar actions | `node` | - | - | 0.1.9 |
+| onFiltersChange | Callback when filter conditions change | `function(filters)` | - | - | - |
+| onDataSourceChange | Callback when data source changes | `function(dataSource)` | - | - | - |
+| rowKey | Row data key | `string` | `'id'` | Pass-through Table `rowKey` | - |
+| columns | Table column configuration | `array` | - | Overrides Table `columns` with internal enhancements | - |
+| dataSource | Static data source; when set, `restful` is not used | `array` | - | Overrides Table `dataSource`; managed internally | - |
+| expandFieldPath | Field path to determine expandable rows; defaults to column configuration when not set | `string` | - | - | 0.1.9 |
+| expandAntdProps | Props for Descriptions in expandable columns | `object` | - | Pass-through Descriptions props | 0.1.9 |
+| expandedAllRows | Expand all rows even when tools is disabled | `boolean` | - | - | 0.1.9 |
+| filterFormProps | Filter form configuration; see [GridForm](./grid-form.md) | `object` | - | - | - |
+| **Ant Design Native Config** | | | | | |
+| antdTableProps | Ant Design [Table](https://ant.design/components/table-cn) props | `object` | - | Pass-through Table props; `loading` / `rowKey` / `columns` / `dataSource` / `pagination` / `onChange` / `expandable` are managed internally | - |
+| antdSpaceProps | Ant Design [Space](https://ant.design/components/space-cn) props for the outer container | `object` | - | Pass-through Space props | - |
 
-**tools 配置项：**
+**tools options:**
 
-| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 24ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| advancedSearch | 是否启用搜索字段设置能力，`string` 时作为存储 key | `boolean \| string` | `true` | - | - |
-| refreshInterval | 刷新间隔（毫秒），0为手动刷新，>0为自动刷新，<0为隐藏刷新按钮 | `number` | `0` | - | - |
-| downloadKey | 下载功能的参数名，true时使用'_download'，字符串时使用自定义参数名，false时禁用下载 | `boolean \| string` | `false` | - | - |
-| settings | 列显示设置，true时使用restful作为存储key，字符串时使用自定义key，false时禁用 | `boolean \| string` | `true` | - | - |
-| expandedAllRows | 控制是否默认展开所有行，为false时默认不展开 | `boolean` | - | - | 0.1.9 |
+| advancedSearch | Enable search field settings; when `string`, used as storage key | `boolean \| string` | `true` | - | - |
+| refreshInterval | Refresh interval in ms; 0 for manual refresh, >0 for auto refresh, <0 to hide refresh button | `number` | `0` | - | - |
+| downloadKey | Download parameter name; `true` uses `'_download'`, string uses custom name, `false` disables download | `boolean \| string` | `false` | - | - |
+| settings | Column visibility settings; `true` uses restful as storage key, string uses custom key, `false` disables | `boolean \| string` | `true` | - | - |
+| expandedAllRows | Whether to expand all rows by default; defaults to collapsed when `false` | `boolean` | - | - | 0.1.9 |
 
-**columns 配置项：**
+**columns options:**
 
-| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 24ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| title | 列标题 | `string` | - | 透传 Column `title` | - |
-| dataIndex | 列数据在数据项中对应的路径 | `string` | - | 透传 Column `dataIndex` | - |
-| key | 列的唯一标识 | `string` | - | 透传 Column `key` | - |
-| labelTemplate | 列值显示模板，支持 `{field}` 格式 | `string` | - | - | - |
-| copyProps | 开启复制功能的配置，详见 [CopyView](#copyview) | `object` | - | - | - |
-| copyField | dataIndex配置的值是字典时，可以用此配置复制时使用的字段 | `string` | - | - | 0.1.9 |
-| showTag | 是否按照 Tag 展示，数据为数组时有用 | `boolean` | - | - | - |
-| filterDropdownConfig | 自定义筛选下拉框配置 | `object` | - | 覆盖 Column `filterDropdown` / `filterIcon` | - |
-| dropdownLocalConfig | 前端Table筛选的配置 | `object` | - | - | - |
-| filterMultiple | 是否支持多选筛选 | `boolean` | - | 透传 Column `filterMultiple` | - |
-| fieldName | 本地筛选时使用的真实字段名 | `string` | - | - | - |
-| hidden | 是否默认隐藏该列 | `boolean` | `false` | - | - |
-| sorter | 排序配置 | `boolean \| function` | - | 透传 Column `sorter`，远程模式下内部管理 `sortOrder` | - |
-| filters | 筛选选项 | `array` | - | 透传 Column `filters` | - |
-| expandable | 是否在展开功能中显示 | `boolean` | - | - | 0.1.9 |
-| expandableItemProps | 展示样式配置 | `object` | - | 透传 Descriptions.Item 属性 | 0.1.9 |
-| render | 自定义渲染函数 | `function(text, record, index)` | - | 透传 Column `render` | - |
+| title | Column title | `string` | - | Pass-through Column `title` | - |
+| dataIndex | Path to the field in the data item | `string` | - | Pass-through Column `dataIndex` | - |
+| key | Unique column identifier | `string` | - | Pass-through Column `key` | - |
+| labelTemplate | Column value display template; supports `{field}` format | `string` | - | - | - |
+| copyProps | Copy feature configuration; see [CopyView](#copyview) | `object` | - | - | - |
+| copyField | When dataIndex value is an object, field to use when copying | `string` | - | - | 0.1.9 |
+| showTag | Display as Tag; useful when data is an array | `boolean` | - | - | - |
+| filterDropdownConfig | Custom filter dropdown configuration | `object` | - | Overrides Column `filterDropdown` / `filterIcon` | - |
+| dropdownLocalConfig | Frontend Table filter configuration | `object` | - | - | - |
+| filterMultiple | Whether multi-select filtering is supported | `boolean` | - | Pass-through Column `filterMultiple` | - |
+| fieldName | Actual field name used for local filtering | `string` | - | - | - |
+| hidden | Whether to hide this column by default | `boolean` | `false` | - | - |
+| sorter | Sort configuration | `boolean \| function` | - | Pass-through Column `sorter`; `sortOrder` managed internally in remote mode | - |
+| filters | Filter options | `array` | - | Pass-through Column `filters` | - |
+| expandable | Whether to show in expandable row feature | `boolean` | - | - | 0.1.9 |
+| expandableItemProps | Display style configuration | `object` | - | Pass-through Descriptions.Item props | 0.1.9 |
+| render | Custom render function | `function(text, record, index)` | - | Pass-through Column `render` | - |
 
-**filterDropdownConfig 配置项：**
+**filterDropdownConfig options:**
 
-| <div style="width: 24ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 24ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| type | 筛选类型 | `'input' \| 'select' \| 'number' \| 'number-range' \| 'date-range-picker'` | - | - | - |
-| style | 筛选下拉框的自定义样式 | `object` | - | - | - |
-| antdSpaceProps | 控制输入组件和按钮的排列位置 | `object` | - | 透传 Space 属性 | - |
-| dropdownProps | 下拉框组件的属性 | `object` | - | 透传对应筛选组件属性 | - |
+| type | Filter type | `'input' \| 'select' \| 'number' \| 'number-range' \| 'date-range-picker'` | - | - | - |
+| style | Custom style for the filter dropdown | `object` | - | - | - |
+| antdSpaceProps | Controls layout of input components and buttons | `object` | - | Pass-through Space props | - |
+| dropdownProps | Props for the dropdown component | `object` | - | Pass-through corresponding filter component props | - |
 
-**Ref 方法：**
+**Ref methods:**
 
-| 方法名 | 说明 | 参数 | 返回值 |
+| Method | Description | Parameters | Return Value |
 | - | - | - | - |
-| refreshList | 刷新表格数据 | - | - |
-| deleteRow | 删除指定行 | `row` | - |
+| refreshList | Refresh table data | - | - |
+| deleteRow | Delete a specific row | `row` | - |
 
-### 使用示例
+### Examples
 
-**基本使用：**
+**Basic usage:**
 
 ```jsx
 import React, { useRef } from 'react';
 import antdRestful from 'antd-restful';
 const { RestTable, constants: { FieldType } } = antdRestful;
 
-// 基本使用示例
+// Basic usage example
 const BasicTable = () => {
   const tableRef = useRef();
 
@@ -124,31 +125,31 @@ const BasicTable = () => {
       width: 80,
     },
     {
-      title: "用户名",
+      title: "Username",
       dataIndex: "username",
     },
     {
-      title: "昵称",
+      title: "Nickname",
       dataIndex: "firstName",
     },
     {
-      title: "性别",
+      title: "Gender",
       dataIndex: "gender",
     },
     {
-      title: "年龄",
+      title: "Age",
       dataIndex: "age",
-      render: (value, record) => `${value}岁`,
+      render: (value, record) => `${value} years old`,
     },
     {
-      title: "邮箱",
+      title: "Email",
       dataIndex: "email",
       copyProps: { showIcon: true },
     },
     {
-      title: "城市",
+      title: "City",
       dataIndex: "address",
-      labelTemplate: "城市：{city}",
+      labelTemplate: "City: {city}",
     },
   ];
 
@@ -169,10 +170,10 @@ const BasicTable = () => {
         settings: "rest-table-basic",
       }}
       onFiltersChange={(filters) => {
-        console.log('筛选条件变化:', filters);
+        console.log('Filter conditions changed:', filters);
       }}
       onDataSourceChange={(data) => {
-        console.log('数据源变化:', data);
+        console.log('Data source changed:', data);
       }}
     />
   );
@@ -181,7 +182,7 @@ const BasicTable = () => {
 export default BasicTable;
 ```
 
-**带筛选表单的表格：**
+**Table with filter form:**
 
 ```jsx
 import React from 'react';
@@ -195,19 +196,19 @@ const TableWithFilter = () => {
       dataIndex: "id",
     },
     {
-      title: "用户名",
+      title: "Username",
       dataIndex: "username",
     },
     {
-      title: "昵称",
+      title: "Nickname",
       dataIndex: "firstName",
     },
     {
-      title: "性别",
+      title: "Gender",
       dataIndex: "gender",
     },
     {
-      title: "年龄",
+      title: "Age",
       dataIndex: "age",
     },
   ];
@@ -233,10 +234,10 @@ const TableWithFilter = () => {
         fields: [
           {
             key: 'q',
-            label: '关键词',
+            label: 'Keyword',
             type: FieldType.INPUT,
             antdFieldProps: {
-              placeholder: '搜索用户名/姓名/邮箱'
+              placeholder: 'Search username/name/email'
             }
           }
         ]
@@ -248,7 +249,7 @@ const TableWithFilter = () => {
 export default TableWithFilter;
 ```
 
-**本地数据表格：**
+**Local data table:**
 
 ```jsx
 import React from 'react';
@@ -258,35 +259,35 @@ const { RestTable } = antdRestful;
 const LocalDataTable = () => {
   const columns = [
     {
-      title: "姓名",
+      title: "Name",
       dataIndex: "name",
-      fieldName: "name", // 用于本地筛选的字段名
+      fieldName: "name", // Field name for local filtering
       filters: [
-        { text: "张三", value: "张三" },
-        { text: "李四", value: "李四" },
+        { text: "Alice", value: "Alice" },
+        { text: "Bob", value: "Bob" },
       ],
     },
     {
-      title: "年龄",
+      title: "Age",
       dataIndex: "age",
       fieldName: "age",
-      sorter: true, // 本地排序
+      sorter: true, // Local sorting
     },
     {
-      title: "城市",
+      title: "City",
       dataIndex: "city",
       fieldName: "city",
       filters: [
-        { text: "北京", value: "北京" },
-        { text: "上海", value: "上海" },
+        { text: "Beijing", value: "Beijing" },
+        { text: "Shanghai", value: "Shanghai" },
       ],
     },
   ];
 
   const dataSource = [
-    { id: 1, name: '张三', age: 25, city: '北京' },
-    { id: 2, name: '李四', age: 30, city: '上海' },
-    { id: 3, name: '王五', age: 28, city: '北京' },
+    { id: 1, name: 'Alice', age: 25, city: 'Beijing' },
+    { id: 2, name: 'Bob', age: 30, city: 'Shanghai' },
+    { id: 3, name: 'Charlie', age: 28, city: 'Beijing' },
   ];
 
   return (
@@ -294,7 +295,7 @@ const LocalDataTable = () => {
       dataSource={dataSource}
       columns={columns}
       rowKey="id"
-      tools={false} // 禁用工具栏
+      tools={false} // Disable toolbar
     />
   );
 };
@@ -302,7 +303,7 @@ const LocalDataTable = () => {
 export default LocalDataTable;
 ```
 
-**高级配置示例：**
+**Advanced configuration example:**
 
 ```jsx
 import React, { useRef } from 'react';
@@ -315,29 +316,29 @@ const AdvancedTable = () => {
 
   const columns = [
     {
-      title: "用户名",
+      title: "Username",
       dataIndex: "username",
       copyProps: {
         showIcon: true,
-        text: '复制用户名'
+        text: 'Copy username'
       },
     },
     {
-      title: "公司信息",
+      title: "Company",
       dataIndex: "company",
       labelTemplate: "{name} ({title})",
     },
     {
-      title: "体重",
+      title: "Weight",
       dataIndex: "weight",
       render: (value) => `${Number(value ?? 0).toFixed(2)} kg`,
     },
     {
-      title: "角色",
+      title: "Role",
       dataIndex: "role",
     },
     {
-      title: "操作",
+      title: "Actions",
       key: "action",
       render: (_, record) => (
         <Space>
@@ -345,14 +346,14 @@ const AdvancedTable = () => {
             size="small"
             onClick={() => handleView(record)}
           >
-            查看
+            View
           </Button>
           <Button
             size="small"
             danger
             onClick={() => handleDelete(record)}
           >
-            删除
+            Delete
           </Button>
         </Space>
       ),
@@ -360,7 +361,7 @@ const AdvancedTable = () => {
   ];
 
   const handleView = (record) => {
-    message.info(`查看用户: ${record.username}`);
+    message.info(`View user: ${record.username}`);
   };
 
   const handleDelete = (record) => {
@@ -378,7 +379,7 @@ const AdvancedTable = () => {
   return (
     <div>
       <div style={{ marginBottom: 16 }}>
-        <Button onClick={handleRefresh}>手动刷新</Button>
+        <Button onClick={handleRefresh}>Manual Refresh</Button>
       </div>
 
       <RestTable
@@ -388,29 +389,29 @@ const AdvancedTable = () => {
         parseTotalPath="total"
         fieldPage="skip"
         fieldPageSize="limit"
-        urlDetailTemplate="https://dummyjson.com/users/{id}" // 自定义删除URL模板
+        urlDetailTemplate="https://dummyjson.com/users/{id}" // Custom delete URL template
         columns={columns}
         reqConfig={{
-          timeout: 10000, // 10秒超时
+          timeout: 10000, // 10 second timeout
           headers: {
             'Custom-Header': 'value'
           }
         }}
         tools={{
           advancedSearch: true,
-          refreshInterval: 60000, // 1分钟自动刷新
-          downloadKey: true,       // 使用默认的_download参数
+          refreshInterval: 60000, // Auto refresh every 1 minute
+          downloadKey: true,       // Use default _download parameter
           settings: "rest-table-advanced"
         }}
         baseParams={{
           limit: 5
         }}
         forceParams={{
-          // 强制参数，不会被其他参数覆盖
+          // Forced parameters that cannot be overridden
           company_id: 123
         }}
         onFiltersChange={(filters) => {
-          console.log('当前筛选条件:', filters);
+          console.log('Current filter conditions:', filters);
         }}
         antdTableProps={{
           size: 'small',
@@ -428,89 +429,89 @@ const AdvancedTable = () => {
 export default AdvancedTable;
 ```
 
-### 工具栏功能详解
+### Toolbar Details
 
-**高级搜索切换：**
-- 点击高级搜索按钮可以展开/收起筛选表单
-- 当有多个筛选条件时，会自动展开高级搜索
+**Advanced search toggle:**
+- Click the advanced search button to expand/collapse the filter form
+- Automatically expands advanced search when multiple filter conditions are active
 
-**自动刷新：**
-- `refreshInterval > 0` 时启用自动刷新
-- 点击刷新按钮可以切换自动刷新的开启/关闭状态
-- `refreshInterval = 0` 时为手动刷新模式
-- `refreshInterval < 0` 时隐藏刷新按钮
+**Auto refresh:**
+- Enabled when `refreshInterval > 0`
+- Click the refresh button to toggle auto refresh on/off
+- `refreshInterval = 0` for manual refresh mode
+- `refreshInterval < 0` hides the refresh button
 
-**下载功能：**
-- 支持当前页下载和全部数据下载
-- 下载URL会自动添加当前的筛选和排序参数
-- 可以自定义下载参数名
+**Download:**
+- Supports downloading current page or all data
+- Download URL automatically includes current filter and sort parameters
+- Custom download parameter name supported
 
-**列显示设置：**
-- 支持显示/隐藏列的设置
-- 设置会自动保存到localStorage
-- 支持全选/反选操作
-- 可以自定义存储key
+**Column visibility settings:**
+- Supports show/hide column configuration
+- Settings are automatically saved to localStorage
+- Supports select all / invert
+- Custom storage key supported
 
-### 筛选功能详解
+### Filter Details
 
-**表头筛选：**
-- 支持输入框和下拉选择两种类型
-- 输入框支持模糊搜索
-- 下拉选择支持远程数据加载
-- 筛选值会自动同步到URL参数
+**Header filters:**
+- Supports input and select types
+- Input supports fuzzy search
+- Select supports remote data loading
+- Filter values are automatically synced to URL parameters
 
-**表单筛选：**
-- 使用GridForm组件实现
-- 支持所有GridForm的字段类型
-- 可以在单项模式和高级搜索模式间切换
+**Form filters:**
+- Implemented with the GridForm component
+- Supports all GridForm field types
+- Can switch between single-field mode and advanced search mode
 
-**本地筛选：**
-- 当没有配置restful时，支持本地筛选和排序
-- 需要配置fieldName指定真实的字段名
-- 支持多种数据类型的筛选
+**Local filters:**
+- When `restful` is not configured, supports local filtering and sorting
+- Requires `fieldName` to specify the actual field name
+- Supports filtering across multiple data types
 
-### 最佳实践
+### Best Practices
 
-1. **性能优化：**
-   - 合理设置分页大小，避免一次加载过多数据
-   - 使用forceParams避免不必要的参数变化
-   - 对于大表格，考虑使用虚拟滚动
+1. **Performance optimization:**
+   - Set reasonable page sizes to avoid loading too much data at once
+   - Use `forceParams` to avoid unnecessary parameter changes
+   - For large tables, consider virtual scrolling
 
-2. **用户体验：**
-   - 合理配置工具栏功能，避免功能过载
-   - 使用列显示设置让用户自定义显示内容
-   - 提供清晰的筛选和排序反馈
+2. **User experience:**
+   - Configure toolbar features appropriately to avoid feature overload
+   - Use column visibility settings to let users customize display
+   - Provide clear feedback for filtering and sorting
 
-3. **数据处理：**
-   - 使用labelTemplate简化复杂数据的显示
-   - 合理使用copyProps提升数据操作效率
-   - 配置合适的解析路径适配不同的API响应格式
+3. **Data handling:**
+   - Use `labelTemplate` to simplify display of complex data
+   - Use `copyProps` appropriately to improve data operation efficiency
+   - Configure appropriate parse paths for different API response formats
 
-4. **错误处理：**
-   - 配置合适的请求超时时间
-   - 使用reqConfig添加必要的请求头
-   - 实现数据变化的回调处理
+4. **Error handling:**
+   - Configure appropriate request timeouts
+   - Use `reqConfig` to add necessary request headers
+   - Implement callbacks for data changes
 
 
-### 常见问题
+### FAQ
 
-1. **工具栏遮挡了筛选表单中的字段**
+1. **Toolbar overlaps filter form fields**
 
-有2种解决方式
+There are 2 solutions:
 
-1）不根据屏幕宽高动态设置列数，组件会根据 column 设置的列数兼容遮挡的场景：
+1) Do not dynamically set column count based on screen size; the component will handle overlap based on the column count in `grid`:
 ```js
 filterFormProps: {
   antdListProps: grid: { gutter: 30, column: 3 },
 }
 ```
 
-2）可以在 `filterFormProps.fields` 筛选配置最后增加一个占位的字段，例如
+2) Add a placeholder field at the end of `filterFormProps.fields`, for example:
 ```js
 {
   key: "__placeholder",
-  label: "占位",
-  tip: "搜索按钮被遮挡，可以勾选控制换行展示",
+  label: "Placeholder",
+  tip: "Search button is blocked; enable this to control line wrapping",
   hidden: true,
   antdFormItemProps: {
     hidden: true,
@@ -518,22 +519,22 @@ filterFormProps: {
 }
 ```
 
-2. **处理 query 参数在超大数值下丢失精度问题**
-1）升级 `query-string > 9.1`，支持配置 `parseOptions.types` 指定字段类型
-2）若使用 `RouteBaseTable`，可通过 `parseTypes` 做兼容映射
+2. **Handling precision loss for very large query parameter values**
+1) Upgrade to `query-string > 9.1` and configure `parseOptions.types` to specify field types
+2) If using `RouteBaseTable`, use `parseTypes` for compatibility mapping
 ```js
 <RouteBaseTable
   location={location}
   onSearchChange={(query) => setSearchParams(query)}
   parseOptions={{
-    parseNumbers: false,  // 关闭转换成数字
-    // types: {  // required query-string > 9.1
+    parseNumbers: false,  // Disable number conversion
+    // types: {  // requires query-string > 9.1
     //   user: "number",
     // },
   }}
   parseTypes={{
-    // 注意配置 string 无效，因为会先由 query-string 处理完 再使用 parseTypes 处理转成数字
-    // 注意解决 parseOptions.parseNumbers = false 一起使用
+    // Note: configuring string is ineffective because query-string processes first, then parseTypes converts to number
+    // Note: use together with parseOptions.parseNumbers = false
     user: "number",
   }}
   ...

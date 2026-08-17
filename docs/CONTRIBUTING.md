@@ -1,117 +1,121 @@
-# 前言
-主要是给开发者阅读，描述开发前后需要注意的一些事项。
+# Contributing Guide
 
-# 开发环境
+[English](./CONTRIBUTING.md) | [中文](./CONTRIBUTING.zh-CN.md)
+
+This guide is intended for developers, covering important considerations before and during development.
+
+# Development Environment
 
     node: 18.20.8
 
-常用命令：
-- 安装依赖 `npm install .`
-- 本地联调（mock + demo）`npm run start`
-- 测试用例 `npm run test`
+Common commands:
+- Install dependencies: `npm install .`
+- Local development (mock + demo): `npm run start`
+- Run tests: `npm run test`
 
-构建和发版通过 Makefile 执行（自动切换到 Node 18）：
+Build and release are managed via Makefile (auto-switches to Node 18):
 
-| 命令 | 说明 |
+| Command | Description |
 |---|---|
-| `make build` | 构建主版本（father ESM + CJS → `dist/`） |
-| `make build-compat` | 构建兼容版本（webpack UMD → `compat/dist/`） |
-| `make publish` | 构建 + 发布主版本（latest 标签） |
-| `make publish-compat` | 构建 + 发布兼容版本（compat 标签） |
-| `make clean` | 清理所有构建产物 |
+| `make build` | Build main version (father ESM + CJS → `dist/`) |
+| `make build-compat` | Build compat version (webpack UMD → `compat/dist/`) |
+| `make publish` | Build + publish main version (latest tag) |
+| `make publish-compat` | Build + publish compat version (compat tag) |
+| `make clean` | Clean all build artifacts |
 
-## 本地其他项目联调
+## Local Development with Other Projects
 
-当你需要在业务项目中联调本仓库的最新改动时，有以下两种方式。
+When you need to test your latest changes in a consumer project, there are two approaches.
 
-### 方式一：npm link
+### Option 1: npm link
 
-无需额外安装工具，利用 npm 自带的符号链接机制：
+No extra tools required — uses npm's built-in symlink mechanism:
 
-1. 在本仓库构建并创建全局链接：
+1. Build and create a global link in this repo:
    ```bash
    make build
    npm link
    ```
-2. 在业务项目中链接本地包：
+2. Link the local package in your consumer project:
    ```bash
    npm link antd-restful
    ```
-3. 本仓库有新改动后，重新构建即可（业务项目自动读取最新产物）：
+3. After making changes in this repo, simply rebuild (the consumer project automatically picks up the latest output):
    ```bash
    make build
    ```
-4. 联调结束后，在业务项目中取消链接并恢复 npm 版本：
+4. When done, unlink in the consumer project and restore the npm version:
    ```bash
    npm unlink antd-restful
    npm install antd-restful
    ```
 
-> **注意**：`npm link` 使用符号链接，可能因为 `react` 存在多实例（本仓库和业务项目各有一份）导致 hooks 报错。如遇到此问题，推荐使用 yalc。
+> **Note**: `npm link` uses symlinks, which may cause React hooks errors due to multiple React instances (one in this repo, one in the consumer project). If you encounter this issue, use yalc instead.
 
-### 方式二：yalc（推荐）
+### Option 2: yalc (Recommended)
 
-`yalc` 模拟真实安装流程，将包拷贝到业务项目的 `node_modules` 中，避免符号链接带来的多实例问题。
+`yalc` simulates a real install process by copying the package into the consumer project's `node_modules`, avoiding the multiple-instance problem caused by symlinks.
 
-1. 首次安装（全局）：
+1. Install globally (first time):
    ```bash
    npm i -g yalc
    ```
-2. 在本仓库打包并发布到本地 yalc 仓库：
+2. Build and publish to the local yalc registry in this repo:
    ```bash
    make build
    yalc publish
    ```
-3. 在业务项目中引入本地包：
+3. Add the local package in your consumer project:
    ```bash
    yalc add antd-restful
    npm install
    ```
-4. 本仓库有新改动后，在业务项目中同步：
+4. After making changes in this repo, sync to the consumer project:
    ```bash
-   yalc publish              # 在本仓库执行
-   yalc update antd-restful && npm install  # 在业务项目执行
+   yalc publish              # run in this repo
+   yalc update antd-restful && npm install  # run in consumer project
    ```
 
-联调结束后，业务项目可回退到 npm 正式版本：
+When done, revert to the official npm version in the consumer project:
 ```bash
 yalc remove antd-restful
 npm install antd-restful
 ```
 
-# 提交Pull Request
-提交Pull Request之前需要检查以下事项是否完成：
-- 需包含测试用例，并通过`npm run test`
+# Submitting Pull Requests
 
-# 打包发版
+Before submitting a Pull Request, ensure the following:
+- Tests must be included and pass via `npm run test`
 
-打包产物目录：
-- `dist/esm`（ESM）
-- `dist/cjs`（CJS）
+# Build & Release
 
-father 构建行为说明：
-- 当前仅使用 father 的 ESM/CJS `bundless` 转译模式，不做 UMD 单文件打包。
-- 该模式会保留依赖的 `import/require`，不会把业务依赖内联成一个大 bundle。
-- 该模式不走 terser 压缩改名流程，因此不会因为压缩导致类名/方法名被混淆。
+Build output directories:
+- `dist/esm` (ESM)
+- `dist/cjs` (CJS)
 
-发版流程：
+father build behavior:
+- Currently uses father's ESM/CJS `bundless` transpilation mode only, without UMD single-file bundling.
+- This mode preserves `import/require` for dependencies and does not inline them into a single bundle.
+- This mode does not run terser minification, so class/method names are not obfuscated.
+
+Release process:
 ```bash
 make publish
 ```
 
-## 发布兼容版本（0.x）
+## Publishing the Compat Version (0.x)
 
-`0.x` 版本线用于发布 Node 12 / npm 6 兼容版本，供无法升级 Node 的老项目使用。兼容版本从 `0.5.0` 开始。
+The `0.x` version line is for publishing Node 12 / npm 6 compatible versions, intended for legacy projects that cannot upgrade Node. The compat version starts from `0.5.0`.
 
-兼容版本的 `package.json` 独立存放在 `compat/` 目录，通过 webpack 将所有依赖（含 `query-string`）打包为单文件 `compat/dist/index.js`，确保产物零外部依赖、语法兼容 Node 12。
+The compat version has its own `package.json` located in the `compat/` directory. Webpack bundles all dependencies (including `query-string`) into a single file `compat/dist/index.js`, ensuring zero external dependencies and Node 12 syntax compatibility.
 
 ```bash
 make publish-compat
 ```
 
-消费方通过 `npm install antd-restful@compat` 安装兼容版本。
+Consumers install via `npm install antd-restful@compat`.
 
-> **注意**：
-> - `0.x` 与主线版本（`1.x`）功能可能不完全一致，仅回移必要的 bugfix。
-> - `query-string` 保持 `9.x` 即可，webpack 构建时会自动将其打包并转译为兼容语法。
-> - 发布前请确认 `compat/package.json` 中的 `version` 字段已更新。
+> **Notes**:
+> - `0.x` and the main version (`1.x`) may not be feature-identical; only essential bugfixes are backported.
+> - `query-string` can stay at `9.x` — webpack will bundle and transpile it to compatible syntax automatically.
+> - Before publishing, confirm that the `version` field in `compat/package.json` has been updated.

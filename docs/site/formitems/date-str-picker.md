@@ -4,34 +4,34 @@ order: 7
 ---
 
 ## DateStrPicker
-基于 Ant Design DatePicker/TimePicker 的字符串日期选择器，值以字符串格式输入输出，支持日期和时间选择。
+A string-format date picker based on Ant Design DatePicker/TimePicker. Values are input and output as strings, supporting date and time selection.
 
-**功能特性：**
-- 支持日期和时间选择
-- 值以字符串格式处理
-- 支持自定义日期格式
-- 支持只读模式展示
-- 自动处理字符串与 dayjs 对象的转换
+**Features:**
+- Date and time selection
+- String-format value handling
+- Custom date format
+- Read-only display
+- Automatic conversion between strings and dayjs objects
 
-### 参数说明
-| <div style="width: 17ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### Props
+| <div style="width: 17ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | 透传 DatePicker `style` | - |
-| className | 自定义类名 | `string` | - | 透传 DatePicker `className` | - |
-| value | 当前选中的日期字符串 | `string` | - | 覆盖 DatePicker `value`，内部处理字符串与 dayjs 转换 | - |
-| onChange | 值变化时的回调函数 | `function(dateString, date)` | - | 覆盖 DatePicker `onChange`，输出字符串格式 | - |
-| **日期配置** | | | | | |
-| defaultValue | 默认日期字符串 | `string` | - | 覆盖 DatePicker `defaultValue`，内部转换为 dayjs | - |
-| format | 日期格式 | `string` | - | 透传 DatePicker `format` | - |
-| picker | 选择器类型 | `string` | `'date'` | 透传 DatePicker `picker` | - |
-| **状态控制** | | | | | |
-| disabled | 是否禁用 | `boolean` | `false` | 透传 DatePicker `disabled` | - |
-| readOnly | 是否只读模式 | `boolean` | `false` | - | - |
-| **Ant Design 原生配置** | | | | | |
-| antdPickerProps | Ant Design [DatePicker](https://ant.design/components/date-picker-cn)/[TimePicker](https://ant.design/components/time-picker-cn) 组件的原生属性 | `object` | - | 透传 DatePicker/TimePicker 属性，`value` / `onChange` / `defaultValue` 由内部管理 | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | Pass-through DatePicker `style` | - |
+| className | Custom class name | `string` | - | Pass-through DatePicker `className` | - |
+| value | Currently selected date string | `string` | - | Overrides DatePicker `value`; internal string/dayjs conversion | - |
+| onChange | Callback when value changes | `function(dateString, date)` | - | Overrides DatePicker `onChange`; outputs string format | - |
+| **Date Config** | | | | | |
+| defaultValue | Default date string | `string` | - | Overrides DatePicker `defaultValue`; converted to dayjs internally | - |
+| format | Date format | `string` | - | Pass-through DatePicker `format` | - |
+| picker | Picker type | `string` | `'date'` | Pass-through DatePicker `picker` | - |
+| **State Control** | | | | | |
+| disabled | Whether disabled | `boolean` | `false` | Pass-through DatePicker `disabled` | - |
+| readOnly | Whether read-only mode | `boolean` | `false` | - | - |
+| **Ant Design Native Config** | | | | | |
+| antdPickerProps | Native props for Ant Design [DatePicker](https://ant.design/components/date-picker)/[TimePicker](https://ant.design/components/time-picker) | `object` | - | Pass-through DatePicker/TimePicker props; `value` / `onChange` / `defaultValue` managed internally | - |
 
-### 使用示例
+### Usage Examples
 
 ```jsx
 import React, { useState } from 'react';
@@ -53,26 +53,26 @@ export default () => {
   return (
     <div>
       <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
-        <Radio.Button value="edit">编辑</Radio.Button>
-        <Radio.Button value="readOnly">只读</Radio.Button>
-        <Radio.Button value="disabled">禁用</Radio.Button>
+        <Radio.Button value="edit">Edit</Radio.Button>
+        <Radio.Button value="readOnly">Read-only</Radio.Button>
+        <Radio.Button value="disabled">Disabled</Radio.Button>
       </Radio.Group>
 
       <Form layout="horizontal" labelCol={{ flex: '100px' }}>
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：日期选择</Divider>
-        <Form.Item label="日期" style={{ marginBottom: 8 }}>
-          <DateStrPicker style={{ width: 320 }} value={date} onChange={setDate} readOnly={readOnly} disabled={disabled} format="YYYY-MM-DD" placeholder="请选择日期" />
-          <div style={valueStyle}>表单value值：{date}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 1: Date Selection</Divider>
+        <Form.Item label="Date" style={{ marginBottom: 8 }}>
+          <DateStrPicker style={{ width: 320 }} value={date} onChange={setDate} readOnly={readOnly} disabled={disabled} format="YYYY-MM-DD" placeholder="Select date" />
+          <div style={valueStyle}>Form value: {date}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：时间选择</Divider>
-        <Form.Item label="时间" style={{ marginBottom: 8 }}>
-          <DateStrPicker style={{ width: 320 }} value={time} onChange={setTime} readOnly={readOnly} disabled={disabled} picker="time" format="HH:mm:ss" placeholder="请选择时间" />
-          <div style={valueStyle}>表单value值：{time}</div>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 2: Time Selection</Divider>
+        <Form.Item label="Time" style={{ marginBottom: 8 }}>
+          <DateStrPicker style={{ width: 320 }} value={time} onChange={setTime} readOnly={readOnly} disabled={disabled} picker="time" format="HH:mm:ss" placeholder="Select time" />
+          <div style={valueStyle}>Form value: {time}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：日期时间选择</Divider>
-        <Form.Item label="日期时间" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 3: Date Time Selection</Divider>
+        <Form.Item label="Date time" style={{ marginBottom: 8 }}>
           <DateStrPicker
             style={{ width: 320 }}
             value={datetime}
@@ -82,7 +82,7 @@ export default () => {
             format="YYYY-MM-DD HH:mm:ss"
             antdPickerProps={{ showTime: true }}
           />
-          <div style={valueStyle}>表单value值：{datetime}</div>
+          <div style={valueStyle}>Form value: {datetime}</div>
         </Form.Item>
       </Form>
     </div>
@@ -90,21 +90,21 @@ export default () => {
 };
 ```
 
-### picker 类型
-- `'date'` - 日期选择器（默认）
-- `'time'` - 时间选择器
-- `'week'` - 周选择器
-- `'month'` - 月选择器
-- `'quarter'` - 季度选择器
-- `'year'` - 年选择器
+### picker Types
+- `'date'` - Date picker (default)
+- `'time'` - Time picker
+- `'week'` - Week picker
+- `'month'` - Month picker
+- `'quarter'` - Quarter picker
+- `'year'` - Year picker
 
-### 注意事项
-1. **字符串格式**：组件专门处理字符串格式的日期值
-2. **格式转换**：自动处理字符串与 dayjs 对象之间的转换
-3. **回调参数**：onChange 提供日期字符串和日期对象两个参数
-4. **只读模式**：只读时直接显示日期字符串
-5. **picker 类型**：根据 `picker` 参数选择使用 DatePicker 或 TimePicker
+### Notes
+1. **String format**: Component specifically handles string-format date values
+2. **Format conversion**: Automatically converts between strings and dayjs objects
+3. **Callback parameters**: onChange provides date string and date object
+4. **Read-only mode**: Displays date string directly
+5. **picker type**: Uses DatePicker or TimePicker based on `picker` parameter
 
-### 相关组件
-- [RangeStrPicker](./RangeStrPicker.md) - 日期时间范围选择器
-- [GridForm](../GridForm.md) - 网格表单，支持 DateStrPicker 作为表单字段类型
+### Related Components
+- [RangeStrPicker](./RangeStrPicker.md) - Date time range picker
+- [GridForm](../GridForm.md) - Grid form supporting DateStrPicker as a form field type
