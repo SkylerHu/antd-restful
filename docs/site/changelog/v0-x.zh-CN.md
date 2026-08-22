@@ -1,4 +1,9 @@
-# Changelog (0.x)
+# 更新日志 (0.x)
+
+本文件记录 0.x 版本的历史变更。
+
+格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/)，
+版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
 ## 0.5.1 - 2026-08-11
 

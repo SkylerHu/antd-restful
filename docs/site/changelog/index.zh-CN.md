@@ -1,6 +1,9 @@
-# Changelog
+# 更新日志
 
-本文件记录该项目的所有重要变更。
+本文件记录项目的所有重要变更。
+
+格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/)，
+版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
 ## [1.0.5](https://github.com/skylerhu/antd-restful/compare/v1.0.4...v1.0.5) - 2026-08-22
 

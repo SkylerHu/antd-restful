@@ -2,7 +2,7 @@
 
 [English](./README.md) | 中文文档
 
-> Configuration-driven RESTful data components for Ant Design
+> 面向 RESTful 接口的配置化 Ant Design 数据组件库
 
 [![NPM Version](https://img.shields.io/npm/v/antd-restful)](https://www.npmjs.com/package/antd-restful)
 [![NPM Downloads](https://img.shields.io/npm/dm/antd-restful)](https://www.npmjs.com/package/antd-restful)
@@ -20,13 +20,13 @@
 
 基于 React + Ant Design，围绕 RESTful 接口封装的配置化数据驱动组件库。通过声明式配置即可完成接口对接与交互编排，覆盖表格与列表展示、筛选表单联动、分页排序、路由参数双向同步、请求取消与错误提示等高频能力，适合后台管理、运营系统与动态 JSON 配置场景。
 
-## Demo
+## 演示
 
 <p align="center">
   <video src="https://github.com/user-attachments/assets/d22d1a71-271b-4ad7-bfe3-83ab48b83b27" autoplay loop muted playsinline width="100%"></video>
 </p>
 
-## Features
+## 特性
 
 - **RESTful 表格 & 列表** — `RestTable` / `RestList` 开箱即用，内置分页、排序、筛选、高级搜索
 - **路由参数同步** — `RouteBaseTable` 自动将筛选状态与 URL 双向绑定，刷新/分享不丢状态
@@ -35,16 +35,16 @@
 - **多版本兼容** — 同时支持 antd 4.24+ / 5.x / 6.x，自动适配 dayjs 与 moment
 - **请求可控** — 基于 axios，支持请求取消、错误提示、query 序列化自定义
 
-## Compatibility
+## 兼容性
 
-| Dependency | Version |
+| 依赖 | 版本 |
 |---|---|
 | antd | `>= 4.24`（含 antd 5 & antd 6） |
 | @ant-design/icons | `>= 4` |
 | react / react-dom | `>= 16` |
 | Node.js | `>= 18` |
 
-## Installation
+## 安装
 
 ```bash
 npm install antd-restful
@@ -66,7 +66,7 @@ npm install dayjs
 npm install moment
 ```
 
-## Quick Start
+## 快速开始
 
 ```jsx
 import antdRestful from "antd-restful";
@@ -93,7 +93,7 @@ import antdRestful from "antd-restful";
 const antdRestful = require("antd-restful").default;
 ```
 
-## Configuration
+## 配置
 
 组件内部使用 `query-string` 进行 query 序列化，默认设置为 `{ arrayFormat: "comma", skipNull: true, skipEmptyString: true }`。可通过全局配置覆盖：
 
@@ -131,9 +131,9 @@ setRestOptions({
 | `rowKey` | `"id"` | 列表/表格的默认主键字段 |
 | `fieldParent` | `"parent"` | 树形或级联结构默认的父节点字段 |
 
-## Components
+## 组件
 
-| Component | Description |
+| 组件 | 说明 |
 |---|---|
 | `RestTable` | 远程表格，支持分页、排序、筛选、高级搜索、列设置 |
 | `RestList` | 远程列表，支持卡片流、分页与加载更多 |
@@ -146,25 +146,25 @@ setRestOptions({
 
 完整 API 文档请访问 **[在线文档](https://skylerhu.github.io/antd-restful/)**。
 
-## Examples
+## 示例
 
 - [RESTful 表格数据展示](./demo/views/TableDemo.jsx)
 - [RESTful 列表数据展示](./demo/views/ListDemo.jsx)
 - [动态 JSON 表单](./demo/views/JSONForm.jsx)
 - [路由参数同步 RouteTable](./demo/views/RouteTable.jsx)
 
-## FAQ
+## 常见问题
 
 查看 [常见问题说明](./docs/site/faq/index.md)。
 
-## Contributing
+## 贡献
 
 欢迎贡献！提交 PR 前请阅读 [贡献指南](./docs/CONTRIBUTING.md)。
 
-## Changelog
+## 更新日志
 
 查看 [更新日志](./docs/site/changelog/index.md)。
 
-## License
+## 许可证
 
 [MIT](./LICENSE) © [SkylerHu](https://github.com/skylerhu)
