@@ -2,6 +2,22 @@
 
 This file documents all notable changes to this project.
 
+## [1.0.5](https://github.com/skylerhu/antd-restful/compare/v1.0.4...v1.0.5) - 2026-08-22
+
+### Added
+
+- Full English documentation: all `docs/site/` pages now have English versions, with `*.zh-CN.md` as Chinese translations.
+- Added `docs/ARCHITECTURE.md` and `docs/ARCHITECTURE.zh-CN.md` for project architecture documentation.
+- Added `docs/CONTRIBUTING.zh-CN.md` Chinese contributing guide.
+- Dumi site now supports i18n with English/Chinese locale switching via top nav.
+
+### Changed
+
+- Language switcher links no longer self-link; current language is displayed as plain text.
+- Moved `core-js` from `dependencies` to `devDependencies` — it is only used during dev/test (via `babel.config.js`), not in the published library output.
+
+---
+
 ## [1.0.4](https://github.com/skylerhu/antd-restful/compare/v1.0.3...v1.0.4) - 2026-08-11
 
 ### Added

@@ -2,6 +2,22 @@
 
 本文件记录该项目的所有重要变更。
 
+## [1.0.5](https://github.com/skylerhu/antd-restful/compare/v1.0.4...v1.0.5) - 2026-08-22
+
+### Added
+
+- 全量英文文档：`docs/site/` 所有页面新增英文版，`*.zh-CN.md` 作为中文翻译版本。
+- 新增 `docs/ARCHITECTURE.md` 和 `docs/ARCHITECTURE.zh-CN.md` 项目架构文档。
+- 新增 `docs/CONTRIBUTING.zh-CN.md` 中文贡献指南。
+- Dumi 文档站支持中英文国际化切换（顶部导航栏切换语言）。
+
+### Changed
+
+- 语言切换链接不再自链当前语言，当前语言以纯文本显示。
+- `core-js` 从 `dependencies` 移至 `devDependencies` — 仅在开发/测试阶段使用（通过 `babel.config.js`），发布产物不包含。
+
+---
+
 ## [1.0.4](https://github.com/skylerhu/antd-restful/compare/v1.0.3...v1.0.4) - 2026-08-11
 
 ### Added
