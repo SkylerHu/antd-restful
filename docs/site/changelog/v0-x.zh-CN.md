@@ -5,6 +5,14 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 0.5.2 - 2026-08-22
+
+### Notes
+
+- 对标主线 `1.0.5`。
+
+---
+
 ## 0.5.1 - 2026-08-11
 
 ### Changed
