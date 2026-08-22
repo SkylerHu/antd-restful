@@ -1,6 +1,6 @@
 # Architecture
 
-[English](./ARCHITECTURE.md) | [中文](./ARCHITECTURE.zh-CN.md)
+English | [中文文档](./ARCHITECTURE.zh-CN.md)
 
 ## Background & Motivation
 

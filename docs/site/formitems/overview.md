@@ -1,9 +1,9 @@
 ---
-title: Form Items Overview
+title: FormItems Overview
 order: 0
 ---
 
-# Form Items Overview
+# FormItems Overview
 
 | <div style="width: 20ch;">Component</div> | Description |
 | --- | --- |

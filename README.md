@@ -1,5 +1,7 @@
 # antd-restful
 
+English | [中文文档](./README.zh-CN.md)
+
 > Configuration-driven RESTful data components for Ant Design
 
 [![NPM Version](https://img.shields.io/npm/v/antd-restful)](https://www.npmjs.com/package/antd-restful)
@@ -13,8 +15,6 @@
 [![License](https://img.shields.io/github/license/skylerhu/antd-restful)](https://github.com/skylerhu/antd-restful/blob/master/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-online-blue?logo=github)](https://skylerhu.github.io/antd-restful/)
 [![CodeSandbox](https://img.shields.io/badge/CodeSandbox-Open%20in%20Sandbox-blue?style=flat&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/skylerhu/antd-restful)
-
-[English](./README.md) | [中文](./README.zh-CN.md)
 
 ---
 

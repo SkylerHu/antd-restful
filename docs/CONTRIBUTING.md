@@ -1,6 +1,6 @@
 # Contributing Guide
 
-[English](./CONTRIBUTING.md) | [中文](./CONTRIBUTING.zh-CN.md)
+English | [中文文档](./CONTRIBUTING.zh-CN.md)
 
 This guide is intended for developers, covering important considerations before and during development.
 

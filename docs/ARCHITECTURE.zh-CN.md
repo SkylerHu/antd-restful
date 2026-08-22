@@ -1,6 +1,6 @@
 # 架构文档
 
-[English](./ARCHITECTURE.md) | [中文](./ARCHITECTURE.zh-CN.md)
+[English](./ARCHITECTURE.md) | 中文文档
 
 ## 背景与动机
 

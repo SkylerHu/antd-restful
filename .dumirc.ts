@@ -43,8 +43,8 @@ export default defineConfig({
       'en-US': [
         { title: 'Home', link: '/' },
         { title: 'Components', link: '/components/overview' },
-        { title: 'Form Items', link: '/formitems/overview' },
-        { title: 'Tools & Hooks', link: '/tools/overview' },
+        { title: 'FormItems', link: '/formitems/overview' },
+        { title: 'Tools', link: '/tools/overview' },
         { title: 'FAQ', link: '/faq' },
         { title: 'Changelog', link: '/changelog' },
       ],
@@ -67,8 +67,8 @@ export default defineConfig({
           children: [
             { title: 'Home', link: '/' },
             { title: 'Components', link: '/components/overview' },
-            { title: 'Form Items', link: '/formitems/overview' },
-            { title: 'Tools & Hooks', link: '/tools/overview' },
+            { title: 'FormItems', link: '/formitems/overview' },
+            { title: 'Tools', link: '/tools/overview' },
             { title: 'FAQ', link: '/faq' },
             { title: 'Changelog', link: '/changelog' },
           ],
@@ -90,7 +90,7 @@ export default defineConfig({
       ],
       '/formitems/': [
         {
-          title: 'Form Items',
+          title: 'FormItems',
           children: [
             '/formitems/overview',
             '/formitems/rest-select',
@@ -110,7 +110,7 @@ export default defineConfig({
       ],
       '/tools/': [
         {
-          title: 'Tools & Hooks',
+          title: 'Tools',
           children: [
             '/tools/overview',
             '/tools/config',
