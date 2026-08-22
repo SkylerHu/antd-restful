@@ -1,5 +1,7 @@
 # antd-restful
 
+English | [中文文档](./README.zh-CN.md)
+
 > Configuration-driven RESTful data components for Ant Design
 
 [![NPM Version](https://img.shields.io/npm/v/antd-restful)](https://www.npmjs.com/package/antd-restful)
@@ -16,7 +18,7 @@
 
 ---
 
-基于 React + Ant Design，围绕 RESTful 接口封装的配置化数据驱动组件库。通过声明式配置即可完成接口对接与交互编排，覆盖表格与列表展示、筛选表单联动、分页排序、路由参数双向同步、请求取消与错误提示等高频能力，适合后台管理、运营系统与动态 JSON 配置场景。
+A configuration-driven, data-oriented component library built on React + Ant Design, designed around RESTful APIs. Achieve API integration and interaction orchestration through declarative configuration — covering table & list rendering, filter form binding, pagination & sorting, bidirectional URL parameter sync, request cancellation, error handling, and more. Ideal for admin panels, operations dashboards, and dynamic JSON-driven UIs.
 
 ## Demo
 
@@ -26,18 +28,18 @@
 
 ## Features
 
-- **RESTful 表格 & 列表** — `RestTable` / `RestList` 开箱即用，内置分页、排序、筛选、高级搜索
-- **路由参数同步** — `RouteBaseTable` 自动将筛选状态与 URL 双向绑定，刷新/分享不丢状态
-- **远程选择组件** — `RestSelect` / `RestTreeSelect` / `RestCascader` 覆盖下拉、树形、级联选择
-- **栅格表单** — `GridForm` 统一布局与字段编排，搭配丰富的 formitems 子组件
-- **多版本兼容** — 同时支持 antd 4.24+ / 5.x / 6.x，自动适配 dayjs 与 moment
-- **请求可控** — 基于 axios，支持请求取消、错误提示、query 序列化自定义
+- **RESTful Table & List** — `RestTable` / `RestList` out of the box, with built-in pagination, sorting, filtering, and advanced search
+- **URL Parameter Sync** — `RouteBaseTable` automatically syncs filter state with the URL bidirectionally, preserving state on refresh/share
+- **Remote Selection Components** — `RestSelect` / `RestTreeSelect` / `RestCascader` for dropdown, tree, and cascading selection
+- **Grid Form** — `GridForm` for unified layout and field arrangement, with rich `formitems` sub-components
+- **Multi-version Compatibility** — Supports antd 4.24+ / 5.x / 6.x, auto-adapts between dayjs and moment
+- **Controllable Requests** — Built on axios, supports request cancellation, error handling, and custom query serialization
 
 ## Compatibility
 
 | Dependency | Version |
 |---|---|
-| antd | `>= 4.24`（含 antd 5 & antd 6） |
+| antd | `>= 4.24` (including antd 5 & antd 6) |
 | @ant-design/icons | `>= 4` |
 | react / react-dom | `>= 16` |
 | Node.js | `>= 18` |
@@ -48,13 +50,13 @@
 npm install antd-restful
 ```
 
-还需要安装 peer dependencies：
+You also need to install peer dependencies:
 
 ```bash
 npm install react react-dom antd @ant-design/icons axios
 ```
 
-可选依赖（按 antd 版本选择安装其一）：
+Optional dependencies (choose based on your antd version):
 
 ```bash
 # antd v5 / v6
@@ -74,17 +76,17 @@ function UserList() {
   return (
     <RestTable
       restful="/api/users/"
-      columns={[{ title: "名称", dataIndex: "name" }]}
+      columns={[{ title: "Name", dataIndex: "name" }]}
       rowKey="id"
     />
   );
 }
 ```
 
-ESM / CJS 导入方式：
+ESM / CJS import styles:
 
 ```jsx
-// ESM（推荐）
+// ESM (recommended)
 import antdRestful from "antd-restful";
 
 // CommonJS
@@ -93,19 +95,19 @@ const antdRestful = require("antd-restful").default;
 
 ## Configuration
 
-组件内部使用 `query-string` 进行 query 序列化，默认设置为 `{ arrayFormat: "comma", skipNull: true, skipEmptyString: true }`。可通过全局配置覆盖：
+Components internally use `query-string` for query serialization, with default settings `{ arrayFormat: "comma", skipNull: true, skipEmptyString: true }`. Override via global config:
 
 ```jsx
 import antdRestful from "antd-restful";
 const { setGlobalConfig, setRestOptions } = antdRestful;
 
-// 自定义 query 序列化
+// Custom query serialization
 setGlobalConfig({
     queryStringify: (params) => Qs.stringify(params, { arrayFormat: "brackets" }),
     queryParse: (string) => Qs.parse(string, { arrayFormat: "brackets" }),
 });
 
-// 自定义分页字段映射（对照后端接口，如 Django REST framework）
+// Custom pagination field mapping (e.g. for Django REST framework)
 setRestOptions({
     fieldPage: "current",
     fieldPageSize: "pageSize",
@@ -114,54 +116,54 @@ setRestOptions({
 });
 ```
 
-`setRestOptions` 默认值对照 Django REST framework (DRF) 的默认行为：
+`setRestOptions` defaults are aligned with Django REST framework (DRF):
 
-| 配置项 | 默认值 | 说明 |
+| Option | Default | Description |
 |---|---|---|
-| `fieldPage` | `"page"` | 分页请求参数：当前页码字段 |
-| `fieldPageSize` | `"page_size"` | 分页请求参数：每页数量字段 |
-| `searchKey` | `"search"` | 列表检索的搜索关键字字段 |
-| `fieldOrdering` | `"ordering"` | 排序字段 |
-| `parseRowsPath` | `"results"` | 接口返回列表数据所在的对象路径（DRF 默认 `{ count, results }`) |
-| `parseTotalPath` | `"count"` | 接口返回总条数所在的对象路径 |
-| `separator` | `","` | 数组元素多选时的连接符 |
-| `defaultPageSize` | `20` | 默认的分页大小 |
-| `rowKey` | `"id"` | 列表/表格的默认主键字段 |
-| `fieldParent` | `"parent"` | 树形或级联结构默认的父节点字段 |
+| `fieldPage` | `"page"` | Pagination parameter: current page field |
+| `fieldPageSize` | `"page_size"` | Pagination parameter: page size field |
+| `searchKey` | `"search"` | Search keyword field for list search |
+| `fieldOrdering` | `"ordering"` | Sorting field |
+| `parseRowsPath` | `"results"` | Object path for list data in API response (DRF default `{ count, results }`) |
+| `parseTotalPath` | `"count"` | Object path for total count in API response |
+| `separator` | `","` | Separator for multi-select array values |
+| `defaultPageSize` | `20` | Default page size |
+| `rowKey` | `"id"` | Default primary key field for list/table |
+| `fieldParent` | `"parent"` | Default parent node field for tree/cascading structures |
 
 ## Components
 
 | Component | Description |
 |---|---|
-| `RestTable` | 远程表格，支持分页、排序、筛选、高级搜索、列设置 |
-| `RestList` | 远程列表，支持卡片流、分页与加载更多 |
-| `GridForm` | 栅格表单容器，统一布局与字段编排 |
-| `RouteBaseTable` | URL 参数联动表格，支持可分享链接与刷新保留状态 |
-| `RestSelect` / `RestTreeSelect` / `RestCascader` | 远程选择类组件（下拉 / 树形 / 级联） |
-| `DateStrPicker` / `RangeStrPicker` / `NumberRange` | 时间范围与数值区间输入 |
-| `UploadView` | 文件上传，支持拖拽、限制、只读回显 |
-| `CompareEdit` | 历史值对比编辑，展示变更差异 |
+| `RestTable` | Remote table with pagination, sorting, filtering, advanced search, and column settings |
+| `RestList` | Remote list with card layout, pagination, and load-more support |
+| `GridForm` | Grid form container for unified layout and field arrangement |
+| `RouteBaseTable` | URL-synced table with shareable links and state persistence on refresh |
+| `RestSelect` / `RestTreeSelect` / `RestCascader` | Remote selection components (dropdown / tree / cascading) |
+| `DateStrPicker` / `RangeStrPicker` / `NumberRange` | Date range and number range inputs |
+| `UploadView` | File upload with drag & drop, limits, and read-only preview |
+| `CompareEdit` | Historical value comparison editor showing change diffs |
 
-完整 API 文档请访问 **[在线文档](https://skylerhu.github.io/antd-restful/)**。
+For the full API documentation, visit the **[Online Docs](https://skylerhu.github.io/antd-restful/)**.
 
 ## Examples
 
-- [RESTful 表格数据展示](./demo/views/TableDemo.jsx)
-- [RESTful 列表数据展示](./demo/views/ListDemo.jsx)
-- [动态 JSON 表单](./demo/views/JSONForm.jsx)
-- [路由参数同步 RouteTable](./demo/views/RouteTable.jsx)
+- [RESTful Table Data Display](./demo/views/TableDemo.jsx)
+- [RESTful List Data Display](./demo/views/ListDemo.jsx)
+- [Dynamic JSON Form](./demo/views/JSONForm.jsx)
+- [Route Parameter Sync RouteTable](./demo/views/RouteTable.jsx)
 
 ## FAQ
 
-查看 [常见问题说明](./docs/site/faq/index.md)。
+See [Frequently Asked Questions](./docs/site/faq/index.md).
 
 ## Contributing
 
-欢迎贡献！提交 PR 前请阅读 [贡献指南](./docs/CONTRIBUTING.md)。
+Contributions welcome! Please read the [Contributing Guide](./docs/CONTRIBUTING.md) before submitting a PR.
 
 ## Changelog
 
-查看 [更新日志](./docs/site/changelog/index.md)。
+See [Changelog](./docs/site/changelog/index.md).
 
 ## License
 

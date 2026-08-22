@@ -1,70 +1,70 @@
 ---
-title: 校验器
+title: Validators
 order: 5
 ---
 
-# Validators 验证器
+# Validators
 
-`validators` 提供了一系列自定义验证函数，用于表单验证和数据处理。这些验证器特别适用于 ExpansionView 组件和远程验证场景。
+`validators` provides a series of custom validation functions for form validation and data processing. These validators are particularly suitable for ExpansionView components and remote validation scenarios.
 
-## 目录
+## Table of Contents
 
-- [expansionValidator](#expansionvalidator) - 扩展验证器
-- [remoteValidator](#remotevalidator) - 远程验证器
-- [使用场景](#使用场景)
-- [最佳实践](#最佳实践)
-- [注意事项](#注意事项)
+- [expansionValidator](#expansionvalidator) - Expansion Validator
+- [remoteValidator](#remotevalidator) - Remote Validator
+- [Use Cases](#use-cases)
+- [Best Practices](#best-practices)
+- [Notes](#notes)
 
 ---
 
 ## expansionValidator
 
-用于 ExpansionView 组件的扩展验证器，支持长度限制和错误检查。
+Expansion validator for the ExpansionView component, supporting length limits and error checking.
 
-### 函数签名
+### Function Signature
 
 ```javascript
 expansionValidator(value, rule) => Promise
 ```
 
-### 参数说明
+### Parameters
 
-- `value` - 要验证的值，通常包含 `output` 和 `error` 属性
-- `rule` - 验证规则配置对象
-  - `rule.expansionValidator` - 扩展校验配置，可以是布尔值或对象
-  - `rule.expansionValidator.required` - value.output不能为空（可选）
-  - `rule.expansionValidator.min` - 最小长度限制（可选）
-  - `rule.expansionValidator.max` - 最大长度限制（可选）
-  - `rule.message` - 校验失败时的错误提示信息（可选）
+- `value` - Value to validate, typically containing `output` and `error` properties
+- `rule` - Validation rule configuration object
+  - `rule.expansionValidator` - Expansion validation config, can be a boolean or object
+  - `rule.expansionValidator.required` - `value.output` cannot be empty (optional)
+  - `rule.expansionValidator.min` - Minimum length limit (optional)
+  - `rule.expansionValidator.max` - Maximum length limit (optional)
+  - `rule.message` - Error message when validation fails (optional)
 
-### 返回值
+### Return Value
 
-- `Promise` - 验证结果
-  - **成功**: 返回 resolved promise（无返回值）
-  - **失败**: 返回 rejected promise 并包含错误信息字符串
-  - **错误信息优先级**: `value.error` > `rule.message` > 默认错误消息
+- `Promise` - Validation result
+  - **Success**: Returns resolved promise (no return value)
+  - **Failure**: Returns rejected promise with error message string
+  - **Error message priority**: `value.error` > `rule.message` > default error message
 
-### 配置选项
+### Configuration Options
 
-- `expansionValidator` - 验证配置，可以是布尔值或对象
-  - `required` - value.output不能为空（可选）
-  - `min` - 最小长度限制（可选）
-  - `max` - 最大长度限制（可选）
-- `message` - 自定义错误消息（可选）
+- `expansionValidator` - Validation config, can be a boolean or object
+  - `required` - `value.output` cannot be empty (optional)
+  - `min` - Minimum length limit (optional)
+  - `max` - Maximum length limit (optional)
+- `message` - Custom error message (optional)
 
-### 使用示例
+### Usage Examples
 
-#### 基本使用
+#### Basic Usage
 
 ```javascript
 const rule = {
   required: true,
   expansionValidator: true,
-  message: "请按照要求输入数据"
+  message: "Please enter data as required"
 };
 ```
 
-#### 带长度限制
+#### With Length Limits
 
 ```javascript
 const rule = {
@@ -73,55 +73,55 @@ const rule = {
     min: 1,
     max: 10
   },
-  message: "请按照要求输入数据"
+  message: "Please enter data as required"
 };
 ```
 
-#### 完整配置示例
+#### Full Configuration Example
 
 ```javascript
-// 基本配置
+// Basic configuration
 {
-  required: true,  // 若是必填字段，可以配合该rule使用
+  required: true,  // Can be used with this rule for required fields
   expansionValidator: true,
-  message: "请按照要求输入数据",
+  message: "Please enter data as required",
 }
 
-// 带长度限制的配置
+// Configuration with length limits
 {
   expansionValidator: {
     min: 1,
     max: 10,
   },
-  message: "请按照要求输入数据",
+  message: "Please enter data as required",
 }
 ```
 
-### 验证逻辑
+### Validation Logic
 
-1. **空值检查**: 如果配置为空或值为空，直接通过验证
-2. **错误检查**: 如果值包含 `error` 属性，返回该错误信息
-3. **长度验证**: 如果配置了 `min`/`max`，检查 `value.output` 的长度限制（`output` 可为数组或字符串）
-4. **错误返回**: 长度超出限制时返回相应的错误信息
-5. **成功返回**: 验证通过时返回 resolved promise
-6. **失败返回**: 验证失败时返回 rejected promise 并包含错误信息
+1. **Empty value check**: If config is empty or value is empty, validation passes directly
+2. **Error check**: If value contains an `error` property, return that error message
+3. **Length validation**: If `min`/`max` is configured, check length limits of `value.output` (`output` can be an array or string)
+4. **Error return**: Return corresponding error message when length exceeds limits
+5. **Success return**: Return resolved promise when validation passes
+6. **Failure return**: Return rejected promise with error message when validation fails
 
-### 完整示例
+### Complete Example
 
 ```javascript
 import antdRestful from 'antd-restful';
 const { validators: { expansionValidator } } = antdRestful;
 
-// 在表单规则中使用
+// Use in form rules
 const formRules = {
   description: [
-    { required: true, message: '请输入描述' },
+    { required: true, message: 'Please enter a description' },
     {
       expansionValidator: {
         min: 10,
         max: 500
       },
-      message: '描述长度应在10-500字符之间'
+      message: 'Description length should be between 10-500 characters'
     }
   ]
 };
@@ -131,62 +131,62 @@ const formRules = {
 
 ## remoteValidator
 
-远程验证器，通过 API 请求进行服务器端验证。
+Remote validator that performs server-side validation via API requests.
 
-### 函数签名
+### Function Signature
 
 ```javascript
 remoteValidator(value, rule, ctx) => Promise
 ```
 
-### 参数说明
+### Parameters
 
-- `value` - 要验证的值
-- `rule` - 验证规则配置对象
-  - `rule.remoteValidator` - 远程校验配置对象
-  - `rule.remoteValidator.withForm` - 是否带上表单所有数据，默认为 false（可选）
-  - `rule.remoteValidator.extraParams` - 额外的请求参数（可选）
-  - `rule.remoteValidator.restful` - 远程校验的 API 接口地址（必需）
-  - `rule.remoteValidator.reqConfig` - 请求配置，会合并到请求选项中（可选）
-  - `rule.remoteValidator.makeRequestOptions` - makeRequest 的配置选项（可选）
-    - `rule.remoteValidator.makeRequestOptions.delay` - 防抖延迟时间，默认 200ms（可选）
-    - `rule.remoteValidator.makeRequestOptions.key` - 防抖标识键，需全局唯一，否则不同校验器之间会相互取消请求（可选，默认为 `${fieldName}-${restful}`）
-  - `rule.message` - 校验失败时的错误提示信息（可选）
-- `ctx` - 上下文对象，包含当前字段和表单信息
-  - `ctx.fieldName` - 当前校验字段名（字符串）
-  - `ctx.formValues` - 表单所有字段的值（对象，withForm=true 时会发送给服务端）
+- `value` - Value to validate
+- `rule` - Validation rule configuration object
+  - `rule.remoteValidator` - Remote validation config object
+  - `rule.remoteValidator.withForm` - Whether to include all form data, defaults to false (optional)
+  - `rule.remoteValidator.extraParams` - Additional request parameters (optional)
+  - `rule.remoteValidator.restful` - API endpoint for remote validation (required)
+  - `rule.remoteValidator.reqConfig` - Request configuration, merged into request options (optional)
+  - `rule.remoteValidator.makeRequestOptions` - makeRequest configuration options (optional)
+    - `rule.remoteValidator.makeRequestOptions.delay` - Debounce delay time, default 200ms (optional)
+    - `rule.remoteValidator.makeRequestOptions.key` - Debounce identifier key, must be globally unique, otherwise validators will cancel each other's requests (optional, defaults to `${fieldName}-${restful}`)
+  - `rule.message` - Error message when validation fails (optional)
+- `ctx` - Context object containing current field and form information
+  - `ctx.fieldName` - Current validation field name (string)
+  - `ctx.formValues` - All form field values (object, sent to server when withForm=true)
 
-### 返回值
+### Return Value
 
-- `Promise` - 验证结果
-  - **成功**: 返回 resolved promise（无返回值）
-  - **失败**: 返回 rejected promise 并包含错误信息字符串
-- **错误信息优先级**: 服务器返回 `message` > `rule.message` > 默认消息
+- `Promise` - Validation result
+  - **Success**: Returns resolved promise (no return value)
+  - **Failure**: Returns rejected promise with error message string
+- **Error message priority**: Server returned `message` > `rule.message` > default message
 
-### 配置选项
+### Configuration Options
 
-- `restful` - 验证接口地址（必需）
-- `withForm` - 是否带上表单所有数据，默认为 false（可选）
-- `extraParams` - 额外的请求参数（可选）
-- `reqConfig` - 请求配置，会合并到请求选项中（可选）
-- `makeRequestOptions` - makeRequest 的配置选项（可选）
-  - `makeRequestOptions.delay` - 防抖延迟时间，默认 200ms（可选）
-  - `makeRequestOptions.key` - 防抖标识键，需全局唯一，否则不同校验器之间会相互取消请求（可选，默认为 `${fieldName}-${restful}`）
+- `restful` - Validation API endpoint (required)
+- `withForm` - Whether to include all form data, defaults to false (optional)
+- `extraParams` - Additional request parameters (optional)
+- `reqConfig` - Request configuration, merged into request options (optional)
+- `makeRequestOptions` - makeRequest configuration options (optional)
+  - `makeRequestOptions.delay` - Debounce delay time, default 200ms (optional)
+  - `makeRequestOptions.key` - Debounce identifier key, must be globally unique, otherwise validators will cancel each other's requests (optional, defaults to `${fieldName}-${restful}`)
 
-### 使用示例
+### Usage Examples
 
-#### 基本远程验证
+#### Basic Remote Validation
 
 ```javascript
 const rule = {
   remoteValidator: {
     restful: "api/validate/remote/",
   },
-  message: "验证失败"
+  message: "Validation failed"
 };
 ```
 
-#### 带表单数据的远程验证
+#### Remote Validation with Form Data
 
 ```javascript
 const rule = {
@@ -196,17 +196,17 @@ const rule = {
     restful: "api/validate/remote/",
     reqConfig: { timeout: 5000 }
   },
-  message: "验证失败"
+  message: "Validation failed"
 };
 
-// ctx 参数格式
+// ctx parameter format
 const ctx = {
-  fieldName: "username",       // 当前校验字段名
-  formValues: { username: "test", email: "test@example.com" }  // 表单所有值（withForm=true 时使用）
+  fieldName: "username",       // Current validation field name
+  formValues: { username: "test", email: "test@example.com" }  // All form values (used when withForm=true)
 };
 ```
 
-#### 带防抖配置的远程验证
+#### Remote Validation with Debounce Configuration
 
 ```javascript
 const rule = {
@@ -223,132 +223,132 @@ const rule = {
 };
 ```
 
-#### 完整配置示例
+#### Full Configuration Example
 
 ```javascript
 {
   remoteValidator: {
-    withForm: true,  // 是否带上表单所有数据
-    extraParams: {},  // 请求参数
+    withForm: true,  // Whether to include all form data
+    extraParams: {},  // Request parameters
     restful: "api/validate/remote/",
-    reqConfig: {},  // 请求配置
-    makeRequestOptions: { delay: 200, key: "remote-validator" },  // 防抖相关配置
+    reqConfig: {},  // Request configuration
+    makeRequestOptions: { delay: 200, key: "remote-validator" },  // Debounce configuration
   }
 }
 ```
 
-### 验证逻辑
+### Validation Logic
 
-1. **空值检查**: 如果值为空或配置不完整，直接通过验证
-2. **数据构造**: 构造请求数据，包含字段值、字段名和额外参数
-3. **表单数据**: 如果 `withForm` 为 true，还会包含整个表单的数据
-4. **请求发送**: 发送 POST 请求到指定的验证接口
-5. **结果判断**: 根据返回的 `validated` 字段判断验证结果
-6. **错误处理**: 验证失败时返回服务器消息或自定义消息
-7. **网络错误**: 处理网络请求错误，返回格式化的错误信息
-8. **成功返回**: 验证通过时返回 resolved promise
-9. **失败返回**: 验证失败时返回 rejected promise 并包含错误信息
+1. **Empty value check**: If value is empty or config is incomplete, validation passes directly
+2. **Data construction**: Construct request data including field value, field name, and extra parameters
+3. **Form data**: If `withForm` is true, also include the entire form data
+4. **Request sending**: Send POST request to the specified validation endpoint
+5. **Result judgment**: Determine validation result based on returned `validated` field
+6. **Error handling**: Return server message or custom message on validation failure
+7. **Network errors**: Handle network request errors, return formatted error message
+8. **Success return**: Return resolved promise when validation passes
+9. **Failure return**: Return rejected promise with error message when validation fails
 
-### 完整示例
+### Complete Example
 
 ```javascript
 import antdRestful from 'antd-restful';
 const { validators: { remoteValidator } } = antdRestful;
 
-// 用户名唯一性验证
+// Username uniqueness validation
 const usernameRules = [
-  { required: true, message: '请输入用户名' },
+  { required: true, message: 'Please enter a username' },
   {
     remoteValidator: {
       restful: '/api/validate/username/',
       withForm: false,
       extraParams: { excludeId: currentUserId }
     },
-    message: '用户名已存在'
+    message: 'Username already exists'
   }
 ];
 
-// 邮箱格式和唯一性验证
+// Email format and uniqueness validation
 const emailRules = [
-  { required: true, message: '请输入邮箱' },
-  { type: 'email', message: '请输入有效的邮箱地址' },
+  { required: true, message: 'Please enter an email' },
+  { type: 'email', message: 'Please enter a valid email address' },
   {
     remoteValidator: {
       restful: '/api/validate/email/',
       withForm: true,
       extraParams: { type: 'registration' }
     },
-    message: '邮箱已被注册'
+    message: 'Email is already registered'
   }
 ];
 ```
 
 ---
 
-## 使用场景
+## Use Cases
 
-### ExpansionView 组件验证
+### ExpansionView Component Validation
 
 ```javascript
 import antdRestful from 'antd-restful';
 const { validators: { expansionValidator } } = antdRestful;
 
-// 在表单规则中使用
+// Use in form rules
 const formRules = {
   description: [
-    { required: true, message: '请输入描述' },
+    { required: true, message: 'Please enter a description' },
     {
       expansionValidator: {
         min: 10,
         max: 500
       },
-      message: '描述长度应在10-500字符之间'
+      message: 'Description length should be between 10-500 characters'
     }
   ]
 };
 ```
 
-### 远程验证
+### Remote Validation
 
 ```javascript
 import antdRestful from 'antd-restful';
 const { validators: { remoteValidator } } = antdRestful;
 
-// 用户名唯一性验证
+// Username uniqueness validation
 const usernameRules = [
-  { required: true, message: '请输入用户名' },
+  { required: true, message: 'Please enter a username' },
   {
     remoteValidator: {
       restful: '/api/validate/username/',
       withForm: false,
       extraParams: { excludeId: currentUserId }
     },
-    message: '用户名已存在'
+    message: 'Username already exists'
   }
 ];
 
-// 邮箱格式和唯一性验证
+// Email format and uniqueness validation
 const emailRules = [
-  { required: true, message: '请输入邮箱' },
-  { type: 'email', message: '请输入有效的邮箱地址' },
+  { required: true, message: 'Please enter an email' },
+  { type: 'email', message: 'Please enter a valid email address' },
   {
     remoteValidator: {
       restful: '/api/validate/email/',
       withForm: true,
       extraParams: { type: 'registration' }
     },
-    message: '邮箱已被注册'
+    message: 'Email is already registered'
   }
 ];
 ```
 
-### 复杂验证场景
+### Complex Validation Scenarios
 
 ```javascript
-// 产品编码验证
+// Product code validation
 const productCodeRules = [
-  { required: true, message: '请输入产品编码' },
-  { pattern: /^[A-Z]{2}\d{6}$/, message: '编码格式为2位字母+6位数字' },
+  { required: true, message: 'Please enter a product code' },
+  { pattern: /^[A-Z]{2}\d{6}$/, message: 'Code format is 2 letters + 6 digits' },
   {
     remoteValidator: {
       restful: '/api/validate/product-code/',
@@ -362,19 +362,19 @@ const productCodeRules = [
         headers: { 'X-Validation-Source': 'form' }
       }
     },
-    message: '产品编码已存在或不符合规范'
+    message: 'Product code already exists or does not meet specifications'
   }
 ];
 
-// 动态验证规则
+// Dynamic validation rules
 const getDynamicRules = (formValues) => [
-  { required: true, message: '请输入内容' },
+  { required: true, message: 'Please enter content' },
   {
     expansionValidator: {
       min: formValues.minLength || 1,
       max: formValues.maxLength || 100
     },
-    message: `内容长度应在${formValues.minLength || 1}-${formValues.maxLength || 100}字符之间`
+    message: `Content length should be between ${formValues.minLength || 1}-${formValues.maxLength || 100} characters`
   },
   {
     remoteValidator: {
@@ -385,14 +385,14 @@ const getDynamicRules = (formValues) => [
         sensitivity: formValues.sensitivity
       }
     },
-    message: '内容不符合要求'
+    message: 'Content does not meet requirements'
   }
 ];
 ```
 
 ---
 
-## 与 Ant Design Form 集成
+## Integration with Ant Design Form
 
 ```javascript
 import { Form } from 'antd';
@@ -406,13 +406,13 @@ const CustomForm = () => {
     <Form form={form}>
       <Form.Item
         name="content"
-        label="内容"
+        label="Content"
         rules={[
-          { required: true, message: '请输入内容' },
+          { required: true, message: 'Please enter content' },
           {
             validator: (_, value) => expansionValidator(value, {
               expansionValidator: { min: 10, max: 1000 },
-              message: '内容长度应在10-1000字符之间'
+              message: 'Content length should be between 10-1000 characters'
             }),
           },
         ]}
@@ -421,16 +421,16 @@ const CustomForm = () => {
       </Form.Item>
       <Form.Item
         name="username"
-        label="用户名"
+        label="Username"
         rules={[
-          { required: true, message: '请输入用户名' },
+          { required: true, message: 'Please enter a username' },
           {
             validator: (_, value) => remoteValidator(value, {
               remoteValidator: {
                 restful: '/api/validate/username/',
                 withForm: true
               },
-              message: '用户名已存在'
+              message: 'Username already exists'
             }, {
               fieldName: 'username',
               formValues: form.getFieldsValue()
@@ -447,7 +447,7 @@ const CustomForm = () => {
 
 ---
 
-## 与 Formily 集成
+## Integration with Formily
 
 ```javascript
 import { registerValidateRules } from "@formily/core";
@@ -462,22 +462,22 @@ registerValidateRules({
 
 ---
 
-## 最佳实践
+## Best Practices
 
-### 1. 错误消息处理
+### 1. Error Message Handling
 
 ```javascript
-// 提供清晰的错误消息
+// Provide clear error messages
 const rule = {
   expansionValidator: { min: 5, max: 100 },
-  message: '内容长度应在5-100字符之间，当前长度不符合要求'
+  message: 'Content length should be between 5-100 characters; current length does not meet requirements'
 };
 ```
 
-### 2. 错误处理
+### 2. Error Handling
 
 ```javascript
-// 处理网络错误
+// Handle network errors
 const rule = {
   remoteValidator: {
     restful: '/api/validate/',
@@ -485,49 +485,49 @@ const rule = {
       timeout: 10000
     }
   },
-  message: '验证服务暂时不可用，请稍后重试'
+  message: 'Validation service is temporarily unavailable, please try again later'
 };
 ```
 
 ---
 
-## 注意事项
+## Notes
 
-1. **expansionValidator** 主要用于 ExpansionView 组件，验证其输出结果
-2. **remoteValidator** 需要服务器端配合，返回格式应为 `{ validated: boolean, message?: string }`
-3. 远程验证会发送 POST 请求，确保接口支持该请求方式
-4. 验证器返回 Promise，需要正确处理异步验证结果
-5. 建议为远程验证设置合理的超时时间，避免用户等待过久
-6. 在生产环境中，建议对远程验证进行缓存或防抖处理
-7. 验证失败时，优先使用服务器返回的错误消息，其次使用自定义消息
-8. 当 `withForm` 为 true 时，会发送整个表单数据，注意数据安全和隐私保护
+1. **expansionValidator** is primarily used for the ExpansionView component to validate its output
+2. **remoteValidator** requires server-side cooperation; response format should be `{ validated: boolean, message?: string }`
+3. Remote validation sends POST requests; ensure the endpoint supports this request method
+4. Validators return Promises; async validation results must be handled correctly
+5. It is recommended to set reasonable timeout values for remote validation to avoid long user waits
+6. In production, consider caching or debouncing remote validation
+7. On validation failure, prefer server-returned error messages, then custom messages
+8. When `withForm` is true, the entire form data is sent; be mindful of data security and privacy
 
-## 服务器端响应格式
+## Server Response Format
 
-### 成功响应
+### Success Response
 
 ```javascript
 {
   "validated": true,
-  "message": "验证通过"  // 可选
+  "message": "Validation passed"  // optional
 }
 ```
 
-### 失败响应
+### Failure Response
 
 ```javascript
 {
   "validated": false,
-  "message": "验证失败的具体原因"  // 可选，会作为错误信息返回
+  "message": "Specific reason for validation failure"  // optional, returned as error message
 }
 ```
 
-### 网络错误处理
+### Network Error Handling
 
-当网络请求失败时，会返回格式化的错误信息：
+When network requests fail, formatted error messages are returned:
 
 ```javascript
-// 错误信息格式
+// Error message format
 "Network Error: Failed to connect"
 "Request Timeout: 5000ms"
 "Server Error: 500 Internal Server Error"

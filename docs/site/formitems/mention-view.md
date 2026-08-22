@@ -4,42 +4,42 @@ order: 12
 ---
 
 ## MentionView
-基于 Ant Design Mentions 组件扩展的远程提及输入器，支持远程数据搜索、自定义字段映射等功能。
+A remote @-mention input built on Ant Design Mentions, supporting remote data search and custom field mapping.
 
-**功能特性：**
-- 支持远程数据搜索
-- 支持 @ 提及功能
-- 支持自定义字段映射
-- 支持搜索防抖处理
-- 支持只读模式展示
-- 支持自定义标签模板
+**Features:**
+- Remote data search
+- @ mention support
+- Custom field mapping
+- Search debouncing
+- Read-only display
+- Custom label templates
 
-### 参数说明
-| <div style="width: 18ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### Props
+| <div style="width: 18ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | 透传 Mentions `style` | - |
-| className | 自定义类名 | `string` | - | 透传 Mentions `className` | - |
-| value | 当前输入的值 | `string` | - | 透传 Mentions `value` | - |
-| onChange | 值变化时的回调函数 | `function(value)` | - | 透传 Mentions `onChange` | - |
-| **远程数据相关** | | | | | |
-| restful | 远程数据接口地址 | `string` | - | - | - |
-| reqConfig | axios 的配置选项 | `object` | - | - | - |
-| baseParams | 基础请求参数 | `object` | - | - | - |
-| searchKey | 搜索关键字参数名 | `string` | `'search'` | - | - |
-| searchMinEnter | 最少输入字符数 | `number` | `0` | - | - |
-| parseRowsPath | 解析接口返回数据的路径 | `string` | `'results'` | - | - |
-| **扩展配置** | | | | | |
-| fieldNames | 字段名称映射配置 | `object` | - | - | - |
-| labelTemplate | 远程接口返回数据的 label 模板 | `string` | - | - | - |
-| inValue | 是否在值中包含提及信息 | `boolean` | `false` | - | - |
-| **状态控制** | | | | | |
-| disabled | 是否禁用 | `boolean` | `false` | 透传 Mentions `disabled` | - |
-| readOnly | 是否只读模式 | `boolean` | `false` | - | - |
-| **Ant Design 原生配置** | | | | | |
-| antdMentionsProps | Ant Design [Mentions](https://ant.design/components/mentions-cn) 组件原生属性 | `object` | - | 透传 Mentions 属性，`value` / `onChange` / `onSearch` / `options` / `loading` 由内部管理 | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | Pass-through Mentions `style` | - |
+| className | Custom class name | `string` | - | Pass-through Mentions `className` | - |
+| value | Current input value | `string` | - | Pass-through Mentions `value` | - |
+| onChange | Callback when value changes | `function(value)` | - | Pass-through Mentions `onChange` | - |
+| **Remote Data** | | | | | |
+| restful | Remote data API URL | `string` | - | - | - |
+| reqConfig | axios config options | `object` | - | - | - |
+| baseParams | Base request parameters | `object` | - | - | - |
+| searchKey | Search keyword parameter name | `string` | `'search'` | - | - |
+| searchMinEnter | Minimum characters before search | `number` | `0` | - | - |
+| parseRowsPath | Path to parse data from API response | `string` | `'results'` | - | - |
+| **Extended Config** | | | | | |
+| fieldNames | Field name mapping config | `object` | - | - | - |
+| labelTemplate | Label template for remote API data | `string` | - | - | - |
+| inValue | Whether to include mention info in value | `boolean` | `false` | - | - |
+| **State Control** | | | | | |
+| disabled | Whether disabled | `boolean` | `false` | Pass-through Mentions `disabled` | - |
+| readOnly | Whether read-only mode | `boolean` | `false` | - | - |
+| **Ant Design Native Config** | | | | | |
+| antdMentionsProps | Native props for Ant Design [Mentions](https://ant.design/components/mentions) | `object` | - | Pass-through Mentions props; `value` / `onChange` / `onSearch` / `options` / `loading` managed internally | - |
 
-### 使用示例
+### Usage Examples
 
 ```jsx
 import React, { useState } from 'react';
@@ -60,14 +60,14 @@ export default () => {
   return (
     <div>
       <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
-        <Radio.Button value="edit">编辑</Radio.Button>
-        <Radio.Button value="readOnly">只读</Radio.Button>
-        <Radio.Button value="disabled">禁用</Radio.Button>
+        <Radio.Button value="edit">Edit</Radio.Button>
+        <Radio.Button value="readOnly">Read-only</Radio.Button>
+        <Radio.Button value="disabled">Disabled</Radio.Button>
       </Radio.Group>
 
       <Form layout="horizontal" labelCol={{ flex: '100px' }}>
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础 @ 提及</Divider>
-        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 1: Basic @ Mention</Divider>
+        <Form.Item label="Input value" style={{ marginBottom: 8 }}>
           <MentionView
             style={{ width: 360 }}
             restful="https://dummyjson.com/users/search"
@@ -79,13 +79,13 @@ export default () => {
             searchKey="q"
             fieldNames={{ value: 'username', label: 'firstName' }}
             labelTemplate="{firstName} (@{username})"
-            antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 提及用户' }}
+            antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: 'Type @ to mention users' }}
           />
-          <div style={valueStyle}>表单value值：{basicValue}</div>
+          <div style={valueStyle}>Form value: {basicValue}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：inValue 模式（含 mentions 结构）</Divider>
-        <Form.Item label="输入值" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 2: inValue Mode (with mentions structure)</Divider>
+        <Form.Item label="Input value" style={{ marginBottom: 8 }}>
           <MentionView
             style={{ width: 360 }}
             restful="https://dummyjson.com/users/search"
@@ -99,9 +99,9 @@ export default () => {
             searchMinEnter={1}
             fieldNames={{ value: 'username', label: 'firstName' }}
             labelTemplate="{firstName} (@{username})"
-            antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: '输入 @ 查看 mentions 结构' }}
+            antdMentionsProps={{ style: { width: 360 }, rows: 3, placeholder: 'Type @ to view mentions structure' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(inValueData)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(inValueData)}</div>
         </Form.Item>
       </Form>
     </div>
@@ -109,31 +109,31 @@ export default () => {
 };
 ```
 
-### 字段映射配置 (fieldNames)
+### Field Mapping Config (fieldNames)
 ```javascript
 {
-  value: 'username',  // 提及值字段名
-  label: 'firstName'  // 显示标签字段名
+  value: 'username',  // Mention value field name
+  label: 'firstName'  // Display label field name
 }
 ```
 
-### 字段映射建议
-- `value` 建议映射为你希望真正插入到文本中的字段（常用 `username`）。
-- `label` 建议映射为下拉面板里更友好的显示字段（常用 `firstName` / `name`）。
-- 若接口返回 `id/title` 结构，可改为：
+### Field Mapping Recommendations
+- Map `value` to the field you want inserted into text (commonly `username`).
+- Map `label` to a user-friendly display field in the dropdown (commonly `firstName` / `name`).
+- If API returns `id/title` structure, use:
 ```javascript
 fieldNames={{ value: 'title', label: 'title' }}
 ```
 
-### 注意事项
-1. **搜索防抖**：组件内置 200ms 的搜索防抖机制
-2. **字段映射**：`fieldNames` 用于映射 API 返回数据的字段名
-3. **标签模板**：`labelTemplate` 支持使用 `{fieldName}` 语法自定义显示格式
-4. **提及信息**：启用 `inValue` 后，onChange 返回包含 mentions 数组的对象
-5. **只读模式**：只读时直接显示文本内容
+### Notes
+1. **Search debouncing**: Built-in 200ms debounce mechanism
+2. **Field mapping**: `fieldNames` maps API response field names
+3. **Label template**: `labelTemplate` supports `{fieldName}` syntax for custom display
+4. **Mention info**: With `inValue` enabled, onChange returns object containing mentions array
+5. **Read-only mode**: Displays text content directly
 
-### 相关组件
-- [RestSelect](./RestSelect.md) - 远程下拉选择器
-- [RestAutoComplete](./RestAutoComplete.md) - 远程自动完成
-- [TableSelect](./TableSelect.md) - 表格选择器
-- [GridForm](../GridForm.md) - 网格表单，支持 MentionView 作为自定义字段
+### Related Components
+- [RestSelect](./RestSelect.md) - Remote select
+- [RestAutoComplete](./RestAutoComplete.md) - Remote auto complete
+- [TableSelect](./TableSelect.md) - Table select
+- [GridForm](../GridForm.md) - Grid form supporting MentionView as a custom field

@@ -3,37 +3,37 @@ title: Hooks
 order: 3
 ---
 
-# React Hooks 参考文档
+# React Hooks Reference
 
-本文档介绍了 antd-restful 库中提供的所有 React Hooks。
+This document describes all React Hooks provided by the antd-restful library.
 
-## 存储相关 Hooks
+## Storage Hooks
 
 ### useLocalStorage
 
-用于在 localStorage 中存储和读取数据，支持自动序列化和反序列化。
+Stores and reads data in localStorage with automatic serialization and deserialization.
 
-**签名：**
+**Signature:**
 ```javascript
 const [value, setValue, removeValue] = useLocalStorage(key, initialValue)
 ```
 
-**参数：**
-- `key` (string): 存储键名
-- `initialValue` (any): 初始值，默认为 `null`
+**Parameters:**
+- `key` (string): Storage key name
+- `initialValue` (any): Initial value, defaults to `null`
 
-**返回值：**
-- `value` (any): 当前存储的值
-- `setValue` (function): 设置值的函数，支持函数式更新
-- `removeValue` (function): 删除存储项的函数
+**Return Value:**
+- `value` (any): Currently stored value
+- `setValue` (function): Function to set the value, supports functional updates
+- `removeValue` (function): Function to remove the storage item
 
-**特性：**
-- 自动处理 JSON 序列化和反序列化
-- 支持函数式更新（类似 useState）
-- 在当前组件内同步 localStorage 状态变化
-- 错误处理：解析失败时返回初始值
+**Features:**
+- Automatically handles JSON serialization and deserialization
+- Supports functional updates (similar to useState)
+- Synchronizes localStorage state changes within the current component
+- Error handling: returns initial value on parse failure
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { useLocalStorage } } = antdRestful;
@@ -61,14 +61,14 @@ function MyComponent() {
 
 ### useSessionStorage
 
-用于在 sessionStorage 中存储和读取数据，功能与 useLocalStorage 相同，但数据在会话结束后清除。
+Stores and reads data in sessionStorage with the same functionality as useLocalStorage, but data is cleared when the session ends.
 
-**签名：**
+**Signature:**
 ```javascript
 const [value, setValue, removeValue] = useSessionStorage(key, initialValue)
 ```
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { useSessionStorage } } = antdRestful;
@@ -86,33 +86,33 @@ function MyComponent() {
 }
 ```
 
-## 定时器 Hooks
+## Timer Hooks
 
 ### useInterval
 
-提供可控的定时器功能，支持手动启动、停止和重置。
+Provides controllable timer functionality with manual start, stop, and reset support.
 
-**签名：**
+**Signature:**
 ```javascript
 const [runInterval, setEnable] = useInterval(callback, delay, immediate)
 ```
 
-**参数：**
-- `callback` (function): 要执行的函数
-- `delay` (number | null): 间隔时间（毫秒），`null` 表示暂停
-- `immediate` (boolean): 是否立即启用定时器，默认为 `false`
+**Parameters:**
+- `callback` (function): Function to execute
+- `delay` (number | null): Interval time in milliseconds, `null` means paused
+- `immediate` (boolean): Whether to enable the timer immediately, defaults to `false`
 
-**返回值：**
-- `runInterval` (function): 启动定时器的函数，接受可选参数 `enableInterval`（默认 true）控制是否持续运行；调用时会立即执行一次回调
-- `setEnable` (function): 设置定时器启用状态的函数
+**Return Value:**
+- `runInterval` (function): Function to start the timer, accepts optional parameter `enableInterval` (default true) to control whether to keep running; executes the callback immediately when called
+- `setEnable` (function): Function to set the timer enabled state
 
-**特性：**
-- 支持手动控制启动和停止
-- 调用 `runInterval()` 会立即执行一次回调
-- 支持动态修改 delay 参数
-- 组件卸载时自动清理定时器
+**Features:**
+- Supports manual start and stop control
+- Calling `runInterval()` executes the callback immediately once
+- Supports dynamically modifying the delay parameter
+- Automatically cleans up the timer on component unmount
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { useInterval } } = antdRestful;
@@ -127,7 +127,7 @@ function MyComponent() {
 
   const startTimer = () => {
     setIsRunning(true);
-    runInterval(); // 立即执行一次
+    runInterval(); // Execute immediately once
   };
 
   const stopTimer = () => {
@@ -144,26 +144,26 @@ function MyComponent() {
 }
 ```
 
-## 保护性 Hooks
+## Protective Hooks
 
 ### useProtect
 
-用于保护回调函数，防止在组件卸载后执行，主要用于异步操作。
+Protects callback functions from executing after component unmount, primarily used for async operations.
 
-**签名：**
+**Signature:**
 ```javascript
 const [protect] = useProtect()
 ```
 
-**返回值：**
-- `protect` (function): 保护函数，接受一个回调函数作为参数，返回受保护的回调函数
+**Return Value:**
+- `protect` (function): Protection function that accepts a callback and returns a protected callback
 
-**特性：**
-- 防止组件卸载后的内存泄漏
-- 自动清理已注册的回调函数
-- 支持任意参数的回调函数
+**Features:**
+- Prevents memory leaks after component unmount
+- Automatically cleans up registered callback functions
+- Supports callbacks with arbitrary parameters
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { useProtect } } = antdRestful;
@@ -178,7 +178,7 @@ function MyComponent() {
     try {
       const response = await fetch('/api/data');
       const result = await response.json();
-      protectedSetData(result); // 如果组件已卸载，此调用将被忽略
+      protectedSetData(result); // If component is unmounted, this call will be ignored
     } catch (error) {
       console.error('Fetch failed:', error);
     }
@@ -195,25 +195,25 @@ function MyComponent() {
 
 ### useDeepCompareMemoize
 
-用于深度比较对象，避免不必要的重新渲染。
+Deep compares objects to avoid unnecessary re-renders.
 
-**签名：**
+**Signature:**
 ```javascript
 const memoizedValue = useDeepCompareMemoize(value)
 ```
 
-**参数：**
-- `value` (any): 需要记忆化的值
+**Parameters:**
+- `value` (any): Value to memoize
 
-**返回值：**
-- `memoizedValue` (any): 记忆化的值，如果深度相等则返回相同的引用
+**Return Value:**
+- `memoizedValue` (any): Memoized value, returns the same reference if deeply equal
 
-**特性：**
-- 使用深度比较而非引用比较
-- 支持嵌套对象和数组
-- 基于 `dequal` 库实现深度比较
+**Features:**
+- Uses deep comparison instead of reference comparison
+- Supports nested objects and arrays
+- Deep comparison implemented based on the `dequal` library
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { useDeepCompareMemoize } } = antdRestful;
@@ -222,7 +222,7 @@ function MyComponent({ config }) {
   const memoizedConfig = useDeepCompareMemoize(config);
 
   useEffect(() => {
-    // 只有当 config 真正改变时才会执行
+    // Only executes when config actually changes
     console.log('Config changed:', memoizedConfig);
   }, [memoizedConfig]);
 
@@ -232,27 +232,27 @@ function MyComponent({ config }) {
 
 ### useDictState
 
-用于管理多个状态值的集中式状态管理。
+Centralized state management for multiple state values.
 
-**签名：**
+**Signature:**
 ```javascript
 const [state, setState] = useDictState(initialData)
 ```
 
-**参数：**
-- `initialData` (object): 初始状态对象
+**Parameters:**
+- `initialData` (object): Initial state object
 
-**返回值：**
-- `state` (object): 当前状态
-- `setState` (function): 更新状态的函数，支持部分更新
+**Return Value:**
+- `state` (object): Current state
+- `setState` (function): Function to update state, supports partial updates
 
-**特性：**
-- 支持部分状态更新
-- 自动合并新状态与现有状态
-- 基于 useReducer 实现
-- 内置深度相等性检查：如果合并后的状态与当前状态深度相等，不会触发重渲染
+**Features:**
+- Supports partial state updates
+- Automatically merges new state with existing state
+- Implemented based on useReducer
+- Built-in deep equality check: if merged state is deeply equal to current state, no re-render is triggered
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { useDictState } } = antdRestful;
@@ -265,11 +265,11 @@ function MyComponent() {
   });
 
   const updateName = () => {
-    setUser({ name: 'Jane' }); // 只更新 name，其他字段保持不变
+    setUser({ name: 'Jane' }); // Only update name, other fields remain unchanged
   };
 
   const updateAge = () => {
-    setUser({ age: 31 }); // 只更新 age
+    setUser({ age: 31 }); // Only update age
   };
 
   return (
@@ -284,36 +284,36 @@ function MyComponent() {
 }
 ```
 
-## 设置管理 Hooks
+## Settings Management Hooks
 
 ### useSettingsStorage
 
-用于管理表格列可见性配置，基于 localStorage 持久化存储用户的列显示偏好。当列定义发生变化时自动处理配置的兼容性。
+Manages table column visibility configuration, persisting user column display preferences to localStorage. Automatically handles configuration compatibility when column definitions change.
 
-**签名：**
+**Signature:**
 ```javascript
 const { allKeys, keys, setKeys } = useSettingsStorage(key, columns)
 ```
 
-**参数：**
-- `key` (string): localStorage 存储键名
-- `columns` (Array): 列配置数组，每项包含：
-  - `key` (string, 必需): 列标识
-  - `label` (string, 可选): 列显示名称
-  - `hidden` (boolean, 可选): 是否默认隐藏
+**Parameters:**
+- `key` (string): localStorage storage key name
+- `columns` (Array): Column configuration array, each item contains:
+  - `key` (string, required): Column identifier
+  - `label` (string, optional): Column display name
+  - `hidden` (boolean, optional): Whether hidden by default
 
-**返回值：**
-- `allKeys` (Array): 所有列的 key 列表
-- `keys` (Array): 当前显示的列 key 列表
-- `setKeys` (function): 更新显示列的函数
+**Return Value:**
+- `allKeys` (Array): List of all column keys
+- `keys` (Array): List of currently visible column keys
+- `setKeys` (function): Function to update visible columns
 
-**特性：**
-- 持久化用户的列显示偏好到 localStorage
-- 当 columns 定义变更时自动兼容（仅保留仍存在的列配置）
-- 未设置配置时使用默认显示列（`hidden` 不为 true 的列）
-- 基于深度比较避免不必要的重渲染
+**Features:**
+- Persists user column display preferences to localStorage
+- Automatically compatible when column definitions change (only keeps configurations for columns that still exist)
+- Uses default visible columns when no configuration is set (columns where `hidden` is not true)
+- Avoids unnecessary re-renders based on deep comparison
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { useSettingsStorage } } = antdRestful;
@@ -321,9 +321,9 @@ const { hooks: { useSettingsStorage } } = antdRestful;
 function TableSettings() {
   const columns = [
     { key: 'id', label: 'ID' },
-    { key: 'name', label: '名称' },
-    { key: 'email', label: '邮箱' },
-    { key: 'createdAt', label: '创建时间', hidden: true },
+    { key: 'name', label: 'Name' },
+    { key: 'email', label: 'Email' },
+    { key: 'createdAt', label: 'Created At', hidden: true },
   ];
 
   const { allKeys, keys, setKeys } = useSettingsStorage('user-table-columns', columns);
@@ -338,75 +338,75 @@ function TableSettings() {
 }
 ```
 
-## 非 Hook 存储工具
+## Non-Hook Storage Utilities
 
 ### myLocalStorage / mySessionStorage
 
-非 Hook 版本的存储管理器，适用于非 React 组件场景（如工具函数、初始化逻辑）。
+Non-Hook version of storage managers, suitable for non-React component scenarios (such as utility functions and initialization logic).
 
-**签名：**
+**Signature:**
 ```javascript
 const { value, getValue, setValue, removeValue } = myLocalStorage(key, defaultValue)
 const { value, getValue, setValue, removeValue } = mySessionStorage(key, defaultValue)
 ```
 
-**参数：**
-- `key` (string): 存储键名
-- `defaultValue` (any): 默认值，默认为 `null`
+**Parameters:**
+- `key` (string): Storage key name
+- `defaultValue` (any): Default value, defaults to `null`
 
-**返回值：**
-- `value` (any): 调用时的当前值（快照，不会响应式更新）
-- `getValue` (function): 获取最新值的函数
-- `setValue` (function): 设置值的函数
-- `removeValue` (function): 删除存储项的函数
+**Return Value:**
+- `value` (any): Current value at call time (snapshot, not reactively updated)
+- `getValue` (function): Function to get the latest value
+- `setValue` (function): Function to set the value
+- `removeValue` (function): Function to remove the storage item
 
-**使用示例：**
+**Usage Examples:**
 ```javascript
 import antdRestful from 'antd-restful';
 const { hooks: { myLocalStorage } } = antdRestful;
 
 const tokenStorage = myLocalStorage('access_token', null);
 
-// 获取当前值
+// Get current value
 const token = tokenStorage.getValue();
 
-// 设置值
+// Set value
 tokenStorage.setValue('new-token-value');
 
-// 删除值
+// Remove value
 tokenStorage.removeValue();
 ```
 
-## 请求相关 Hooks
+## Request Hooks
 
 ### useSafeRequest
 
-> 已迁移至 [请求模块文档](./requests.md#usesaferequest)，包含完整的 API 说明、防抖行为、请求去重及拦截器用法。
+> Moved to [Request Module documentation](./requests.md#usesaferequest), including complete API description, debounce behavior, request deduplication, and interceptor usage.
 
-## 最佳实践
+## Best Practices
 
-### 1. 存储 Hooks 使用建议
-- 使用 `useLocalStorage` 存储用户偏好设置等持久化数据
-- 使用 `useSessionStorage` 存储临时会话数据
-- 注意存储数据的序列化限制，避免存储函数等不可序列化的值
+### 1. Storage Hooks Recommendations
+- Use `useLocalStorage` for persistent data such as user preference settings
+- Use `useSessionStorage` for temporary session data
+- Be aware of serialization limitations for stored data; avoid storing non-serializable values such as functions
 
-### 2. 定时器 Hooks 使用建议
-- 使用 `useInterval` 替代原生的 `setInterval`，确保组件卸载时正确清理
-- 合理设置 delay 参数，避免过于频繁的执行
-- 使用 `runInterval` 函数手动控制定时器的启动时机
+### 2. Timer Hooks Recommendations
+- Use `useInterval` instead of native `setInterval` to ensure proper cleanup on component unmount
+- Set delay parameters reasonably to avoid overly frequent execution
+- Use the `runInterval` function to manually control when the timer starts
 
-### 3. 保护性 Hooks 使用建议
-- 在异步操作中使用 `useProtect` 防止内存泄漏
-- 使用 `useDeepCompareMemoize` 优化依赖复杂对象的 useEffect
-- 使用 `useDictState` 管理相关的多个状态值
+### 3. Protective Hooks Recommendations
+- Use `useProtect` in async operations to prevent memory leaks
+- Use `useDeepCompareMemoize` to optimize useEffect dependencies on complex objects
+- Use `useDictState` to manage multiple related state values
 
-### 4. 请求 Hooks 使用建议
-- 详见 [请求模块文档](./requests.md)
+### 4. Request Hooks Recommendations
+- See [Request Module documentation](./requests.md) for details
 
-## 注意事项
+## Notes
 
-1. **存储限制**：localStorage 和 sessionStorage 有存储大小限制（通常为 5-10MB）
-2. **序列化**：存储 Hooks 会自动进行 JSON 序列化，不支持存储函数等特殊类型
-3. **性能考虑**：`useDeepCompareMemoize` 的深度比较可能影响性能，避免在频繁更新的场景中使用
-4. **请求取消**：详见 [请求模块文档](./requests.md)
-5. **定时器清理**：虽然 Hooks 会自动清理定时器，但在复杂场景下建议手动控制定时器的生命周期
+1. **Storage limits**: localStorage and sessionStorage have storage size limits (typically 5-10MB)
+2. **Serialization**: Storage Hooks automatically perform JSON serialization; special types such as functions are not supported
+3. **Performance**: Deep comparison in `useDeepCompareMemoize` may affect performance; avoid using in frequently updated scenarios
+4. **Request cancellation**: See [Request Module documentation](./requests.md) for details
+5. **Timer cleanup**: Although Hooks automatically clean up timers, manual control of timer lifecycle is recommended in complex scenarios

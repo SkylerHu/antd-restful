@@ -4,48 +4,48 @@ order: 10
 ---
 
 ## NumberRange
-基于 Ant Design InputNumber 组件的数字区间输入器，支持闭区间数值范围输入，适用于价格区间、年龄范围等场景。
+A closed-interval number range input built on Ant Design InputNumber, supporting various input formats. Suitable for price ranges, age ranges, and similar scenarios.
 
-**功能特性：**
-- 支持闭区间数值范围输入
-- 支持多种输入格式（数组、字符串、单个数值）
-- 支持只读模式展示
-- 支持自定义显示模板
-- 支持分别配置起始和结束输入框属性
+**Features:**
+- Closed-interval number range input
+- Multiple input formats (array, string, single number)
+- Read-only display
+- Custom display template
+- Separate start and end input configuration
 
-### 参数说明
-| <div style="width: 18ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### Props
+| <div style="width: 18ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | 透传 Space.Compact `style` | - |
-| className | 自定义类名 | `string` | - | 透传 Space.Compact `className` | - |
-| value | 当前值，支持数组、字符串、数字格式 | `array \| string \| number` | - | - | - |
-| onChange | 值变化时的回调函数 | `function(value)` | - | - | - |
-| **数据配置** | | | | | |
-| defaultEmptyValue | 单个输入框为空时的默认值 | `undefined\|null\|''` | `null` | - | 0.2.0 |
-| labelTemplate | 只读场景下显示的模板，{0} 是 startValue，{1} 是 endValue | `string` | `'[{0},{1}]'` | - | - |
-| **状态控制** | | | | | |
-| disabled | 是否禁用 | `boolean` | `false` | 透传 InputNumber `disabled` | - |
-| readOnly | 是否只读模式 | `boolean` | `false` | - | - |
-| **Ant Design 原生配置** | | | | | |
-| antdSpaceProps | Ant Design [Space.Compact](https://ant.design/components/space-cn) 组件的原生属性 | `object` | - | 透传 Space.Compact 属性 | - |
-| antdInputProps | 两个 InputNumber 组件的共同属性 | `object` | - | 透传 InputNumber 属性，`value` / `onChange` / `disabled` 由内部管理 | - |
-| antdStartProps | 起始 InputNumber 组件的专属属性 | `object` | - | 透传 InputNumber 属性，优先级高于 antdInputProps | - |
-| antdEndProps | 结束 InputNumber 组件的专属属性 | `object` | - | 透传 InputNumber 属性，优先级高于 antdInputProps | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | Pass-through Space.Compact `style` | - |
+| className | Custom class name | `string` | - | Pass-through Space.Compact `className` | - |
+| value | Current value; supports array, string, number formats | `array \| string \| number` | - | - | - |
+| onChange | Callback when value changes | `function(value)` | - | - | - |
+| **Data Config** | | | | | |
+| defaultEmptyValue | Default value when a single input is empty | `undefined\|null\|''` | `null` | - | 0.2.0 |
+| labelTemplate | Read-only display template; {0} is startValue, {1} is endValue | `string` | `'[{0},{1}]'` | - | - |
+| **State Control** | | | | | |
+| disabled | Whether disabled | `boolean` | `false` | Pass-through InputNumber `disabled` | - |
+| readOnly | Whether read-only mode | `boolean` | `false` | - | - |
+| **Ant Design Native Config** | | | | | |
+| antdSpaceProps | Native props for Ant Design [Space.Compact](https://ant.design/components/space) | `object` | - | Pass-through Space.Compact props | - |
+| antdInputProps | Shared props for both InputNumber components | `object` | - | Pass-through InputNumber props; `value` / `onChange` / `disabled` managed internally | - |
+| antdStartProps | Props specific to start InputNumber | `object` | - | Pass-through InputNumber props; higher priority than antdInputProps | - |
+| antdEndProps | Props specific to end InputNumber | `object` | - | Pass-through InputNumber props; higher priority than antdInputProps | - |
 
-### 值格式支持
-组件支持多种输入值格式：
+### Value Format Support
+The component supports multiple input value formats:
 
-1. **数组格式**：`[startValue, endValue]`
-2. **字符串格式**：`"startValue,endValue"`
-3. **单个数值**：`startValue`（endValue 为 `defaultEmptyValue`，默认 `null`）
-4. **空值**：`null`、`undefined`、`[]`
+1. **Array format**: `[startValue, endValue]`
+2. **String format**: `"startValue,endValue"`
+3. **Single number**: `startValue` (endValue is `defaultEmptyValue`, default `null`)
+4. **Empty value**: `null`, `undefined`, `[]`
 
-### 输出格式
-- **有值时**：返回 `[startValue, endValue]` 数组格式
-- **无值时**：返回 `null`
+### Output Format
+- **With value**: Returns `[startValue, endValue]` array format
+- **Without value**: Returns `null`
 
-### 使用示例
+### Usage Examples
 
 ```jsx
 import React, { useState } from 'react';
@@ -68,27 +68,27 @@ export default () => {
   return (
     <div>
       <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
-        <Radio.Button value="edit">编辑</Radio.Button>
-        <Radio.Button value="readOnly">只读</Radio.Button>
-        <Radio.Button value="disabled">禁用</Radio.Button>
+        <Radio.Button value="edit">Edit</Radio.Button>
+        <Radio.Button value="readOnly">Read-only</Radio.Button>
+        <Radio.Button value="disabled">Disabled</Radio.Button>
       </Radio.Group>
 
       <Form layout="horizontal" labelCol={{ flex: '100px' }}>
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础数值范围</Divider>
-        <Form.Item label="数值范围" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 1: Basic Number Range</Divider>
+        <Form.Item label="Number range" style={{ marginBottom: 8 }}>
           <NumberRange
             value={basicRange}
             onChange={setBasicRange}
             readOnly={readOnly}
             disabled={disabled}
-            antdStartProps={{ placeholder: '最小值' }}
-            antdEndProps={{ placeholder: '最大值' }}
+            antdStartProps={{ placeholder: 'Min' }}
+            antdEndProps={{ placeholder: 'Max' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(basicRange ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(basicRange ?? null)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：价格区间（货币格式）</Divider>
-        <Form.Item label="价格范围" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 2: Price Range (Currency Format)</Divider>
+        <Form.Item label="Price range" style={{ marginBottom: 8 }}>
           <NumberRange
             value={priceRange}
             onChange={setPriceRange}
@@ -100,38 +100,38 @@ export default () => {
               formatter: (value) => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
               parser: (value) => value.replace(/¥\s?|(,*)/g, ''),
             }}
-            antdStartProps={{ placeholder: '最低价格' }}
-            antdEndProps={{ placeholder: '最高价格' }}
+            antdStartProps={{ placeholder: 'Min price' }}
+            antdEndProps={{ placeholder: 'Max price' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(priceRange)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(priceRange)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：年龄区间（整数限制）</Divider>
-        <Form.Item label="年龄范围" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 3: Age Range (Integer Only)</Divider>
+        <Form.Item label="Age range" style={{ marginBottom: 8 }}>
           <NumberRange
             value={ageRange}
             onChange={setAgeRange}
             readOnly={readOnly}
             disabled={disabled}
             antdInputProps={{ min: 0, max: 120, precision: 0 }}
-            antdStartProps={{ placeholder: '最小年龄' }}
-            antdEndProps={{ placeholder: '最大年龄' }}
+            antdStartProps={{ placeholder: 'Min age' }}
+            antdEndProps={{ placeholder: 'Max age' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(ageRange ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(ageRange ?? null)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景4：步长输入</Divider>
-        <Form.Item label="数值范围" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 4: Step Input</Divider>
+        <Form.Item label="Number range" style={{ marginBottom: 8 }}>
           <NumberRange
             value={stepRange}
             onChange={setStepRange}
             readOnly={readOnly}
             disabled={disabled}
             antdInputProps={{ step: 10, min: 0, max: 1000 }}
-            antdStartProps={{ placeholder: '起始值' }}
-            antdEndProps={{ placeholder: '结束值' }}
+            antdStartProps={{ placeholder: 'Start value' }}
+            antdEndProps={{ placeholder: 'End value' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(stepRange ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(stepRange ?? null)}</div>
         </Form.Item>
       </Form>
     </div>
@@ -139,9 +139,9 @@ export default () => {
 };
 ```
 
-### 高级用法
+### Advanced Usage
 
-#### 表单验证集成
+#### Form Validation Integration
 ```jsx
 import React from 'react';
 import { Form, Button } from 'antd';
@@ -152,23 +152,23 @@ export default () => {
   const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
-    console.log('表单值:', values);
+    console.log('Form values:', values);
   };
 
   return (
     <Form form={form} onFinish={handleSubmit}>
       <Form.Item
         name="priceRange"
-        label="价格区间"
+        label="Price range"
         rules={[
           {
             validator: (_, value) => {
               if (!value || value.length !== 2) {
-                return Promise.reject(new Error('请输入完整的价格区间'));
+                return Promise.reject(new Error('Please enter a complete price range'));
               }
               const [min, max] = value;
               if (min >= max) {
-                return Promise.reject(new Error('最小值必须小于最大值'));
+                return Promise.reject(new Error('Min must be less than max'));
               }
               return Promise.resolve();
             },
@@ -184,7 +184,7 @@ export default () => {
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          提交
+          Submit
         </Button>
       </Form.Item>
     </Form>
@@ -192,7 +192,7 @@ export default () => {
 };
 ```
 
-#### 受控组件示例
+#### Controlled Component Example
 ```jsx
 import React, { useState } from 'react';
 import antdRestful from 'antd-restful';
@@ -204,7 +204,7 @@ export default () => {
   const handleRangeChange = (value) => {
     if (value && value.length === 2) {
       const [min, max] = value;
-      // 确保最小值不大于最大值
+      // Ensure min does not exceed max
       if (min <= max) {
         setRange(value);
       }
@@ -218,47 +218,47 @@ export default () => {
       <NumberRange
         value={range}
         onChange={handleRangeChange}
-        antdStartProps={{ placeholder: '最小值' }}
-        antdEndProps={{ placeholder: '最大值' }}
+        antdStartProps={{ placeholder: 'Min' }}
+        antdEndProps={{ placeholder: 'Max' }}
       />
-      <p>当前范围: {range ? `${range[0]} ~ ${range[1]}` : '未设置'}</p>
+      <p>Current range: {range ? `${range[0]} ~ ${range[1]}` : 'Not set'}</p>
     </div>
   );
 };
 ```
 
-### 模板语法说明
-`labelTemplate` 支持占位符语法：
-- `{0}` - 起始值（startValue）
-- `{1}` - 结束值（endValue）
+### Template Syntax
+`labelTemplate` supports placeholder syntax:
+- `{0}` - Start value (startValue)
+- `{1}` - End value (endValue)
 
-示例模板：
-- `"[{0},{1}]"` - 默认格式，显示如 "[10,100]"
-- `"{0} ~ {1}"` - 显示如 "10 ~ 100"
-- `"范围：{0} 到 {1}"` - 显示如 "范围：10 到 100"
+Example templates:
+- `"[{0},{1}]"` - Default format, displays as "[10,100]"
+- `"{0} ~ {1}"` - Displays as "10 ~ 100"
+- `"Range: {0} to {1}"` - Displays as "Range: 10 to 100"
 
-### 数据处理逻辑
-1. **输入处理**：
-   - 数组格式直接使用
-   - 字符串格式按逗号分割
-   - 单个数值转为 `[value, defaultEmptyValue]`（默认 `[value, null]`）
-   - 空值转为 `[undefined, undefined]`
+### Data Processing Logic
+1. **Input processing**:
+   - Array format used directly
+   - String format split by comma
+   - Single number converted to `[value, defaultEmptyValue]` (default `[value, null]`)
+   - Empty value converted to `[undefined, undefined]`
 
-2. **输出处理**：
-   - 两个值都为空时返回 `undefined`
-   - 其他情况返回 `[startValue, endValue]` 数组
+2. **Output processing**:
+   - Returns `undefined` when both values are empty
+   - Otherwise returns `[startValue, endValue]` array
 
-### 注意事项
-1. **闭区间**：组件实现的是闭区间，包含边界值
-2. **值格式**：支持多种输入格式，统一转换为数组格式处理
-3. **回调参数**：onChange 返回 `[startValue, endValue]` 格式或 `undefined`
-4. **只读显示**：只读模式下使用 `labelTemplate` 格式化显示
-5. **属性继承**：`antdInputProps` 会同时应用到两个输入框，`antdStartProps` 和 `antdEndProps` 分别配置专属属性
-6. **数值验证**：建议在表单验证中确保最小值小于最大值
-7. **精度控制**：通过 `precision` 属性控制小数位数
-8. **范围限制**：通过 `min` 和 `max` 属性限制输入范围
+### Notes
+1. **Closed interval**: Component implements closed interval including boundary values
+2. **Value format**: Supports multiple input formats, normalized to array format internally
+3. **Callback parameters**: onChange returns `[startValue, endValue]` format or `undefined`
+4. **Read-only display**: Uses `labelTemplate` for formatted display in read-only mode
+5. **Property inheritance**: `antdInputProps` applies to both inputs; `antdStartProps` and `antdEndProps` configure each separately
+6. **Value validation**: Recommend ensuring min < max in form validation
+7. **Precision control**: Control decimal places via `precision` property
+8. **Range limits**: Limit input range via `min` and `max` properties
 
-### 相关组件
-- [RangeStrPicker](./RangeStrPicker.md) - 日期时间范围选择器
-- [GridForm](../GridForm.md) - 网格表单，支持 NumberRange 作为表单字段类型
-- [DateStrPicker](./DateStrPicker.md) - 日期时间选择器
+### Related Components
+- [RangeStrPicker](./RangeStrPicker.md) - Date time range picker
+- [GridForm](../GridForm.md) - Grid form supporting NumberRange as a form field type
+- [DateStrPicker](./DateStrPicker.md) - Date time picker

@@ -4,36 +4,36 @@ order: 5
 ---
 
 ## LongText
-是一个用于显示长文本的组件，支持文本截断、模态框展示和模板格式化。
+A component for displaying long text, supporting text truncation, modal display, and template formatting.
 
-**功能特性：**
-- 支持字符串、数字、布尔值、数组、对象等多种数据类型
-- 自动截断超长内容，显示"查看更多"按钮
-- 支持模板格式化显示对象数据
-- 模态框展示完整内容（对象模板场景支持原始数据切换）
-- 响应式设计，适配不同屏幕尺寸
-- 智能识别是否需要显示展开按钮
-- 支持自定义模态框配置
+**Features:**
+- Supports strings, numbers, booleans, arrays, objects, and other data types
+- Automatically truncates overly long content and shows a "View More" button
+- Supports template formatting for object data
+- Modal displays full content (object template scenarios support raw data toggle)
+- Responsive design that adapts to different screen sizes
+- Intelligently determines whether to show the expand button
+- Supports custom modal configuration
 
-### 参数说明
-| <div style="width: 17ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### API
+| <div style="width: 17ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | - | - |
-| className | 自定义类名 | `string` | - | - | - |
-| **数据与显示** | | | | | |
-| value | 要显示的文本内容 | `any` | - | - | - |
-| maxLength | 最大显示长度，数组时为元素个数，字符串时为字符数 | `number` | `64` | - | - |
-| titleTemplate | 选中个数的标题显示模板，必须包含 `{count}` 占位符 | `string` | `"长度：{count}"` | - | - |
-| titleAggPath | 选中数据根据字段聚合统计显示在 title 上，titleTemplate 中使用 `{stat}` 占位符 | `string` | - | - | - |
-| separator | 数组元素间的分隔符 | `string` | `'\n'` | - | - |
-| labelTemplate | 对象或数组对象的显示模板，支持 `{field}` 格式 | `string` | - | - | - |
-| **Ant Design 原生配置** | | | | | |
-| antdModalProps | Ant Design [Modal](https://ant.design/components/modal-cn) 组件的属性 | `object` | - | 透传 Modal 属性，`open` / `onCancel` / `footer` 由内部管理；自定义 `title` 会覆盖内置标题 | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | - | - |
+| className | Custom class name | `string` | - | - | - |
+| **Data & Display** | | | | | |
+| value | Text content to display | `any` | - | - | - |
+| maxLength | Maximum display length; element count for arrays, character count for strings | `number` | `64` | - | - |
+| titleTemplate | Title display template for selected count; must include `{count}` placeholder | `string` | `"Length: {count}"` | - | - |
+| titleAggPath | Aggregate selected data by field and show in title; use `{stat}` placeholder in titleTemplate | `string` | - | - | - |
+| separator | Separator between array elements | `string` | `'\n'` | - | - |
+| labelTemplate | Display template for objects or array of objects; supports `{field}` format | `string` | - | - | - |
+| **Ant Design Native Config** | | | | | |
+| antdModalProps | Ant Design [Modal](https://ant.design/components/modal-cn) props | `object` | - | Pass-through Modal props; `open` / `onCancel` / `footer` managed internally; custom `title` overrides built-in title | - |
 
-### 使用示例
+### Examples
 
-**基本文本显示：**
+**Basic text display:**
 
 ```jsx
 import React from 'react';
@@ -42,17 +42,17 @@ const { LongText } = antdRestful;
 
 export default () => (
   <div style={{ display: 'grid', gap: 12 }}>
-    <LongText value="这是一段短文本" />
+    <LongText value="This is a short text" />
     <LongText
-      value="这是一段很长的文本内容，超过默认长度会自动截断并显示查看更多按钮，点击可以在模态框中查看完整内容"
+      value="This is a very long text that exceeds the default length and will be truncated with a View More button; click to see the full content in a modal"
       maxLength={20}
     />
-    <LongText value="自定义截断长度的文本内容示例" maxLength={10} />
+    <LongText value="Example text with custom truncation length" maxLength={10} />
   </div>
 );
 ```
 
-**数组数据显示：**
+**Array data display:**
 
 ```jsx
 import React from 'react';
@@ -61,14 +61,14 @@ const { LongText } = antdRestful;
 
 export default () => (
   <LongText
-    value={['苹果', '香蕉', '橙子', '葡萄', '西瓜', '草莓']}
+    value={['Apple', 'Banana', 'Orange', 'Grape', 'Watermelon', 'Strawberry']}
     separator=" | "
     maxLength={3}
   />
 );
 ```
 
-**对象模板显示：**
+**Object template display:**
 
 ```jsx
 import React from 'react';
@@ -78,8 +78,8 @@ const { LongText } = antdRestful;
 export default () => (
   <LongText
     value={[
-      { id: 1, username: 'admin', nickname: '管理员', department: '技术部' },
-      { id: 2, username: 'skyler', nickname: 'Skyler', department: '产品部' },
+      { id: 1, username: 'admin', nickname: 'Admin', department: 'Engineering' },
+      { id: 2, username: 'skyler', nickname: 'Skyler', department: 'Product' },
     ]}
     labelTemplate="{nickname} - {department}"
     maxLength={1}
@@ -88,7 +88,7 @@ export default () => (
 );
 ```
 
-**模态框自定义：**
+**Custom modal:**
 
 ```jsx
 import React from 'react';
@@ -97,10 +97,10 @@ const { LongText } = antdRestful;
 
 export default () => (
   <LongText
-    value="这是一段较长文本，用于演示自定义弹窗配置。点击查看更多可打开弹窗。"
+    value="This is a longer text demonstrating custom modal configuration. Click View More to open the modal."
     maxLength={20}
     antdModalProps={{
-      title: '详细内容',
+      title: 'Details',
       width: 720,
       centered: true,
       maskClosable: false,
@@ -109,7 +109,7 @@ export default () => (
 );
 ```
 
-**数据类型处理：**
+**Data type handling:**
 
 ```jsx
 import React from 'react';
@@ -119,7 +119,7 @@ const { LongText } = antdRestful;
 export default () => (
   <LongText
     value={{
-      user: { name: '张三', id: 1 },
+      user: { name: 'Alice', id: 1 },
       permissions: ['read', 'write', 'delete'],
       settings: { theme: 'dark', language: 'zh-CN' },
     }}
@@ -128,7 +128,7 @@ export default () => (
 );
 ```
 
-**在表格中的应用：**
+**Usage in tables:**
 
 ```jsx
 import React from 'react';
@@ -137,7 +137,7 @@ const { RestTable, LongText } = antdRestful;
 
 const columns = [
   {
-    title: '描述',
+    title: 'Description',
     dataIndex: 'body',
     render: (text) => <LongText value={text} maxLength={50} />,
   },
@@ -157,7 +157,7 @@ export default () => (
 );
 ```
 
-**原始数据切换：**
+**Raw data toggle:**
 
 ```jsx
 import React from 'react';
@@ -167,8 +167,8 @@ const { LongText } = antdRestful;
 export default () => (
   <LongText
     value={[
-      { id: 1, name: '产品A', specs: { color: '红色', size: 'L' } },
-      { id: 2, name: '产品B', specs: { color: '蓝色', size: 'M' } },
+      { id: 1, name: 'Product A', specs: { color: 'Red', size: 'L' } },
+      { id: 2, name: 'Product B', specs: { color: 'Blue', size: 'M' } },
     ]}
     labelTemplate="{name} - {specs.color} {specs.size}"
     maxLength={1}
@@ -176,7 +176,7 @@ export default () => (
 );
 ```
 
-**响应式显示：**
+**Responsive display:**
 
 ```jsx
 import React from 'react';
@@ -185,14 +185,14 @@ const { LongText } = antdRestful;
 
 export default () => (
   <LongText
-    value="这是一段需要在不同设备上显示的长文本内容"
+    value="This is a long text that needs to display on different devices"
     maxLength={36}
     antdModalProps={{ width: 600 }}
   />
 );
 ```
 
-**空值处理：**
+**Empty value handling:**
 
 ```jsx
 import React from 'react';
@@ -208,7 +208,7 @@ export default () => (
 );
 ```
 
-**结合其他组件：**
+**Combined with other components:**
 
 ```jsx
 import React from 'react';
@@ -217,42 +217,42 @@ import antdRestful from 'antd-restful';
 const { LongText } = antdRestful;
 
 export default () => (
-  <Card title="项目详情">
+  <Card title="Project Details">
     <Space direction="vertical" style={{ width: '100%' }}>
       <Space>
-        <Tag color="blue">数据：</Tag>
+        <Tag color="blue">Data:</Tag>
         <LongText value={['A', 'B', 'C', 'D']} maxLength={2} />
       </Space>
-      <LongText value="这里是项目描述，超过长度后可展开查看完整内容。" maxLength={20} />
+      <LongText value="This is the project description; expand to view full content when it exceeds the length limit." maxLength={20} />
     </Space>
   </Card>
 );
 ```
 
-### 最佳实践
+### Best Practices
 
-1. **合理设置截断长度**：根据界面空间和内容重要性设置 `maxLength`
-2. **选择合适的分隔符**：数组显示时选择易读的分隔符
-3. **模板设计**：对象模板应突出重要信息，保持简洁
-4. **模态框配置**：根据内容类型配置合适的模态框尺寸
-5. **响应式考虑**：在移动端适当减少截断长度
-6. **性能优化**：对于大量数据，考虑虚拟滚动或分页
+1. **Set truncation length appropriately**: Configure `maxLength` based on UI space and content importance
+2. **Choose appropriate separators**: Use readable separators when displaying arrays
+3. **Template design**: Object templates should highlight important information and stay concise
+4. **Modal configuration**: Configure appropriate modal size based on content type
+5. **Responsive considerations**: Reduce truncation length appropriately on mobile
+6. **Performance optimization**: For large datasets, consider virtual scrolling or pagination
 
-### 使用场景
+### Use Cases
 
-- **数据表格**：显示长文本字段，如描述、备注等
-- **用户列表**：显示多个用户信息，支持模板格式化
-- **日志查看**：显示长日志内容，支持模态框查看
-- **配置展示**：显示复杂配置对象
-- **标签管理**：显示多个标签，超出时自动折叠
+- **Data tables**: Display long text fields such as descriptions and notes
+- **User lists**: Display multiple user records with template formatting
+- **Log viewing**: Display long log content with modal viewing
+- **Configuration display**: Display complex configuration objects
+- **Tag management**: Display multiple tags with automatic folding when exceeding limits
 
-### 常见问题
+### FAQ
 
-**Q: 如何自定义"查看更多"按钮的样式？**
-A: 可以通过全局 CSS 覆盖相关样式类名。
+**Q: How do I customize the "View More" button style?**
+A: Override the relevant CSS class names globally.
 
-**Q: 模板中的字段不存在怎么办？**
-A: 不存在的字段会显示为空字符串，不会报错。
+**Q: What happens when a field in the template doesn't exist?**
+A: Missing fields display as empty strings and do not cause errors.
 
-**Q: 如何在模态框中显示富文本？**
-A: 可以通过 `antdModalProps.bodyStyle` 设置样式，并确保数据包含 HTML 标签。
+**Q: How do I display rich text in the modal?**
+A: Set styles via `antdModalProps.bodyStyle` and ensure the data contains HTML tags.

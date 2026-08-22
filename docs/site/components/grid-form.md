@@ -4,98 +4,98 @@ order: 4
 ---
 
 ## GridForm
-基于 Ant Design 的网格布局表单组件，支持多种字段类型和响应式布局。
+A grid layout form component based on Ant Design, supporting multiple field types and responsive layout.
 
-**功能特性：**
-- 支持 12 种表单字段类型（输入框、选择器、日期选择等）
-- 基于 Ant Design Form 和 List 组件实现，继承其所有特性
-- 内置响应式网格布局，自动适配不同屏幕尺寸
-- 支持表单验证和自定义验证规则
-- 内置提交和重置按钮，支持自定义按钮文案
-- 支持自定义渲染函数，灵活扩展
-- 支持初始值设置和表单值变化监听
-- 自动处理 Enter 键提交表单
-- 支持单项模式和高级搜索模式切换
-- 智能的表单项激活策略，提升单项模式用户体验
-- 支持占位字段自动补充，避免工具栏遮挡
+**Features:**
+- Supports 12 form field types (input, select, date picker, etc.)
+- Built on Ant Design Form and List components, inheriting all their features
+- Built-in responsive grid layout that adapts to different screen sizes
+- Supports form validation and custom validation rules
+- Built-in submit and reset buttons with customizable button labels
+- Supports custom render functions for flexible extension
+- Supports initial values and form value change listeners
+- Automatically handles Enter key form submission
+- Supports switching between single-field mode and advanced search mode
+- Smart field activation strategy for better single-field mode UX
+- Supports automatic placeholder fields to avoid toolbar overlap
 
-### 参数说明
+### API
 
-| <div style="width: 23ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 23ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | 透传 Form `style` | - |
-| className | 自定义类名 | `string` | - | 透传 Form `className` | - |
-| **表单配置** | | | | | |
-| fields | 表单项配置数组 | `array` | - | - | - |
-| advancedSearch | 是否启用高级搜索模式，false 时为单项模式 | `boolean` | `true` | - | - |
-| initialValues | 表单初始值 | `object` | - | 透传 Form `initialValues` | - |
-| enablePlaceholder | 是否开启占位字段，当表单项数+1 刚好是 column 的倍数时自动添加占位项，避免按钮被遮挡 | `boolean` | `false` | - | - |
-| **回调函数** | | | | | |
-| onSubmit | 表单提交回调 | `function(values)` | - | - | - |
-| onReset | 表单重置回调 | `function(values)` | - | - | - |
-| onValuesChange | 表单值变化回调 | `function(changedValues, allValues)` | - | - | - |
-| **按钮配置** | | | | | |
-| submitTitle | 提交按钮文案 | `node` | `textOptions.btnSubmitTitle`（默认 `'查询'`） | - | - |
-| resetTitle | 重置按钮文案（仅高级搜索模式） | `node` | `textOptions.btnResetTitle`（默认 `'重置'`） | - | - |
-| **Ant Design 原生配置** | | | | | |
-| antdFormProps | Ant Design [Form](https://ant.design/components/form-cn) 组件的属性 | `object` | - | 透传 Form 属性，`form` / `initialValues` / `onFinish` 由内部管理 | - |
-| antdListProps | Ant Design [List](https://ant.design/components/list-cn) 组件的属性，用于高级搜索模式下的网格布局 | `object` | `{ grid: { gutter: 10, column: 3 } }` | 透传 List 属性，`dataSource` / `renderItem` 由内部管理 | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | Pass-through Form `style` | - |
+| className | Custom class name | `string` | - | Pass-through Form `className` | - |
+| **Form Config** | | | | | |
+| fields | Form field configuration array | `array` | - | - | - |
+| advancedSearch | Whether to enable advanced search mode; single-field mode when `false` | `boolean` | `true` | - | - |
+| initialValues | Form initial values | `object` | - | Pass-through Form `initialValues` | - |
+| enablePlaceholder | Whether to enable placeholder fields; automatically adds a placeholder when field count + 1 is exactly a multiple of column, to prevent buttons from being blocked | `boolean` | `false` | - | - |
+| **Callbacks** | | | | | |
+| onSubmit | Form submit callback | `function(values)` | - | - | - |
+| onReset | Form reset callback | `function(values)` | - | - | - |
+| onValuesChange | Form value change callback | `function(changedValues, allValues)` | - | - | - |
+| **Button Config** | | | | | |
+| submitTitle | Submit button label | `node` | `textOptions.btnSubmitTitle` (default `'Search'`) | - | - |
+| resetTitle | Reset button label (advanced search mode only) | `node` | `textOptions.btnResetTitle` (default `'Reset'`) | - | - |
+| **Ant Design Native Config** | | | | | |
+| antdFormProps | Ant Design [Form](https://ant.design/components/form-cn) props | `object` | - | Pass-through Form props; `form` / `initialValues` / `onFinish` managed internally | - |
+| antdListProps | Ant Design [List](https://ant.design/components/list-cn) props for grid layout in advanced search mode | `object` | `{ grid: { gutter: 10, column: 3 } }` | Pass-through List props; `dataSource` / `renderItem` managed internally | - |
 
-**fields 配置项：**
+**fields options:**
 
-| <div style="width: 23ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+| <div style="width: 23ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| key | 字段唯一标识，同时作为表单字段的 name | `string` | - | 透传 Form.Item `name` | - |
-| label | 字段标签，未设置时使用 key 值 | `string` | `key` | 透传 Form.Item `label` | - |
-| type | 字段类型，详见下方支持的字段类型 | `string` | `'input'` | - | - |
-| tip | 在配置展示列时的提示信息 | `string` | - | - | - |
-| hidden | 设置 true 隐藏字段，若显示设置 false 则不可配置隐藏 | `bool` | undefined | - | - |
-| antdFormItemProps | Ant Design Form.Item 组件的属性，如验证规则等 | `object` | - | 透传 Form.Item 属性 | - |
-| antdFieldProps | 对应字段组件的属性 | `object` | - | 透传对应字段组件属性 | - |
-| antdSingleProps | 字段组件的特殊属性，会与 antdFieldProps 合并（优先级更高，单项模式更常用） | `object` | - | - | - |
-| render | 自定义渲染函数，返回完整的 Form.Item | `function(item)` | - | - | - |
+| key | Unique field identifier; also used as the form field name | `string` | - | Pass-through Form.Item `name` | - |
+| label | Field label; uses key value when not set | `string` | `key` | Pass-through Form.Item `label` | - |
+| type | Field type; see supported field types below | `string` | `'input'` | - | - |
+| tip | Tooltip shown when configuring display columns | `string` | - | - | - |
+| hidden | Set to `true` to hide field; set to `false` to make it non-hideable in settings | `bool` | undefined | - | - |
+| antdFormItemProps | Ant Design Form.Item props, such as validation rules | `object` | - | Pass-through Form.Item props | - |
+| antdFieldProps | Props for the corresponding field component | `object` | - | Pass-through corresponding field component props | - |
+| antdSingleProps | Special field component props merged with antdFieldProps (higher priority; more common in single-field mode) | `object` | - | - | - |
+| render | Custom render function returning a complete Form.Item | `function(item)` | - | - | - |
 
-**支持的字段类型：**
+**Supported field types:**
 
-| 类型值 | 说明 | 对应组件 | 特殊说明 |
+| Type | Description | Component | Notes |
 | - | - | - | - |
-| `input` | 输入框 | Ant Design Input | 默认类型，支持 Enter 键提交 |
-| `select` | 下拉选择 | RestSelect | 支持远程数据加载 |
-| `radio` | 单选 | Ant Design Radio.Group | 需在 antdFieldProps 中配置 options |
-| `checkbox` | 多选 | Ant Design Checkbox.Group | 需在 antdFieldProps 中配置 options |
-| `number` | 数字输入 | Ant Design InputNumber | 支持数字格式化 |
-| `date-picker` | 日期选择 | DateStrPicker | 字符串格式的日期选择器 |
-| `date-range-picker` | 日期范围选择 | RangeStrPicker | 字符串格式的日期范围选择器 |
-| `number-range` | 数字范围 | NumberRange | 数字范围输入组件 |
-| `auto-complete` | 自动完成 | RestAutoComplete | 支持远程搜索 |
-| `cascader` | 级联选择 | RestCascader | 支持远程数据加载的级联选择 |
-| `tree-select` | 树形选择 | RestTreeSelect | 支持远程数据加载的树形选择 |
-| `upload` | 文件上传 | UploadView | 文件上传组件 |
+| `input` | Input | Ant Design Input | Default type; supports Enter key submit |
+| `select` | Select | RestSelect | Supports remote data loading |
+| `radio` | Radio | Ant Design Radio.Group | Configure options in antdFieldProps |
+| `checkbox` | Checkbox | Ant Design Checkbox.Group | Configure options in antdFieldProps |
+| `number` | Number input | Ant Design InputNumber | Supports number formatting |
+| `date-picker` | Date picker | DateStrPicker | String-format date picker |
+| `date-range-picker` | Date range picker | RangeStrPicker | String-format date range picker |
+| `number-range` | Number range | NumberRange | Number range input component |
+| `auto-complete` | Auto complete | RestAutoComplete | Supports remote search |
+| `cascader` | Cascader | RestCascader | Cascader with remote data loading |
+| `tree-select` | Tree select | RestTreeSelect | Tree select with remote data loading |
+| `upload` | File upload | UploadView | File upload component |
 
-**Ref 方法：**
+**Ref methods:**
 
-| 方法名 | 说明 | 参数 | 返回值 |
+| Method | Description | Parameters | Return Value |
 | - | - | - | - |
-| getFormInstance | 获取 Ant Design 表单实例（扩展了 `setFieldsValueAndActiveKey` 方法） | - | `FormInstance` |
+| getFormInstance | Get Ant Design form instance (extended with `setFieldsValueAndActiveKey` method) | - | `FormInstance` |
 
-### 模式说明
+### Mode Details
 
-**高级搜索模式（默认）:**
-- 显示所有配置的字段
-- 使用网格布局，响应式排列
-- 适合字段较多的复杂表单
+**Advanced search mode (default):**
+- Displays all configured fields
+- Uses grid layout with responsive arrangement
+- Suitable for complex forms with many fields
 
-**单项模式:**
-- 同时只显示一个字段和下拉选择器
-- 用户可通过下拉选择器切换字段
-- 智能激活策略：优先激活有值的字段，否则激活第一个字段
-- 适合简单搜索或移动端场景
-- 单项模式下显示提交按钮（默认读取 `textOptions.btnSubmitTitle`），不显示重置按钮
+**Single-field mode:**
+- Shows only one field and a dropdown selector at a time
+- Users can switch fields via the dropdown
+- Smart activation strategy: activates fields with values first, otherwise the first field
+- Suitable for simple search or mobile scenarios
+- Shows submit button in single-field mode (defaults to `textOptions.btnSubmitTitle`); reset button is not shown
 
-### 使用示例
+### Examples
 
-**基本使用（高级搜索模式）：**
+**Basic usage (advanced search mode):**
 
 ```jsx
 import React from 'react';
@@ -106,53 +106,53 @@ const BasicForm = () => {
   const fields = [
     {
       key: 'username',
-      label: '用户名',
+      label: 'Username',
       type: FieldType.INPUT,
       antdFormItemProps: {
-        rules: [{ required: true, message: '请输入用户名' }]
+        rules: [{ required: true, message: 'Please enter username' }]
       },
       antdFieldProps: {
-        placeholder: '请输入用户名'
+        placeholder: 'Please enter username'
       }
     },
     {
       key: 'password',
-      label: '密码',
+      label: 'Password',
       type: FieldType.INPUT,
       antdFormItemProps: {
         rules: [
-          { required: true, message: '请输入密码' },
-          { min: 6, message: '密码至少6位' }
+          { required: true, message: 'Please enter password' },
+          { min: 6, message: 'Password must be at least 6 characters' }
         ]
       },
       antdFieldProps: {
         type: 'password',
-        placeholder: '请输入密码'
+        placeholder: 'Please enter password'
       }
     },
     {
       key: 'gender',
-      label: '性别',
+      label: 'Gender',
       type: FieldType.RADIO,
       antdFormItemProps: {
-        rules: [{ required: true, message: '请选择性别' }]
+        rules: [{ required: true, message: 'Please select gender' }]
       },
       antdFieldProps: {
         options: [
-          { label: '男', value: 'male' },
-          { label: '女', value: 'female' }
+          { label: 'Male', value: 'male' },
+          { label: 'Female', value: 'female' }
         ]
       }
     }
   ];
 
   const handleSubmit = (values) => {
-    console.log('表单提交:', values);
-    // 处理表单提交逻辑
+    console.log('Form submitted:', values);
+    // Handle form submission
   };
 
   const handleReset = (values) => {
-    console.log('表单重置:', values);
+    console.log('Form reset:', values);
   };
 
   return (
@@ -169,7 +169,7 @@ const BasicForm = () => {
 export default BasicForm;
 ```
 
-**单项模式使用：**
+**Single-field mode:**
 
 ```jsx
 import React from 'react';
@@ -180,15 +180,15 @@ const SingleModeForm = () => {
   const fields = [
     {
       key: 'keyword',
-      label: '关键词',
+      label: 'Keyword',
       type: FieldType.INPUT,
       antdFieldProps: {
-        placeholder: '请输入搜索关键词'
+        placeholder: 'Please enter search keyword'
       }
     },
     {
       key: 'category',
-      label: '分类',
+      label: 'Category',
       type: FieldType.SELECT,
       antdFieldProps: {
         restful: 'https://dummyjson.com/users',
@@ -196,18 +196,18 @@ const SingleModeForm = () => {
         fieldPageSize: 'limit',
         baseParams: { limit: 10 },
         fieldNames: { label: 'firstName', value: 'id' },
-        placeholder: '请选择分类'
+        placeholder: 'Please select category'
       }
     },
     {
       key: 'status',
-      label: '状态',
+      label: 'Status',
       type: FieldType.SELECT,
       antdFieldProps: {
         options: [
-          { label: '全部', value: '' },
-          { label: '启用', value: 'active' },
-          { label: '禁用', value: 'inactive' }
+          { label: 'All', value: '' },
+          { label: 'Active', value: 'active' },
+          { label: 'Inactive', value: 'inactive' }
         ]
       }
     }
@@ -216,10 +216,10 @@ const SingleModeForm = () => {
   return (
     <GridForm
       fields={fields}
-      advancedSearch={false}  // 关键配置：启用单项模式
+      advancedSearch={false}  // Key config: enable single-field mode
       onSubmit={(values) => {
-        console.log('搜索条件:', values);
-        // 执行搜索逻辑
+        console.log('Search conditions:', values);
+        // Execute search logic
       }}
       initialValues={{
         status: ''
@@ -230,7 +230,7 @@ const SingleModeForm = () => {
 export default SingleModeForm;
 ```
 
-**高级用法 - 远程数据和自定义布局：**
+**Advanced usage — remote data and custom layout:**
 
 ```jsx
 import React, { useRef } from 'react';
@@ -244,10 +244,10 @@ const AdvancedForm = () => {
   const fields = [
     {
       key: 'category',
-      label: '商品分类',
+      label: 'Product Category',
       type: FieldType.SELECT,
       antdFormItemProps: {
-        rules: [{ required: true, message: '请选择商品分类' }]
+        rules: [{ required: true, message: 'Please select product category' }]
       },
       antdFieldProps: {
         restful: 'https://dummyjson.com/users',
@@ -255,27 +255,27 @@ const AdvancedForm = () => {
         fieldPageSize: 'limit',
         baseParams: { limit: 10 },
         fieldNames: { label: 'firstName', value: 'id' },
-        placeholder: '请选择分类'
+        placeholder: 'Please select category'
       }
     },
     {
       key: 'tags',
-      label: '标签',
+      label: 'Tags',
       type: FieldType.CHECKBOX,
       antdFieldProps: {
         options: [
-          { label: '热门', value: 'hot' },
-          { label: '推荐', value: 'recommend' },
-          { label: '新品', value: 'new' }
+          { label: 'Hot', value: 'hot' },
+          { label: 'Recommended', value: 'recommend' },
+          { label: 'New', value: 'new' }
         ]
       }
     },
     {
       key: 'price',
-      label: '价格',
+      label: 'Price',
       type: FieldType.NUMBER,
       antdFormItemProps: {
-        rules: [{ required: true, message: '请输入价格' }]
+        rules: [{ required: true, message: 'Please enter price' }]
       },
       antdFieldProps: {
         min: 0,
@@ -286,7 +286,7 @@ const AdvancedForm = () => {
     },
     {
       key: 'dateRange',
-      label: '销售时间',
+      label: 'Sales Period',
       type: FieldType.DATE_RANGE_PICKER,
       antdFieldProps: {
         format: 'YYYY-MM-DD'
@@ -294,7 +294,7 @@ const AdvancedForm = () => {
     },
     {
       key: 'location',
-      label: '销售地区',
+      label: 'Sales Region',
       type: FieldType.CASCADER,
       antdFieldProps: {
         restful: 'https://dummyjson.com/users',
@@ -312,29 +312,29 @@ const AdvancedForm = () => {
 
   const handleSubmit = async (values) => {
     try {
-      // 模拟 API 调用
-      console.log('提交数据:', values);
-      message.success('保存成功');
+      // Simulate API call
+      console.log('Submit data:', values);
+      message.success('Saved successfully');
     } catch (error) {
-      message.error('保存失败');
+      message.error('Save failed');
     }
   };
 
   const handleGetValues = () => {
     const form = formRef.current?.getFormInstance();
     const values = form?.getFieldsValue();
-    console.log('当前表单值:', values);
+    console.log('Current form values:', values);
   };
 
   const handleValidate = async () => {
     const form = formRef.current?.getFormInstance();
     try {
       const values = await form?.validateFields();
-      console.log('验证通过:', values);
-      message.success('验证通过');
+      console.log('Validation passed:', values);
+      message.success('Validation passed');
     } catch (error) {
-      console.log('验证失败:', error);
-      message.error('请检查表单输入');
+      console.log('Validation failed:', error);
+      message.error('Please check form input');
     }
   };
 
@@ -345,7 +345,7 @@ const AdvancedForm = () => {
         fields={fields}
         onSubmit={handleSubmit}
         onValuesChange={(changed, all) => {
-          console.log('表单值变化:', { changed, all });
+          console.log('Form values changed:', { changed, all });
         }}
         antdListProps={{
           grid: { gutter: 16, xs: 1, sm: 1, md: 2, lg: 3 }
@@ -354,10 +354,10 @@ const AdvancedForm = () => {
 
       <div style={{ marginTop: 16 }}>
         <Button onClick={handleGetValues} style={{ marginRight: 8 }}>
-          获取表单值
+          Get Form Values
         </Button>
         <Button onClick={handleValidate}>
-          验证表单
+          Validate Form
         </Button>
       </div>
     </div>
@@ -366,7 +366,7 @@ const AdvancedForm = () => {
 export default AdvancedForm;
 ```
 
-**自定义渲染：**
+**Custom rendering:**
 
 ```jsx
 import React from 'react';
@@ -379,20 +379,20 @@ const CustomRenderForm = () => {
   const fields = [
     {
       key: 'email',
-      label: '邮箱地址',
+      label: 'Email Address',
       render: (item) => (
         <Form.Item
           {...item.antdFormItemProps}
           name={item.key}
           label={item.label}
           rules={[
-            { required: true, message: '请输入邮箱' },
-            { type: 'email', message: '请输入有效的邮箱地址' }
+            { required: true, message: 'Please enter email' },
+            { type: 'email', message: 'Please enter a valid email address' }
           ]}
         >
           <Input
             prefix={<MailOutlined />}
-            placeholder="请输入邮箱地址"
+            placeholder="Please enter email address"
             size="large"
           />
         </Form.Item>
@@ -400,12 +400,12 @@ const CustomRenderForm = () => {
     },
     {
       key: 'verification',
-      label: '验证码',
+      label: 'Verification Code',
       render: (item) => (
         <Form.Item {...item.antdFormItemProps} name={item.key} label={item.label}>
           <Input.Group compact>
-            <Input style={{ width: '70%' }} placeholder="请输入验证码" />
-            <Button style={{ width: '30%' }}>发送验证码</Button>
+            <Input style={{ width: '70%' }} placeholder="Please enter verification code" />
+            <Button style={{ width: '30%' }}>Send Code</Button>
           </Input.Group>
         </Form.Item>
       )
@@ -422,7 +422,7 @@ const CustomRenderForm = () => {
 export default CustomRenderForm;
 ```
 
-**表单联动：**
+**Form linkage:**
 
 ```jsx
 import React, { useState } from 'react';
@@ -435,42 +435,42 @@ const LinkedForm = () => {
   const fields = [
     {
       key: 'userType',
-      label: '用户类型',
+      label: 'User Type',
       type: FieldType.RADIO,
       antdFieldProps: {
         options: [
-          { label: '个人用户', value: 'individual' },
-          { label: '企业用户', value: 'company' }
+          { label: 'Individual', value: 'individual' },
+          { label: 'Company', value: 'company' }
         ]
       }
     },
-    // 根据用户类型显示不同字段
+    // Show different fields based on user type
     ...(formValues.userType === 'company' ? [
       {
         key: 'companyName',
-        label: '公司名称',
+        label: 'Company Name',
         type: FieldType.INPUT,
         antdFormItemProps: {
-          rules: [{ required: true, message: '请输入公司名称' }]
+          rules: [{ required: true, message: 'Please enter company name' }]
         }
       },
       {
         key: 'taxNumber',
-        label: '税号',
+        label: 'Tax ID',
         type: FieldType.INPUT,
         antdFormItemProps: {
-          rules: [{ required: true, message: '请输入税号' }]
+          rules: [{ required: true, message: 'Please enter tax ID' }]
         }
       }
     ] : []),
     {
       key: 'contactPhone',
-      label: '联系电话',
+      label: 'Contact Phone',
       type: FieldType.INPUT,
       antdFormItemProps: {
         rules: [
-          { required: true, message: '请输入联系电话' },
-          { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号' }
+          { required: true, message: 'Please enter contact phone' },
+          { pattern: /^1[3-9]\d{9}$/, message: 'Please enter a valid mobile number' }
         ]
       }
     }
@@ -479,7 +479,7 @@ const LinkedForm = () => {
   return (
     <GridForm
       fields={fields}
-      onSubmit={(values) => console.log('提交:', values)}
+      onSubmit={(values) => console.log('Submit:', values)}
       onValuesChange={(changed, all) => {
         setFormValues(all);
       }}
@@ -492,7 +492,7 @@ const LinkedForm = () => {
 export default LinkedForm;
 ```
 
-**单项模式下的特殊配置：**
+**Special configuration in single-field mode:**
 
 ```jsx
 import React from 'react';
@@ -503,20 +503,20 @@ const SingleModeAdvanced = () => {
   const fields = [
     {
       key: 'keyword',
-      label: '关键词',
+      label: 'Keyword',
       type: FieldType.INPUT,
       antdFieldProps: {
-        placeholder: '高级搜索模式下的输入框'
+        placeholder: 'Input in advanced search mode'
       },
-      // 单项模式下的特殊配置
+      // Special configuration for single-field mode
       antdSingleProps: {
-        placeholder: '单项模式下的输入框',
+        placeholder: 'Input in single-field mode',
         size: 'large'
       }
     },
     {
       key: 'category',
-      label: '分类',
+      label: 'Category',
       type: FieldType.SELECT,
       antdFieldProps: {
         restful: 'https://dummyjson.com/users',
@@ -532,29 +532,29 @@ const SingleModeAdvanced = () => {
     <GridForm
       fields={fields}
       advancedSearch={false}
-      onSubmit={(values) => console.log('搜索:', values)}
+      onSubmit={(values) => console.log('Search:', values)}
     />
   );
 };
 export default SingleModeAdvanced;
 ```
 
-### 最佳实践
+### Best Practices
 
-1. **模式选择**：
-   - 字段数量少（≤3个）或移动端场景，建议使用单项模式
-   - 复杂表单或桌面端场景，建议使用高级搜索模式
+1. **Mode selection**:
+   - For few fields (≤3) or mobile scenarios, use single-field mode
+   - For complex forms or desktop scenarios, use advanced search mode
 
-2. **字段类型选择**：根据数据类型选择合适的字段类型，提升用户体验
+2. **Field type selection**: Choose appropriate field types based on data type to improve UX
 
-3. **验证规则**：合理配置验证规则，提供清晰的错误提示
+3. **Validation rules**: Configure validation rules appropriately with clear error messages
 
-4. **布局优化**：根据字段数量和重要性调整网格布局
+4. **Layout optimization**: Adjust grid layout based on field count and importance
 
-5. **性能优化**：对于大量字段的表单，考虑使用分步骤或分组的方式
+5. **Performance optimization**: For forms with many fields, consider step-by-step or grouped approaches
 
-6. **无障碍访问**：确保所有字段都有合适的 label 和 placeholder
+6. **Accessibility**: Ensure all fields have appropriate labels and placeholders
 
-7. **单项模式优化**：
-   - 合理设置初始值，让智能激活策略工作更好
-   - 使用 antdSingleProps 为单项模式提供特殊配置
+7. **Single-field mode optimization**:
+   - Set initial values appropriately so the smart activation strategy works better
+   - Use `antdSingleProps` to provide special configuration for single-field mode

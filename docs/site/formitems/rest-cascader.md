@@ -4,59 +4,59 @@ order: 4
 ---
 
 ## RestCascader
-基于 Ant Design Cascader 组件扩展的远程级联选择器，支持远程数据懒加载、多选、复制等功能。
+A remote cascader built on Ant Design Cascader, supporting remote lazy loading, multi-select, copy, and more.
 
-**功能特性：**
-- 支持远程数据懒加载获取
-- 支持单选和多选模式
-- 支持树形结构数据展示
-- 支持复制功能
-- 支持只读模式展示
-- 支持自定义字段名映射
-- 支持父子关系动态加载
+**Features:**
+- Remote lazy loading
+- Single and multi-select modes
+- Tree structure display
+- Copy support
+- Read-only display
+- Custom field name mapping
+- Dynamic parent-child loading
 
-### 参数说明
-| <div style="width: 21ch;">参数 (Property)</div> | 说明 | 类型 | 默认值 | antd 覆盖说明 | 版本 |
+### Props
+| <div style="width: 21ch;">Property</div> | Description | Type | Default | antd Override Notes | Version |
 | - | - | - | - | - | - |
-| **通用属性** | | | | | |
-| style | 自定义样式 | `object` | - | 透传 Cascader `style` | - |
-| className | 自定义类名 | `string` | - | 透传 Cascader `className` | - |
-| value | 选中的值（数组格式，表示路径） | `array` | - | 透传 Cascader `value` | - |
-| onChange | 值变化时的回调函数 | `function(value, selectedOptions, treeOpts)` | - | 覆盖 Cascader `onChange`，增加 treeOpts 参数 | - |
-| **远程数据相关** | | | | | |
-| restful | 远程数据接口地址 | `string` | - | - | - |
-| reqConfig | axios 的配置选项 | `object` | - | - | - |
-| baseParams | 基础请求参数 | `object` | - | - | - |
-| fieldParent | 父级字段名 | `string` | `'parent'` | - | - |
-| parseRowsPath | 解析数据路径 | `string` | `'results'` | - | - |
-| **显示和交互** | | | | | |
-| enableCopy | 是否启用复制功能 | `boolean` | `false` | - | - |
-| separator | 路径展示与复制时使用的分隔符 | `string` | `' / '` | - | - |
-| **原生组件支持** | | | | | |
-| options | 静态数据 | `array` | - | 覆盖 Cascader `options`，远程模式由内部管理 | - |
-| fieldNames | 字段映射配置 | `object` | - | 透传 Cascader `fieldNames` | - |
-| disabled | 是否禁用 | `boolean` | `false` | 透传 Cascader `disabled` | - |
-| readOnly | 是否只读模式 | `boolean` | `false` | - | - |
-| **Ant Design 原生配置** | | | | | |
-| antdSpaceProps | Ant Design [Space](https://ant.design/components/space-cn) 组件的原生属性 | `object` | - | 透传 Space 属性 | - |
-| antdCascaderProps | Ant Design [Cascader](https://ant.design/components/cascader-cn) 组件的原生属性 | `object` | - | 透传 Cascader 属性，`value` / `onChange` / `options` / `loadData` 由内部管理 | - |
+| **General** | | | | | |
+| style | Custom style | `object` | - | Pass-through Cascader `style` | - |
+| className | Custom class name | `string` | - | Pass-through Cascader `className` | - |
+| value | Selected value (array format representing path) | `array` | - | Pass-through Cascader `value` | - |
+| onChange | Callback when value changes | `function(value, selectedOptions, treeOpts)` | - | Overrides Cascader `onChange`, adds treeOpts parameter | - |
+| **Remote Data** | | | | | |
+| restful | Remote data API URL | `string` | - | - | - |
+| reqConfig | axios config options | `object` | - | - | - |
+| baseParams | Base request parameters | `object` | - | - | - |
+| fieldParent | Parent field name | `string` | `'parent'` | - | - |
+| parseRowsPath | Path to parse data | `string` | `'results'` | - | - |
+| **Display & Interaction** | | | | | |
+| enableCopy | Whether to enable copy | `boolean` | `false` | - | - |
+| separator | Separator for path display and copy | `string` | `' / '` | - | - |
+| **Native Component Support** | | | | | |
+| options | Static data | `array` | - | Overrides Cascader `options`; managed internally in remote mode | - |
+| fieldNames | Field mapping config | `object` | - | Pass-through Cascader `fieldNames` | - |
+| disabled | Whether disabled | `boolean` | `false` | Pass-through Cascader `disabled` | - |
+| readOnly | Whether read-only mode | `boolean` | `false` | - | - |
+| **Ant Design Native Config** | | | | | |
+| antdSpaceProps | Native props for Ant Design [Space](https://ant.design/components/space) | `object` | - | Pass-through Space props | - |
+| antdCascaderProps | Native props for Ant Design [Cascader](https://ant.design/components/cascader) | `object` | - | Pass-through Cascader props; `value` / `onChange` / `options` / `loadData` managed internally | - |
 
-### 字段映射配置 (fieldNames)
+### Field Mapping Config (fieldNames)
 ```javascript
 {
-  value: 'id',        // 选项值字段名
-  label: 'name',      // 选项标签字段名
-  children: 'children' // 子选项字段名
+  value: 'id',        // Option value field name
+  label: 'name',      // Option label field name
+  children: 'children' // Child options field name
 }
 ```
 
-### 数据加载机制
-1. **懒加载**：首次加载根节点数据，展开时动态加载子节点
-2. **父子关系**：通过 `fieldParent` 字段建立父子关系
-3. **去重处理**：避免重复请求相同节点的数据
-4. **缓存机制**：已加载的节点数据会被缓存
+### Data Loading Mechanism
+1. **Lazy loading**: Root nodes loaded first, child nodes loaded dynamically on expand
+2. **Parent-child relationship**: Established via `fieldParent` field
+3. **Deduplication**: Avoids duplicate requests for the same node
+4. **Caching**: Loaded node data is cached
 
-### 使用示例
+### Usage Examples
 
 ```jsx
 import React, { useState } from 'react';
@@ -80,25 +80,25 @@ export default () => {
   const options = [
     {
       value: 'beijing',
-      label: '北京',
+      label: 'Beijing',
       children: [
         {
           value: 'haidian',
-          label: '海淀区',
+          label: 'Haidian District',
         },
         {
           value: 'chaoyang',
-          label: '朝阳区',
+          label: 'Chaoyang District',
         },
       ],
     },
     {
       value: 'shanghai',
-      label: '上海',
+      label: 'Shanghai',
       children: [
         {
           value: 'huangpu',
-          label: '黄浦区',
+          label: 'Huangpu District',
         },
       ],
     },
@@ -107,23 +107,23 @@ export default () => {
   const mappedOptions = [
     {
       id: 'tech',
-      name: '技术线',
+      name: 'Engineering',
       nodes: [
-        { id: 'frontend', name: '前端组' },
-        { id: 'backend', name: '后端组' },
+        { id: 'frontend', name: 'Frontend Team' },
+        { id: 'backend', name: 'Backend Team' },
       ],
     },
     {
       id: 'product',
-      name: '产品线',
+      name: 'Product',
       nodes: [
-        { id: 'pm', name: '产品经理组' },
-        { id: 'ux', name: '交互设计组' },
+        { id: 'pm', name: 'Product Manager Team' },
+        { id: 'ux', name: 'UX Design Team' },
       ],
     },
   ];
 
-  // labelTemplate 风格：通过预处理 options 生成展示字段。
+  // labelTemplate style: pre-process options to generate display fields.
   const templatedOptions = mappedOptions.map((item) => ({
     ...item,
     displayName: `${item.name} (${item.id})`,
@@ -136,14 +136,14 @@ export default () => {
   return (
     <div>
       <Radio.Group value={mode} onChange={e => setMode(e.target.value)} style={{ marginBottom: 16 }}>
-        <Radio.Button value="edit">编辑</Radio.Button>
-        <Radio.Button value="readOnly">只读</Radio.Button>
-        <Radio.Button value="disabled">禁用</Radio.Button>
+        <Radio.Button value="edit">Edit</Radio.Button>
+        <Radio.Button value="readOnly">Read-only</Radio.Button>
+        <Radio.Button value="disabled">Disabled</Radio.Button>
       </Radio.Group>
 
       <Form layout="horizontal" labelCol={{ flex: '100px' }}>
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景1：基础级联（静态可渲染）</Divider>
-        <Form.Item label="选择路径" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 1: Basic Cascader (Static Renderable)</Divider>
+        <Form.Item label="Select path" style={{ marginBottom: 8 }}>
           <RestCascader
             style={{ width: 320 }}
             options={options}
@@ -151,13 +151,13 @@ export default () => {
             onChange={setBasicValue}
             readOnly={readOnly}
             disabled={disabled}
-            antdCascaderProps={{ placeholder: '请选择城市路径' }}
+            antdCascaderProps={{ placeholder: 'Select city path' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(basicValue ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(basicValue ?? null)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景2：多选模式 + 复制</Divider>
-        <Form.Item label="多选路径" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 2: Multi Select + Copy</Divider>
+        <Form.Item label="Multi path" style={{ marginBottom: 8 }}>
           <RestCascader
             style={{ width: 320 }}
             options={options}
@@ -166,13 +166,13 @@ export default () => {
             readOnly={readOnly}
             disabled={disabled}
             enableCopy
-            antdCascaderProps={{ multiple: true, placeholder: '请选择多个城市路径' }}
+            antdCascaderProps={{ multiple: true, placeholder: 'Select multiple city paths' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(multiValue)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(multiValue)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景3：静态数据</Divider>
-        <Form.Item label="选择路径" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 3: Static Data</Divider>
+        <Form.Item label="Select path" style={{ marginBottom: 8 }}>
           <RestCascader
             style={{ width: 320 }}
             options={options}
@@ -181,11 +181,11 @@ export default () => {
             readOnly={readOnly}
             disabled={disabled}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(staticValue ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(staticValue ?? null)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景4：自定义分隔符</Divider>
-        <Form.Item label="选择路径" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 4: Custom Separator</Divider>
+        <Form.Item label="Select path" style={{ marginBottom: 8 }}>
           <RestCascader
             style={{ width: 320 }}
             options={options}
@@ -195,11 +195,11 @@ export default () => {
             disabled={disabled}
             separator=" > "
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(separatorValue ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(separatorValue ?? null)}</div>
         </Form.Item>
 
-        <Divider orientation="left" style={{ margin: '8px 0' }}>场景5：fieldNames + labelTemplate 风格展示</Divider>
-        <Form.Item label="组织路径" style={{ marginBottom: 8 }}>
+        <Divider orientation="left" style={{ margin: '8px 0' }}>Scenario 5: fieldNames + labelTemplate Style Display</Divider>
+        <Form.Item label="Organization path" style={{ marginBottom: 8 }}>
           <RestCascader
             style={{ width: 320 }}
             options={templatedOptions}
@@ -208,9 +208,9 @@ export default () => {
             readOnly={readOnly}
             disabled={disabled}
             fieldNames={{ value: 'id', label: 'displayName', children: 'nodes' }}
-            antdCascaderProps={{ placeholder: '请选择组织路径（模板标签）' }}
+            antdCascaderProps={{ placeholder: 'Select organization path (template label)' }}
           />
-          <div style={valueStyle}>表单value值：{JSON.stringify(fieldNamesValue ?? null)}</div>
+          <div style={valueStyle}>Form value: {JSON.stringify(fieldNamesValue ?? null)}</div>
         </Form.Item>
       </Form>
     </div>
@@ -218,9 +218,9 @@ export default () => {
 };
 ```
 
-### 高级用法
+### Advanced Usage
 
-#### 自定义字段映射
+#### Custom Field Mapping
 ```jsx
 import React, { useState } from 'react';
 import antdRestful from 'antd-restful';
@@ -231,17 +231,17 @@ export default () => {
   const options = [
     {
       id: 'dept-a',
-      text: '部门A',
+      text: 'Department A',
       items: [
-        { id: 'group-a1', text: '小组A1' },
-        { id: 'group-a2', text: '小组A2' },
+        { id: 'group-a1', text: 'Group A1' },
+        { id: 'group-a2', text: 'Group A2' },
       ],
     },
   ];
 
   return (
     <div style={{ display: 'grid', gap: 8, justifyItems: 'start' }}>
-      <div>场景：自定义字段映射</div>
+      <div>Scenario: Custom field mapping</div>
       <RestCascader
         style={{ width: 320 }}
         options={options}
@@ -253,13 +253,13 @@ export default () => {
           children: 'items'
         }}
       />
-      <div>表单value值：{JSON.stringify(value ?? null)}</div>
+      <div>Form value: {JSON.stringify(value ?? null)}</div>
     </div>
   );
 };
 ```
 
-#### 多选模式配置
+#### Multi Select Configuration
 ```jsx
 import React, { useState } from 'react';
 import antdRestful from 'antd-restful';
@@ -270,18 +270,18 @@ export default () => {
   const options = [
     {
       value: 'permission',
-      label: '权限',
+      label: 'Permissions',
       children: [
-        { value: 'read', label: '只读' },
-        { value: 'write', label: '可写' },
-        { value: 'admin', label: '管理员' },
+        { value: 'read', label: 'Read-only' },
+        { value: 'write', label: 'Write' },
+        { value: 'admin', label: 'Admin' },
       ],
     },
   ];
 
   return (
     <div style={{ display: 'grid', gap: 8, justifyItems: 'start' }}>
-      <div>场景：多选模式配置</div>
+      <div>Scenario: Multi select configuration</div>
       <RestCascader
         style={{ width: 320 }}
         options={options}
@@ -290,34 +290,34 @@ export default () => {
         antdCascaderProps={{
           multiple: true,
           maxTagCount: 'responsive',
-          placeholder: '请选择权限',
+          placeholder: 'Select permissions',
           showCheckedStrategy: 'SHOW_CHILD'
         }}
         enableCopy
       />
-      <div>表单value值：{JSON.stringify(value ?? null)}</div>
+      <div>Form value: {JSON.stringify(value ?? null)}</div>
     </div>
   );
 };
 ```
 
-### API 响应格式
-组件期望的 API 响应格式：
+### API Response Format
+Expected API response format:
 
-**根节点请求**（parent__isnull=true）：
+**Root node request** (parent__isnull=true):
 ```javascript
 {
   "data": {
     "results": [
       {
         "id": 1,
-        "name": "北京市",
+        "name": "Beijing",
         "parent": null,
         "isLeaf": false
       },
       {
         "id": 2,
-        "name": "上海市",
+        "name": "Shanghai",
         "parent": null,
         "isLeaf": false
       }
@@ -326,20 +326,20 @@ export default () => {
 }
 ```
 
-**子节点请求**（parent=1）：
+**Child node request** (parent=1):
 ```javascript
 {
   "data": {
     "results": [
       {
         "id": 11,
-        "name": "海淀区",
+        "name": "Haidian District",
         "parent": 1,
         "isLeaf": true
       },
       {
         "id": 12,
-        "name": "朝阳区",
+        "name": "Chaoyang District",
         "parent": 1,
         "isLeaf": true
       }
@@ -348,32 +348,32 @@ export default () => {
 }
 ```
 
-### 请求参数说明
-- **初始化请求**：`{fieldParent}__isnull=true` 获取根节点
-- **子节点请求**：`{fieldParent}={parentValue}` 获取指定父节点的子节点
-- **基础参数**：`baseParams` 会在每次请求中附加
+### Request Parameters
+- **Initial request**: `{fieldParent}__isnull=true` to fetch root nodes
+- **Child node request**: `{fieldParent}={parentValue}` to fetch children of specified parent
+- **Base parameters**: `baseParams` appended to every request
 
-### 远程接口要求
-- 接口需支持“按父节点查询子节点”，即能根据 `fieldParent` 返回下一级数据。
-- 返回数据需包含唯一值字段（如 `id`）和展示字段（如 `name` / `title`），并通过 `fieldNames` 对齐。
-- 非叶子节点建议返回 `isLeaf: false`，叶子节点返回 `isLeaf: true` 或不再返回子节点。
-- 根节点请求建议支持 `parent__isnull=true`（或你后端约定的等价参数）。
-- 组件会在展开节点时触发懒加载，请确保接口支持频繁小批量请求。
+### Remote API Requirements
+- API must support "query children by parent node", returning next level based on `fieldParent`.
+- Data must include unique value field (e.g. `id`) and display field (e.g. `name` / `title`), aligned via `fieldNames`.
+- Non-leaf nodes should return `isLeaf: false`; leaf nodes return `isLeaf: true` or no children.
+- Root node request should support `parent__isnull=true` (or equivalent backend convention).
+- Component triggers lazy loading on expand; API should support frequent small batch requests.
 
-### 注意事项
-1. **字段映射**：通过 `fieldNames` 配置数据字段映射，支持复杂数据结构
-2. **标签模板**：组件本身无 `labelTemplate` 参数；若需要模板化标签，可先在 `options` 中预处理出展示字段，再通过 `fieldNames.label` 映射
-3. **父子关系**：`fieldParent` 指定父级字段名，用于建立树形关系
-4. **懒加载**：只有展开节点时才会加载子节点数据，提高性能
-5. **叶子节点**：通过 `isLeaf` 字段或空子节点数组判断是否为叶子节点
-6. **多选模式**：通过 `antdCascaderProps.multiple` 启用多选功能
-7. **复制功能**：启用后可复制选中的完整路径
-8. **只读模式**：以标签形式展示选中的路径，支持复制
-9. **数据缓存**：已加载的节点数据会被缓存，避免重复请求
-10. **路径值**：value 始终是数组格式，表示从根到叶子的完整路径
-11. **回调参数**：onChange 提供选中路径、选中选项和树形选项三个参数
+### Notes
+1. **Field mapping**: Configure via `fieldNames` for complex data structures
+2. **Label template**: Component has no `labelTemplate` prop; pre-process `options` to add display fields and map via `fieldNames.label`
+3. **Parent-child relationship**: `fieldParent` specifies parent field for tree structure
+4. **Lazy loading**: Child data loaded only on expand for better performance
+5. **Leaf nodes**: Determined by `isLeaf` field or empty children array
+6. **Multi select**: Enable via `antdCascaderProps.multiple`
+7. **Copy**: When enabled, copies full selected path
+8. **Read-only mode**: Displays selected paths as tags, supports copy
+9. **Data caching**: Loaded node data is cached to avoid duplicate requests
+10. **Path value**: value is always array format representing full path from root to leaf
+11. **Callback parameters**: onChange provides selected path, selected options, and tree options
 
-### 相关组件
-- [RestSelect](./RestSelect.md) - 远程下拉选择器
-- [RestTreeSelect](./RestTreeSelect.md) - 远程树形选择器
-- [RestAutoComplete](./RestAutoComplete.md) - 远程自动完成选择器
+### Related Components
+- [RestSelect](./RestSelect.md) - Remote select
+- [RestTreeSelect](./RestTreeSelect.md) - Remote tree select
+- [RestAutoComplete](./RestAutoComplete.md) - Remote auto complete

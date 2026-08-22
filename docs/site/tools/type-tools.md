@@ -1,16 +1,16 @@
 ---
-title: 类型工具
+title: Type Tools
 order: 4
 ---
 
-# TypeTools 类型工具函数
+# TypeTools Utility Functions
 
-`typeTools` 提供了一系列用于类型判断的工具函数，帮助开发者进行更精确的类型检查。
+`typeTools` provides a series of utility functions for type checking, helping developers perform more precise type validation.
 
-## 函数列表
+## Function List
 
 ### isNull(value)
-如果值为 `null` 或 `undefined` 则返回 `true`，否则返回 `false`
+Returns `true` if the value is `null` or `undefined`, otherwise returns `false`
 
 ```javascript
 isNull(null)        // true
@@ -20,7 +20,7 @@ isNull("")         // false
 ```
 
 ### isBlank(value)
-如果值为 `null`、`undefined` 或空字符串则返回 `true`，否则返回 `false`
+Returns `true` if the value is `null`, `undefined`, or an empty string, otherwise returns `false`
 
 ```javascript
 isBlank(null)      // true
@@ -31,7 +31,7 @@ isBlank(0)         // false
 ```
 
 ### isEmpty(value)
-如果值为空（null/undefined/空字符串/空数组/空对象）则返回 `true`，否则返回 `false`
+Returns `true` if the value is empty (null/undefined/empty string/empty array/empty object), otherwise returns `false`
 
 ```javascript
 isEmpty(null)      // true
@@ -42,7 +42,7 @@ isEmpty({a: 1})    // false
 ```
 
 ### isBooleanTrue(value)
-如果值为真值（true/"true"/"True"/"1"/1）则返回 `true`，否则返回 `false`
+Returns `true` if the value is truthy (true/"true"/"True"/"1"/1), otherwise returns `false`
 
 ```javascript
 isBooleanTrue(true)   // true
@@ -53,7 +53,7 @@ isBooleanTrue(false)  // false
 ```
 
 ### isBooleanFalse(value)
-如果值为假值（false/"false"/"False"/"0"/0）则返回 `true`，否则返回 `false`
+Returns `true` if the value is falsy (false/"false"/"False"/"0"/0), otherwise returns `false`
 
 ```javascript
 isBooleanFalse(false)  // true
@@ -64,7 +64,7 @@ isBooleanFalse(true)    // false
 ```
 
 ### isAbsBoolean(value)
-如果值为严格的布尔类型则返回 `true`，否则返回 `false`
+Returns `true` if the value is a strict boolean type, otherwise returns `false`
 
 ```javascript
 isAbsBoolean(true)   // true
@@ -74,7 +74,7 @@ isAbsBoolean(1)      // false
 ```
 
 ### isBoolean(value)
-如果值为布尔类型或布尔字符串则返回 `true`，否则返回 `false`
+Returns `true` if the value is a boolean type or boolean string, otherwise returns `false`
 
 ```javascript
 isBoolean(true)      // true
@@ -84,7 +84,7 @@ isBoolean("string")  // false
 ```
 
 ### isString(value)
- 如果值为字符串类型则返回 `true`，否则返回 `false`
+Returns `true` if the value is a string type, otherwise returns `false`
 
 ```javascript
 isString("test")     // true
@@ -93,7 +93,7 @@ isString(null)       // false
 ```
 
 ### isFunction(value)
-如果值为函数类型则返回 `true`，否则返回 `false`
+Returns `true` if the value is a function type, otherwise returns `false`
 
 ```javascript
 isFunction(() => {}) // true
@@ -101,7 +101,7 @@ isFunction("function") // false
 ```
 
 ### isAbsNumber(value)
-如果值为有限数字类型则返回 `true`，否则返回 `false`
+Returns `true` if the value is a finite number type, otherwise returns `false`
 
 ```javascript
 isAbsNumber(123)     // true
@@ -110,7 +110,7 @@ isAbsNumber("123")   // false
 ```
 
 ### isNumber(value)
-如果值为数字类型或可转换为数字的字符串则返回 `true`，否则返回 `false`
+Returns `true` if the value is a number type or a string that can be converted to a number, otherwise returns `false`
 
 ```javascript
 isNumber(123)        // true
@@ -119,7 +119,7 @@ isNumber("abc")      // false
 ```
 
 ### isArray(value)
-如果值为数组类型则返回 `true`，否则返回 `false`
+Returns `true` if the value is an array type, otherwise returns `false`
 
 ```javascript
 isArray([])          // true
@@ -127,7 +127,7 @@ isArray({})          // false
 ```
 
 ### isDict(value)
-如果值为普通对象类型则返回 `true`，否则返回 `false`
+Returns `true` if the value is a plain object type, otherwise returns `false`
 
 ```javascript
 isDict({})           // true
@@ -136,7 +136,7 @@ isDict([])           // false
 ```
 
 ### isBasicType(value)
-如果值为基础类型（空值/布尔/数字/字符串）则返回 `true`，否则返回 `false`
+Returns `true` if the value is a basic type (null/boolean/number/string), otherwise returns `false`
 
 ```javascript
 isBasicType(null)    // true
@@ -147,19 +147,19 @@ isBasicType([])      // false
 isBasicType({})      // false
 ```
 
-## 使用示例
+## Usage Examples
 
 ```javascript
 import { isNull, isArray, isNumber } from 'src/common/typeTools';
 
-// 类型检查
+// Type checking
 if (isNull(value)) {
-  console.log('值为空');
+  console.log('Value is empty');
 }
 
 if (isArray(data)) {
   data.forEach(item => {
-    // 处理数组元素
+    // Process array elements
   });
 }
 
@@ -168,11 +168,11 @@ if (isNumber(input)) {
 }
 ```
 
-## 注意事项
+## Notes
 
-1. `isNull` 同时检查 `null` 和 `undefined`
-2. `isBlank` 在 `isNull` 基础上增加了空字符串检查
-3. `isEmpty` 是最全面的空值检查，包括空数组和空对象
-4. `isAbsNumber` 只检查严格的数字类型，不包括字符串数字
-5. `isNumber` 包括字符串数字，但会排除 `NaN`
-6. `isDict` 使用 `Object.prototype.toString.call()` 来准确判断普通对象，避免与 `null` 和数组混淆
+1. `isNull` checks both `null` and `undefined`
+2. `isBlank` adds empty string checking on top of `isNull`
+3. `isEmpty` is the most comprehensive empty value check, including empty arrays and empty objects
+4. `isAbsNumber` only checks strict number types, excluding string numbers
+5. `isNumber` includes string numbers but excludes `NaN`
+6. `isDict` uses `Object.prototype.toString.call()` to accurately identify plain objects, avoiding confusion with `null` and arrays

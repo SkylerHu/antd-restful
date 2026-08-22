@@ -1,5 +1,5 @@
 # FAQ
 
-常见问题目录：
+FAQ Index:
 
-- [Node 12 编译 `query-string` 报错](./node12-query-string.md)
+- [Node 12 compile error with `query-string`](./node12-query-string.md)

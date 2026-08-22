@@ -1,47 +1,47 @@
 ---
-title: 请求模块
+title: Request Module
 order: 2
 ---
 
-# 请求模块 (apiTools)
+# Request Module (apiTools)
 
-本文档介绍 antd-restful 的 HTTP 请求模块，基于 [axios](https://axios-http.com/) 封装，提供统一的请求实例、拦截器机制、错误通知、请求取消与防抖等能力。
+This document describes the HTTP request module of antd-restful, built on [axios](https://axios-http.com/), providing a unified request instance, interceptor mechanism, error notifications, request cancellation, debouncing, and more.
 
-**导入方式：**
+**Import:**
 
 ```javascript
 import antdRestful from 'antd-restful';
 
-// request 实例（axios）直接从顶层获取
+// request instance (axios) is available directly from the top level
 const { request } = antdRestful;
 
-// 其他工具函数和 Hook 通过 apiTools 命名空间获取
+// Other utility functions and Hooks are available via the apiTools namespace
 const { apiTools: { useSafeRequest, makeSafeRequest, formatRequestError, getCookie } } = antdRestful;
 
-// 拦截器 ID 也在 apiTools 下
+// Interceptor IDs are also under apiTools
 const { apiTools: { reqInterceptor, resInterceptor } } = antdRestful;
 ```
 
 ## useSafeRequest
 
-React Hook，提供安全的 HTTP 请求功能，支持请求取消和防抖。
+React Hook that provides safe HTTP request functionality with request cancellation and debouncing support.
 
-**签名：**
+**Signature:**
 
 ```javascript
 const [makeRequest] = useSafeRequest()
 ```
 
-**返回值：**
+**Return Value:**
 
-- `makeRequest` (function): 请求工厂函数，接受配置选项，返回包含各种 HTTP 方法的对象
+- `makeRequest` (function): Request factory function that accepts configuration options and returns an object with various HTTP methods
 
-**配置选项：**
+**Configuration Options:**
 
-- `key` (string, 可选): 请求标识。不传时每次调用自动生成递增的数字 ID，请求完成后自动清理；传入固定字符串时，相同 key 的请求会自动取消前一次未完成的请求，适用于去重场景。**注意**：不允许传入数字类型的 key，数字会被自动加上 `key-` 前缀以避免与内部自增 ID 冲突
-- `delay` (number): 防抖延迟（毫秒），默认 `0`（不防抖）。必须搭配 `key` 使用——防抖依赖固定 key 来识别"同一类请求"，从而取消前一次并延迟发送。首次调用立即发送，后续调用在 delay 时间内如有新调用则取消前一次
+- `key` (string, optional): Request identifier. When omitted, each call automatically generates an incrementing numeric ID that is cleaned up after the request completes; when a fixed string is passed, requests with the same key automatically cancel the previous incomplete request, suitable for deduplication scenarios. **Note**: Numeric keys are not allowed; numbers are automatically prefixed with `key-` to avoid conflicts with internal auto-increment IDs
+- `delay` (number): Debounce delay in milliseconds, default `0` (no debouncing). Must be used with `key` — debouncing relies on a fixed key to identify "the same type of request", thereby canceling the previous request and delaying the send. The first call sends immediately; subsequent calls within the delay window cancel the previous request and wait for delay before sending
 
-**支持的 HTTP 方法：**
+**Supported HTTP Methods:**
 
 - `get(url, config)`
 - `head(url, config)`
@@ -51,9 +51,9 @@ const [makeRequest] = useSafeRequest()
 - `patch(url, data, config)`
 - `delete(url, data, config)`
 
-**使用示例：**
+**Usage Examples:**
 
-最常见的用法——不传 `key`，每次调用自动分配独立 ID，组件卸载时统一取消：
+Most common usage — omit `key`, each call gets an independent auto-assigned ID, all canceled on component unmount:
 
 ```javascript
 import antdRestful from 'antd-restful';
@@ -97,7 +97,7 @@ function MyComponent() {
 }
 ```
 
-需要防抖或去重时，传入 `delay` 和 `key`：
+When debouncing or deduplication is needed, pass `delay` and `key`:
 
 ```javascript
 import antdRestful from 'antd-restful';
@@ -117,18 +117,18 @@ function SearchComponent() {
 }
 ```
 
-### 防抖行为
+### Debounce Behavior
 
-当设置 `delay > 0` 时，`makeRequest` 具备防抖能力：
+When `delay > 0` is set, `makeRequest` has debouncing capability:
 
-- 首次调用立即发送请求
-- 在 `delay` 时间窗口内的后续调用会取消前次请求，等待 delay 后发送
-- 超过 `5 * delay` 未发起新请求，则下一次视为"首次调用"立即发送
+- The first call sends the request immediately
+- Subsequent calls within the `delay` time window cancel the previous request and wait for delay before sending
+- If no new request is initiated within `5 * delay`, the next call is treated as a "first call" and sends immediately
 
 ```javascript
 const [makeRequest] = useSafeRequest();
 
-// 搜索框防抖：用户停止输入 500ms 后发送请求
+// Search box debounce: send request 500ms after user stops typing
 const onSearch = (keyword) => {
   makeRequest({ delay: 500, key: 'search' })
     .get('/api/search', { params: { q: keyword } })
@@ -136,14 +136,14 @@ const onSearch = (keyword) => {
 };
 ```
 
-### 请求去重
+### Request Deduplication
 
-通过 `key` 实现同类请求去重——相同 key 的新请求会自动取消上一次未完成的请求：
+Use `key` to deduplicate requests of the same type — a new request with the same key automatically cancels the previous incomplete request:
 
 ```javascript
 const [makeRequest] = useSafeRequest();
 
-// 切换 tab 时，前一个 tab 的请求自动取消
+// When switching tabs, the previous tab's request is automatically canceled
 const onTabChange = (tabKey) => {
   makeRequest({ key: 'tab-data' })
     .get(`/api/tab/${tabKey}`)
@@ -151,9 +151,9 @@ const onTabChange = (tabKey) => {
 };
 ```
 
-## Axios 实例
+## Axios Instance
 
-模块默认导出一个预配置的 axios 实例，可直接用于所有标准的 axios 方法：
+The module exports a pre-configured axios instance by default, which can be used directly for all standard axios methods:
 
 ```javascript
 import antdRestful from 'antd-restful';
@@ -162,17 +162,17 @@ const { request } = antdRestful;
 const response = await request.get('/api/users');
 ```
 
-**默认配置：**
+**Default Configuration:**
 
 - `timeout`: 10000ms
 - `Content-Type`: `application/json`
-- `paramsSerializer`: 使用 `globalConfig.queryStringify` 序列化查询参数
+- `paramsSerializer`: Uses `globalConfig.queryStringify` to serialize query parameters
 
 ### globalConfig
 
-请求实例的 `paramsSerializer` 依赖全局配置 `globalConfig`，默认使用 [query-string](https://github.com/sindresorhus/query-string) 库，预设 `arrayFormat: "comma"` 格式。
+The request instance's `paramsSerializer` depends on global configuration `globalConfig`, defaulting to the [query-string](https://github.com/sindresorhus/query-string) library with `arrayFormat: "comma"` preset.
 
-可以通过 `setGlobalConfig` 替换序列化和解析逻辑：
+You can replace serialization and parsing logic via `setGlobalConfig`:
 
 ```javascript
 import antdRestful from 'antd-restful';
@@ -185,55 +185,55 @@ setGlobalConfig({
 });
 ```
 
-`globalConfig` 支持的字段：
+Supported `globalConfig` fields:
 
-| 字段 | 类型 | 默认行为 | 说明 |
+| Field | Type | Default Behavior | Description |
 |------|------|----------|------|
-| `queryStringify` | `(params, options?) => string` | `query-string.stringify`，`arrayFormat: "comma"` | 将对象序列化为 URL 查询字符串 |
-| `queryParse` | `(string, options?) => object` | `query-string.parse`，`arrayFormat: "comma"`、`parseNumbers: true`、`parseBooleans: true` | 将 URL 查询字符串解析为对象，自动转换数字和布尔值 |
+| `queryStringify` | `(params, options?) => string` | `query-string.stringify`, `arrayFormat: "comma"` | Serialize object to URL query string |
+| `queryParse` | `(string, options?) => object` | `query-string.parse`, `arrayFormat: "comma"`, `parseNumbers: true`, `parseBooleans: true` | Parse URL query string to object, auto-converting numbers and booleans |
 
-该配置影响所有通过 axios 实例发出的请求的查询参数序列化，同时也被 `RouteBaseTable` 等组件用于 URL 参数的解析与生成。
+This configuration affects query parameter serialization for all requests sent via the axios instance, and is also used by components such as `RouteBaseTable` for URL parameter parsing and generation.
 
-## 拦截器
+## Interceptors
 
-### 内置请求拦截器
+### Built-in Request Interceptor
 
-模块内置了一个请求拦截器，自动为写操作（POST / PUT / PATCH / DELETE）附加 Django CSRF Token：
+The module includes a built-in request interceptor that automatically attaches Django CSRF Token for write operations (POST / PUT / PATCH / DELETE):
 
 ```javascript
 const { apiTools: { reqInterceptor } } = antdRestful;
 ```
 
-Token 获取顺序：
+Token retrieval order:
 
-1. 从页面中查找 `<input name="csrfmiddlewaretoken">` 元素
-2. 回退到 `csrftoken` Cookie
+1. Find `<input name="csrfmiddlewaretoken">` element on the page
+2. Fall back to `csrftoken` Cookie
 
-### 内置响应拦截器
+### Built-in Response Interceptor
 
-模块内置了一个响应拦截器，统一处理请求错误：
+The module includes a built-in response interceptor that handles request errors uniformly:
 
 ```javascript
 const { apiTools: { resInterceptor } } = antdRestful;
 ```
 
-默认行为：
+Default behavior:
 
-- 非 `CanceledError` 的错误会通过 `notification.error` 弹出通知
-- 401 / 403 / 404 错误通过 `key` 去重，避免多次弹出
-- 可通过 `config.disableNotiError = true` 关闭单次请求的错误通知
+- Non-`CanceledError` errors are displayed via `notification.error`
+- 401 / 403 / 404 errors are deduplicated by `key` to avoid multiple popups
+- Error notifications for individual requests can be disabled via `config.disableNotiError = true`
 
-### 自定义拦截器
+### Custom Interceptors
 
-你可以在内置拦截器的基础上添加自定义拦截器，或者移除内置拦截器后完全自定义。
+You can add custom interceptors on top of the built-in ones, or remove the built-in interceptors for full customization.
 
-#### 添加自定义拦截器
+#### Adding Custom Interceptors
 
 ```javascript
 import antdRestful from 'antd-restful';
 const { request, apiTools: { reqInterceptor, resInterceptor } } = antdRestful;
 
-// 添加请求拦截器：注入 Authorization 头
+// Add request interceptor: inject Authorization header
 request.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token');
   if (token) {
@@ -242,33 +242,33 @@ request.interceptors.request.use((config) => {
   return config;
 });
 
-// 添加响应拦截器：处理 401 跳转登录
+// Add response interceptor: handle 401 redirect to login
 request.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('access_token');
       window.location.href = '/login';
-      return new Promise(() => {}); // 阻止后续 then/catch 执行
+      return new Promise(() => {}); // Prevent subsequent then/catch execution
     }
     return Promise.reject(error);
   }
 );
 ```
 
-#### 移除内置拦截器
+#### Removing Built-in Interceptors
 
-如果内置拦截器不满足需求，可以移除后替换为自定义实现：
+If the built-in interceptors don't meet your needs, you can remove and replace them with custom implementations:
 
 ```javascript
 import antdRestful from 'antd-restful';
 const { request, apiTools: { reqInterceptor, resInterceptor } } = antdRestful;
 
-// 移除内置拦截器
+// Remove built-in interceptors
 request.interceptors.request.eject(reqInterceptor);
 request.interceptors.response.eject(resInterceptor);
 
-// 注册自定义拦截器
+// Register custom interceptors
 request.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -287,18 +287,18 @@ request.interceptors.response.use(
 );
 ```
 
-#### 禁用单次请求的错误通知
+#### Disabling Error Notification for Individual Requests
 
 ```javascript
 const { request } = antdRestful;
 
-// disableNotiError 会阻止内置响应拦截器弹出通知
+// disableNotiError prevents the built-in response interceptor from showing notifications
 request.get('/api/silent', { disableNotiError: true });
 ```
 
 ## makeSafeRequest
 
-非 Hook 版本的安全请求工厂，适用于非 React 组件的场景。使用方式与 `useSafeRequest` 返回的 `makeRequest` 相同，但需要手动调用 `unmount()` 释放资源。
+Non-Hook version of the safe request factory, suitable for non-React component scenarios. Usage is the same as the `makeRequest` returned by `useSafeRequest`, but requires manually calling `unmount()` to release resources.
 
 ```javascript
 import antdRestful from 'antd-restful';
@@ -306,30 +306,30 @@ const { apiTools: { makeSafeRequest } } = antdRestful;
 
 const makeRequest = makeSafeRequest();
 
-// 发起请求
+// Make a request
 makeRequest({ key: 'my-request' }).get('/api/data');
 
-// 不再需要时，手动释放
+// Manually release when no longer needed
 makeRequest.unmount();
 ```
 
-## 工具函数
+## Utility Functions
 
 ### formatRequestError
 
-格式化 axios 错误对象为通知友好的格式。
+Formats axios error objects into notification-friendly format.
 
 ```javascript
 const { apiTools: { formatRequestError } } = antdRestful;
 
 const { message, description } = formatRequestError(error);
-// message: "HttpError(404)" 或 "未知错误"
-// description: 包含请求方法、URL 和响应内容的详细信息
+// message: "HttpError(404)" or "Unknown Error"
+// description: Detailed information including request method, URL, and response content
 ```
 
 ### getCookie
 
-从 `document.cookie` 中读取指定名称的 Cookie 值。
+Reads a Cookie value by name from `document.cookie`.
 
 ```javascript
 const { apiTools: { getCookie } } = antdRestful;
@@ -337,17 +337,16 @@ const { apiTools: { getCookie } } = antdRestful;
 const token = getCookie('csrftoken');
 ```
 
-## 导出总览
+## Export Overview
 
-| 访问路径 | 类型 | 说明 |
+| Access Path | Type | Description |
 |------|------|------|
-| `antdRestful.request` | axios 实例 | 预配置的 axios 实例 |
-| `antdRestful.apiTools.reqInterceptor` | number | 内置请求拦截器 ID，可用于 `eject` |
-| `antdRestful.apiTools.resInterceptor` | number | 内置响应拦截器 ID，可用于 `eject` |
-| `antdRestful.apiTools.useSafeRequest` | Hook | React Hook，组件级安全请求 |
-| `antdRestful.apiTools.makeSafeRequest` | function | 非 Hook 版安全请求工厂 |
-| `antdRestful.apiTools.formatRequestError` | function | 错误格式化工具 |
-| `antdRestful.apiTools.getCookie` | function | Cookie 读取工具 |
-| `antdRestful.apiTools.AbortablePromise` | class | 可中止的 Promise 实现 |
-
+| `antdRestful.request` | axios instance | Pre-configured axios instance |
+| `antdRestful.apiTools.reqInterceptor` | number | Built-in request interceptor ID, can be used with `eject` |
+| `antdRestful.apiTools.resInterceptor` | number | Built-in response interceptor ID, can be used with `eject` |
+| `antdRestful.apiTools.useSafeRequest` | Hook | React Hook for component-level safe requests |
+| `antdRestful.apiTools.makeSafeRequest` | function | Non-Hook safe request factory |
+| `antdRestful.apiTools.formatRequestError` | function | Error formatting utility |
+| `antdRestful.apiTools.getCookie` | function | Cookie reading utility |
+| `antdRestful.apiTools.AbortablePromise` | class | Abortable Promise implementation |
 
