@@ -106,5 +106,5 @@ export default () => {
 5. **picker type**: Uses DatePicker or TimePicker based on `picker` parameter
 
 ### Related Components
-- [RangeStrPicker](./RangeStrPicker.md) - Date time range picker
-- [GridForm](../GridForm.md) - Grid form supporting DateStrPicker as a form field type
+- [RangeStrPicker](./range-str-picker.md) - Date time range picker
+- [GridForm](../components/grid-form.md) - Grid form supporting DateStrPicker as a form field type

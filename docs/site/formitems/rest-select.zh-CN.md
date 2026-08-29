@@ -185,7 +185,7 @@ export default () => {
 6. **labelInValue**：启用后返回的 value 包含 label 信息，此时 `fieldNames` 配置无效
 
 ### 相关组件
-- [RestCascader](./RestCascader.md) - 远程级联选择器
-- [RestTreeSelect](./RestTreeSelect.md) - 远程树形选择器
-- [RestAutoComplete](./RestAutoComplete.md) - 远程自动完成选择器
-- [TableSelect](./TableSelect.md) - 表格选择器
+- [RestCascader](./rest-cascader.zh-CN.md) - 远程级联选择器
+- [RestTreeSelect](./rest-tree-select.zh-CN.md) - 远程树形选择器
+- [RestAutoComplete](./rest-auto-complete.zh-CN.md) - 远程自动完成选择器
+- [TableSelect](./table-select.zh-CN.md) - 表格选择器

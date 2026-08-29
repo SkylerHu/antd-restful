@@ -259,6 +259,6 @@ Example templates:
 8. **Range limits**: Limit input range via `min` and `max` properties
 
 ### Related Components
-- [RangeStrPicker](./RangeStrPicker.md) - Date time range picker
-- [GridForm](../GridForm.md) - Grid form supporting NumberRange as a form field type
-- [DateStrPicker](./DateStrPicker.md) - Date time picker
+- [RangeStrPicker](./range-str-picker.md) - Date time range picker
+- [GridForm](../components/grid-form.md) - Grid form supporting NumberRange as a form field type
+- [DateStrPicker](./date-str-picker.md) - Date time picker

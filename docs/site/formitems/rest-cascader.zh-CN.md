@@ -374,6 +374,6 @@ export default () => {
 11. **回调参数**：onChange 提供选中路径、选中选项和树形选项三个参数
 
 ### 相关组件
-- [RestSelect](./RestSelect.md) - 远程下拉选择器
-- [RestTreeSelect](./RestTreeSelect.md) - 远程树形选择器
-- [RestAutoComplete](./RestAutoComplete.md) - 远程自动完成选择器
+- [RestSelect](./rest-select.zh-CN.md) - 远程下拉选择器
+- [RestTreeSelect](./rest-tree-select.zh-CN.md) - 远程树形选择器
+- [RestAutoComplete](./rest-auto-complete.zh-CN.md) - 远程自动完成选择器

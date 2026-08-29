@@ -249,6 +249,6 @@ With different `parseRowsPath`:
 9. **Native props**: Pass any Ant Design AutoComplete native props via `antdAutoCompleteProps`
 
 ### Related Components
-- [RestSelect](./RestSelect.md) - Remote select
-- [MentionView](./MentionView.md) - Mention input
-- [TableSelect](./TableSelect.md) - Table select
+- [RestSelect](./rest-select.md) - Remote select
+- [MentionView](./mention-view.md) - Mention input
+- [TableSelect](./table-select.md) - Table select

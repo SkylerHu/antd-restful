@@ -51,7 +51,7 @@ order: 2
 | expandFieldPath | 根据字段路径判断是否使用展开，不配置字段默认根据 columns 的配置展示 | `string` | - | - | 0.1.9 |
 | expandAntdProps | 展开列使用 Descriptions 展示，配置其 props | `object` | - | 透传 Descriptions 属性 | 0.1.9 |
 | expandedAllRows | 未启用 tools 时也可以配置展开所有行 | `boolean` | - | - | 0.1.9 |
-| filterFormProps | 筛选表单配置，详见 [GridForm](./grid-form.md) | `object` | - | - | - |
+| filterFormProps | 筛选表单配置，详见 [GridForm](./grid-form.zh-CN.md) | `object` | - | - | - |
 | **Ant Design 原生配置** | | | | | |
 | antdTableProps | Ant Design [Table](https://ant.design/components/table-cn) 组件的属性 | `object` | - | 透传 Table 属性，`loading` / `rowKey` / `columns` / `dataSource` / `pagination` / `onChange` / `expandable` 由内部管理 | - |
 | antdSpaceProps | 外层容器 Ant Design [Space](https://ant.design/components/space-cn) 组件的属性 | `object` | - | 透传 Space 属性 | - |
@@ -74,7 +74,7 @@ order: 2
 | dataIndex | 列数据在数据项中对应的路径 | `string` | - | 透传 Column `dataIndex` | - |
 | key | 列的唯一标识 | `string` | - | 透传 Column `key` | - |
 | labelTemplate | 列值显示模板，支持 `{field}` 格式 | `string` | - | - | - |
-| copyProps | 开启复制功能的配置，详见 [CopyView](#copyview) | `object` | - | - | - |
+| copyProps | 开启复制功能的配置，详见 [CopyView](./copy-view.zh-CN.md) | `object` | - | - | - |
 | copyField | dataIndex配置的值是字典时，可以用此配置复制时使用的字段 | `string` | - | - | 0.1.9 |
 | showTag | 是否按照 Tag 展示，数据为数组时有用 | `boolean` | - | - | - |
 | filterDropdownConfig | 自定义筛选下拉框配置 | `object` | - | 覆盖 Column `filterDropdown` / `filterIcon` | - |

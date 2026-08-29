@@ -133,7 +133,7 @@ fieldNames={{ value: 'title', label: 'title' }}
 5. **只读模式**：只读时直接显示文本内容
 
 ### 相关组件
-- [RestSelect](./RestSelect.md) - 远程下拉选择器
-- [RestAutoComplete](./RestAutoComplete.md) - 远程自动完成
-- [TableSelect](./TableSelect.md) - 表格选择器
-- [GridForm](../GridForm.md) - 网格表单，支持 MentionView 作为自定义字段
+- [RestSelect](./rest-select.zh-CN.md) - 远程下拉选择器
+- [RestAutoComplete](./rest-auto-complete.zh-CN.md) - 远程自动完成
+- [TableSelect](./table-select.zh-CN.md) - 表格选择器
+- [GridForm](../components/grid-form.zh-CN.md) - 网格表单，支持 MentionView 作为自定义字段

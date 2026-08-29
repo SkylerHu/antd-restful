@@ -133,7 +133,7 @@ fieldNames={{ value: 'title', label: 'title' }}
 5. **Read-only mode**: Displays text content directly
 
 ### Related Components
-- [RestSelect](./RestSelect.md) - Remote select
-- [RestAutoComplete](./RestAutoComplete.md) - Remote auto complete
-- [TableSelect](./TableSelect.md) - Table select
-- [GridForm](../GridForm.md) - Grid form supporting MentionView as a custom field
+- [RestSelect](./rest-select.md) - Remote select
+- [RestAutoComplete](./rest-auto-complete.md) - Remote auto complete
+- [TableSelect](./table-select.md) - Table select
+- [GridForm](../components/grid-form.md) - Grid form supporting MentionView as a custom field

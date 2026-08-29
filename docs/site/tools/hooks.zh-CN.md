@@ -381,7 +381,7 @@ tokenStorage.removeValue();
 
 ### useSafeRequest
 
-> 已迁移至 [请求模块文档](./requests.md#usesaferequest)，包含完整的 API 说明、防抖行为、请求去重及拦截器用法。
+> 已迁移至 [请求模块文档](./requests.zh-CN.md#usesaferequest)，包含完整的 API 说明、防抖行为、请求去重及拦截器用法。
 
 ## 最佳实践
 
@@ -401,12 +401,12 @@ tokenStorage.removeValue();
 - 使用 `useDictState` 管理相关的多个状态值
 
 ### 4. 请求 Hooks 使用建议
-- 详见 [请求模块文档](./requests.md)
+- 详见 [请求模块文档](./requests.zh-CN.md)
 
 ## 注意事项
 
 1. **存储限制**：localStorage 和 sessionStorage 有存储大小限制（通常为 5-10MB）
 2. **序列化**：存储 Hooks 会自动进行 JSON 序列化，不支持存储函数等特殊类型
 3. **性能考虑**：`useDeepCompareMemoize` 的深度比较可能影响性能，避免在频繁更新的场景中使用
-4. **请求取消**：详见 [请求模块文档](./requests.md)
+4. **请求取消**：详见 [请求模块文档](./requests.zh-CN.md)
 5. **定时器清理**：虽然 Hooks 会自动清理定时器，但在复杂场景下建议手动控制定时器的生命周期

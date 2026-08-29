@@ -49,7 +49,7 @@ Remote data loading built on the Ant Design List component.
 | parseTotalPath | Path to parse total count | `string` | `'count'` | - | - |
 | **Control & Filtering** | | | | | |
 | isActive | Whether active; does not fetch data when `false` | `boolean` | `true` | - | - |
-| filterFormProps | Filter form configuration; see [GridForm](./GridForm.md). Filter form is rendered above the List (outside the List component) | `object` | - | - | - |
+| filterFormProps | Filter form configuration; see [GridForm](./grid-form.md). Filter form is rendered above the List (outside the List component) | `object` | - | - | - |
 | loadMoreProps | Custom configuration for the load more area; see loadMoreProps options below | `object` | - | - | - |
 | **Ant Design Native Config** | | | | | |
 | antdListProps | Remaining Ant Design [List](https://ant.design/components/list-cn) props. Note: `loading` / `loadMore` / `pagination` / `dataSource` / `renderItem` / `rowKey` are managed by RestList internally and will be overridden if set here | `object` | - | Pass-through remaining props | - |

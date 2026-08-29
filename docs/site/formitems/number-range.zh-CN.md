@@ -259,6 +259,6 @@ export default () => {
 8. **范围限制**：通过 `min` 和 `max` 属性限制输入范围
 
 ### 相关组件
-- [RangeStrPicker](./RangeStrPicker.md) - 日期时间范围选择器
-- [GridForm](../GridForm.md) - 网格表单，支持 NumberRange 作为表单字段类型
-- [DateStrPicker](./DateStrPicker.md) - 日期时间选择器
+- [RangeStrPicker](./range-str-picker.zh-CN.md) - 日期时间范围选择器
+- [GridForm](../components/grid-form.zh-CN.md) - 网格表单，支持 NumberRange 作为表单字段类型
+- [DateStrPicker](./date-str-picker.zh-CN.md) - 日期时间选择器

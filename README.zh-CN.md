@@ -155,15 +155,15 @@ setRestOptions({
 
 ## 常见问题
 
-查看 [常见问题说明](./docs/site/faq/index.md)。
+查看 [常见问题说明](./docs/site/faq/index.zh-CN.md)。
 
 ## 贡献
 
-欢迎贡献！提交 PR 前请阅读 [贡献指南](./docs/CONTRIBUTING.md)。
+欢迎贡献！提交 PR 前请阅读 [贡献指南](./docs/CONTRIBUTING.zh-CN.md)。
 
 ## 更新日志
 
-查看 [更新日志](./docs/site/changelog/index.md)。
+查看 [更新日志](./docs/site/changelog/index.zh-CN.md)。
 
 ## 许可证
 

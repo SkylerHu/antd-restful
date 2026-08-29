@@ -77,45 +77,45 @@ export default function UserList() {
 
 ### 首页
 
-- [首页（当前）](./index.md)
+- [首页（当前）](./index.zh-CN.md)
 
 ### 组件
 
-- [组件总览](./components/overview.md)
-- [RouteBaseTable](./components/route-base-table.md)
-- [RestTable](./components/rest-table.md)
-- [RestList](./components/rest-list.md)
-- [GridForm](./components/grid-form.md)
-- [LongText](./components/long-text.md)
-- [CopyView](./components/copy-view.md)
+- [组件总览](./components/overview.zh-CN.md)
+- [RouteBaseTable](./components/route-base-table.zh-CN.md)
+- [RestTable](./components/rest-table.zh-CN.md)
+- [RestList](./components/rest-list.zh-CN.md)
+- [GridForm](./components/grid-form.zh-CN.md)
+- [LongText](./components/long-text.zh-CN.md)
+- [CopyView](./components/copy-view.zh-CN.md)
 
 ### 表单项
 
-- [表单项总览](./formitems/overview.md)
-- [RestSelect](./formitems/rest-select.md)
-- [TableSelect](./formitems/table-select.md)
-- [RestAutoComplete](./formitems/rest-auto-complete.md)
-- [RestCascader](./formitems/rest-cascader.md)
-- [RestTreeSelect](./formitems/rest-tree-select.md)
-- [UploadView](./formitems/upload-view.md)
-- [DateStrPicker](./formitems/date-str-picker.md)
-- [RangeStrPicker](./formitems/range-str-picker.md)
-- [ExpansionView](./formitems/expansion-view.md)
-- [NumberRange](./formitems/number-range.md)
-- [CompareEdit](./formitems/compare-edit.md)
-- [MentionView](./formitems/mention-view.md)
+- [表单项总览](./formitems/overview.zh-CN.md)
+- [RestSelect](./formitems/rest-select.zh-CN.md)
+- [TableSelect](./formitems/table-select.zh-CN.md)
+- [RestAutoComplete](./formitems/rest-auto-complete.zh-CN.md)
+- [RestCascader](./formitems/rest-cascader.zh-CN.md)
+- [RestTreeSelect](./formitems/rest-tree-select.zh-CN.md)
+- [UploadView](./formitems/upload-view.zh-CN.md)
+- [DateStrPicker](./formitems/date-str-picker.zh-CN.md)
+- [RangeStrPicker](./formitems/range-str-picker.zh-CN.md)
+- [ExpansionView](./formitems/expansion-view.zh-CN.md)
+- [NumberRange](./formitems/number-range.zh-CN.md)
+- [CompareEdit](./formitems/compare-edit.zh-CN.md)
+- [MentionView](./formitems/mention-view.zh-CN.md)
 
 ### 工具与 Hooks
 
-- [工具总览](./tools/overview.md)
-- [配置](./tools/config.md)
-- [请求模块](./tools/requests.md)
-- [Hooks](./tools/hooks.md)
-- [类型工具](./tools/type-tools.md)
-- [校验器](./tools/validators.md)
+- [工具总览](./tools/overview.zh-CN.md)
+- [配置](./tools/config.zh-CN.md)
+- [请求模块](./tools/requests.zh-CN.md)
+- [Hooks](./tools/hooks.zh-CN.md)
+- [类型工具](./tools/type-tools.zh-CN.md)
+- [校验器](./tools/validators.zh-CN.md)
 
 ### 其他
 
-- [FAQ](./faq/index.md)
-- [更新日志](./changelog/index.md)
+- [FAQ](./faq/index.zh-CN.md)
+- [更新日志](./changelog/index.zh-CN.md)
 - [GitHub 仓库](https://github.com/skylerhu/antd-restful)

@@ -374,6 +374,6 @@ Expected API response format:
 11. **Callback parameters**: onChange provides selected path, selected options, and tree options
 
 ### Related Components
-- [RestSelect](./RestSelect.md) - Remote select
-- [RestTreeSelect](./RestTreeSelect.md) - Remote tree select
-- [RestAutoComplete](./RestAutoComplete.md) - Remote auto complete
+- [RestSelect](./rest-select.md) - Remote select
+- [RestTreeSelect](./rest-tree-select.md) - Remote tree select
+- [RestAutoComplete](./rest-auto-complete.md) - Remote auto complete

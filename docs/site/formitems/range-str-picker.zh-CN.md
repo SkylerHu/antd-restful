@@ -188,6 +188,6 @@ export default () => {
 5. **时间模式**：通过 `isTime` 参数选择使用时间范围选择器
 
 ### 相关组件
-- [DateStrPicker](./DateStrPicker.md) - 单个日期时间选择器
-- [NumberRange](./NumberRange.md) - 数字范围选择器
-- [GridForm](../GridForm.md) - 网格表单，支持 RangeStrPicker 作为表单字段类型
+- [DateStrPicker](./date-str-picker.zh-CN.md) - 单个日期时间选择器
+- [NumberRange](./number-range.zh-CN.md) - 数字范围选择器
+- [GridForm](../components/grid-form.zh-CN.md) - 网格表单，支持 RangeStrPicker 作为表单字段类型

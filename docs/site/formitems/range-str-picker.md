@@ -188,6 +188,6 @@ export default () => {
 5. **Time mode**: Use time range picker via `isTime` parameter
 
 ### Related Components
-- [DateStrPicker](./DateStrPicker.md) - Single date time picker
-- [NumberRange](./NumberRange.md) - Number range picker
-- [GridForm](../GridForm.md) - Grid form supporting RangeStrPicker as a form field type
+- [DateStrPicker](./date-str-picker.md) - Single date time picker
+- [NumberRange](./number-range.md) - Number range picker
+- [GridForm](../components/grid-form.md) - Grid form supporting RangeStrPicker as a form field type

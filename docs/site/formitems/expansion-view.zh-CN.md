@@ -6,7 +6,7 @@ order: 9
 ## ExpansionView
 支持文本扩展和远程验证的输入组件，可以将用户输入进行扩展处理或远程验证，适用于需要实时处理输入内容的场景。
 
-在表单中使用时，可结合校验 [expansionValidator](../validators.md#expansionValidator) 一起使用。
+在表单中使用时，可结合校验 [expansionValidator](../tools/validators.zh-CN.md#expansionValidator) 一起使用。
 
 **功能特性：**
 - 支持 brace-expansion 语法扩展
@@ -145,6 +145,6 @@ export default () => {
 5. **模板语法**：`valueTemplate` 支持 `{value}` 和 `baseParams` 中的字段
 
 ### 相关组件
-- [RestSelect](./RestSelect.md) - 远程下拉选择器
-- [TableSelect](./TableSelect.md) - 表格选择器
-- [CopyView](./CopyView.md) - 支持复制的文本组件
+- [RestSelect](./rest-select.zh-CN.md) - 远程下拉选择器
+- [TableSelect](./table-select.zh-CN.md) - 表格选择器
+- [CopyView](../components/copy-view.zh-CN.md) - 支持复制的文本组件

@@ -227,4 +227,4 @@ export default () => {
 6. **Drag-and-drop**: Enable via `enableDragger` for drag-and-drop upload
 
 ### Related Components
-- [GridForm](../GridForm.md) - Grid form supporting UploadView as a form field type
+- [GridForm](../components/grid-form.md) - Grid form supporting UploadView as a form field type

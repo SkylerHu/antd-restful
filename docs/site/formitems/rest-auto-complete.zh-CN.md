@@ -249,6 +249,6 @@ export default () => {
 9. **原生属性**：通过 `antdAutoCompleteProps` 可以传递任何 Ant Design AutoComplete 的原生属性
 
 ### 相关组件
-- [RestSelect](./RestSelect.md) - 远程下拉选择器
-- [MentionView](./MentionView.md) - 提及选择器
-- [TableSelect](./TableSelect.md) - 表格选择器
+- [RestSelect](./rest-select.zh-CN.md) - 远程下拉选择器
+- [MentionView](./mention-view.zh-CN.md) - 提及选择器
+- [TableSelect](./table-select.zh-CN.md) - 表格选择器

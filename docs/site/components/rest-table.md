@@ -75,7 +75,7 @@ Remote data loading built on the Ant Design Table component.
 | dataIndex | Path to the field in the data item | `string` | - | Pass-through Column `dataIndex` | - |
 | key | Unique column identifier | `string` | - | Pass-through Column `key` | - |
 | labelTemplate | Column value display template; supports `{field}` format | `string` | - | - | - |
-| copyProps | Copy feature configuration; see [CopyView](#copyview) | `object` | - | - | - |
+| copyProps | Copy feature configuration; see [CopyView](./copy-view.md) | `object` | - | - | - |
 | copyField | When dataIndex value is an object, field to use when copying | `string` | - | - | 0.1.9 |
 | showTag | Display as Tag; useful when data is an array | `boolean` | - | - | - |
 | filterDropdownConfig | Custom filter dropdown configuration | `object` | - | Overrides Column `filterDropdown` / `filterIcon` | - |

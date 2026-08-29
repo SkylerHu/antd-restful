@@ -106,5 +106,5 @@ export default () => {
 5. **picker 类型**：根据 `picker` 参数选择使用 DatePicker 或 TimePicker
 
 ### 相关组件
-- [RangeStrPicker](./RangeStrPicker.md) - 日期时间范围选择器
-- [GridForm](../GridForm.md) - 网格表单，支持 DateStrPicker 作为表单字段类型
+- [RangeStrPicker](./range-str-picker.zh-CN.md) - 日期时间范围选择器
+- [GridForm](../components/grid-form.zh-CN.md) - 网格表单，支持 DateStrPicker 作为表单字段类型

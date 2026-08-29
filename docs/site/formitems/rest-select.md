@@ -185,7 +185,7 @@ export default () => {
 6. **labelInValue**: When enabled, returned value includes label info and `fieldNames` config is ignored
 
 ### Related Components
-- [RestCascader](./RestCascader.md) - Remote cascader
-- [RestTreeSelect](./RestTreeSelect.md) - Remote tree select
-- [RestAutoComplete](./RestAutoComplete.md) - Remote auto complete
-- [TableSelect](./TableSelect.md) - Table select
+- [RestCascader](./rest-cascader.md) - Remote cascader
+- [RestTreeSelect](./rest-tree-select.md) - Remote tree select
+- [RestAutoComplete](./rest-auto-complete.md) - Remote auto complete
+- [TableSelect](./table-select.md) - Table select

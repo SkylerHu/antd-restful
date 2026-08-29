@@ -6,7 +6,7 @@ order: 9
 ## ExpansionView
 An input component supporting text expansion and remote validation. Processes or validates user input in real time, suitable for scenarios requiring live input processing.
 
-When used in forms, combine with the [expansionValidator](../validators.md#expansionValidator) validator.
+When used in forms, combine with the [expansionValidator](../tools/validators.md#expansionValidator) validator.
 
 **Features:**
 - Brace-expansion syntax support
@@ -145,6 +145,6 @@ Supports bash-like brace expansion syntax:
 5. **Template syntax**: `valueTemplate` supports `{value}` and fields from `baseParams`
 
 ### Related Components
-- [RestSelect](./RestSelect.md) - Remote select
-- [TableSelect](./TableSelect.md) - Table select
-- [CopyView](./CopyView.md) - Copy-enabled text component
+- [RestSelect](./rest-select.md) - Remote select
+- [TableSelect](./table-select.md) - Table select
+- [CopyView](../components/copy-view.md) - Copy-enabled text component

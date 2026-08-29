@@ -227,4 +227,4 @@ export default () => {
 6. **拖拽功能**：启用 `enableDragger` 后支持拖拽文件上传
 
 ### 相关组件
-- [GridForm](../GridForm.md) - 网格表单，支持 UploadView 作为表单字段类型
+- [GridForm](../components/grid-form.zh-CN.md) - 网格表单，支持 UploadView 作为表单字段类型

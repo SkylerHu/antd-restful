@@ -49,7 +49,7 @@ order: 3
 | parseTotalPath | 解析总数的路径 | `string` | `'count'` | - | - |
 | **控制与筛选** | | | | | |
 | isActive | 是否激活，为 false 时不请求数据 | `boolean` | `true` | - | - |
-| filterFormProps | 筛选表单配置，详见 [GridForm](./GridForm.md)。筛选表单渲染在 List 上方（独立于 List 组件外部） | `object` | - | - | - |
+| filterFormProps | 筛选表单配置，详见 [GridForm](./grid-form.zh-CN.md)。筛选表单渲染在 List 上方（独立于 List 组件外部） | `object` | - | - | - |
 | loadMoreProps | loadMore 加载更多区域的自定义配置，详见下方 loadMoreProps 配置项 | `object` | - | - | - |
 | **Ant Design 原生配置** | | | | | |
 | antdListProps | Ant Design [List](https://ant.design/components/list-cn) 的其余属性。注意 `loading` / `loadMore` / `pagination` / `dataSource` / `renderItem` / `rowKey` 由 RestList 内部管理，通过此属性设置会被覆盖 | `object` | - | 透传剩余属性 | - |
